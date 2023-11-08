@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/katallaxie/pkg/server"
-	"github.com/katallaxie/template-go/internal/controllers"
+	"github.com/katallaxie/service-lense/internal/controllers"
 )
 
 var _ server.Listener = (*NoopSrv)(nil)

@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"github.com/katallaxie/template-go/internal/ports"
+	"github.com/katallaxie/service-lense/internal/ports"
 )
 
 // Noop is the controller that uses the Noop interface.

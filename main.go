@@ -6,9 +6,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/katallaxie/template-go/internal/adapters"
-	"github.com/katallaxie/template-go/internal/controllers"
-	"github.com/katallaxie/template-go/internal/services/noop"
+	"github.com/katallaxie/service-lense/internal/adapters"
+	"github.com/katallaxie/service-lense/internal/controllers"
+	"github.com/katallaxie/service-lense/internal/services/noop"
 
 	"github.com/katallaxie/pkg/logger"
 	"github.com/katallaxie/pkg/server"

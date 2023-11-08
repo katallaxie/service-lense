@@ -7,7 +7,7 @@ GO_RELEASER ?= $(GO_RUN_TOOLS) github.com/goreleaser/goreleaser
 GO_MOD ?= $(shell ${GO} list -m)
 
 # Module name
-MODULE_NAME ?= github.com/katallaxie/template-go
+MODULE_NAME ?= github.com/katallaxie/service-lense
 
 .PHONY: build
 build: ## Build the binary file.
