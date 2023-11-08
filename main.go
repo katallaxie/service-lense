@@ -44,7 +44,9 @@ type srv struct {
 // Start ...
 func (s *srv) Start(ctx context.Context, ready server.ReadyFunc, run server.RunFunc) func() error {
 	return func() error {
-		app := fiber.New()
+		app := fiber.New(fiber.Config{
+			ErrorHandler: handlers.DefaultErrorHandler,
+		})
 
 		lenseHandler := handlers.NewLenseHandler(s.leaseService)
 		app.Get("/lense/:id", lenseHandler.Get)

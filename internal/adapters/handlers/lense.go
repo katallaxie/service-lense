@@ -24,7 +24,7 @@ func (h *LenseHandler) Get(ctx *fiber.Ctx) error {
 
 	lense, err := h.svc.Get(id)
 	if err != nil {
-		return err
+		return fiber.NewError(fiber.StatusNotFound, err.Error())
 	}
 
 	return ctx.Status(fiber.StatusOK).JSON(lense)
