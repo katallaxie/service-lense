@@ -81,7 +81,7 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	db.AutoMigrate(&models.Lense{})
+	db.AutoMigrate(&models.Lense{}, &models.Workflow{})
 
 	s := &srv{}
 	srv, _ := server.WithContext(ctx)
