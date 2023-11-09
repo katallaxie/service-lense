@@ -1,58 +1,14 @@
-'use client';
+'use client'
 
-// Import necessary dependencies from 'react'
-import React, { useEffect, useState } from 'react'
-// Import necessary dependencies from '@fluentui/react-components'
-import {
-  createDOMRenderer,
-  RendererProvider,
-  FluentProvider,
-  webLightTheme,
-  SSRProvider,
-} from '@fluentui/react-components';
+import { CacheProvider } from '@chakra-ui/next-js'
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
+import myTheme from './theme'
 
-// Create a DOM renderer for Fluent UI.
-const renderer = createDOMRenderer();
-
-// Declare a type named 'Props' for the 'Providers' component.
-export type ProvidersProps = {
-    children: React.ReactNode;
-}
-
-/**
- * Providers component.
- *
- * This component wraps other components with a set of providers
- * for Fluent UI, SSR, and a custom renderer.
- *
- * @param {Object} props - The properties for the Providers component.
- * @param {React.ReactNode} props.children - The child components to be wrapped by the Providers.
- * @returns {React.Element} The Providers component with child components.
- */
-export const Providers: React.FC<ProvidersProps> = ({ children }) => {
-    // Declare a state variable named 'hasMounted' and a function named 'setHasMounted' to update it.
-    const [ hasMounted, setHasMounted ] = useState(false);
-
-    console.log('hasMounted', hasMounted);
-
-    // Use the 'useEffect' hook to set 'hasMounted' to true once the component has mounted.
-    useEffect(() => {
-      setHasMounted(true);
-    }, []);
-
-    // If the component hasn't mounted yet, return nothing.
-    if ( !hasMounted ) {
-      return null;
-    }
-
-    // If the component has mounted, return a set of providers.
-    return (
-      <RendererProvider renderer={ renderer || createDOMRenderer() }>
-        <SSRProvider>
-          <FluentProvider theme={ webLightTheme }>
-            { children }
-          </FluentProvider>
-        </SSRProvider>
-      </RendererProvider>
-    );
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <CacheProvider>
+      <ColorModeScript initialColorMode={myTheme.config.initialColorMode} />
+      <ChakraProvider theme={myTheme}>{children}</ChakraProvider>
+    </CacheProvider>
+  )
 }
