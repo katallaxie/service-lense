@@ -32,6 +32,8 @@ type Pillar struct {
 	Description string `json:"description" yaml:"description"`
 	// Questions is a list of questions.
 	Questions []*Question `json:"questions" yaml:"questions"`
+	// Resources is a list of resources.
+	Resources []*Resource `json:"resources" yaml:"resources"`
 }
 
 // Question is a question of the service.
@@ -44,6 +46,8 @@ type Question struct {
 	Description string `json:"description" yaml:"description"`
 	// Choices is a list of choices.
 	Choices []*Choice `json:"choices" yaml:"choices"`
+	// Resources is a list of resources.
+	Resources []*Resource `json:"resources" yaml:"resources"`
 	// Risks is a list of risks.
 	Risks []*Risk `json:"risks" yaml:"risks"`
 }
