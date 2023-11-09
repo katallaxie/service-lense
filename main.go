@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"fmt"
 	"log"
 	"os"
 
@@ -10,13 +11,20 @@ import (
 	"github.com/katallaxie/pkg/server"
 	"github.com/katallaxie/service-lense/internal/adapters"
 	"github.com/katallaxie/service-lense/internal/adapters/handlers"
+	"github.com/katallaxie/service-lense/internal/config"
 	"github.com/katallaxie/service-lense/internal/controllers"
+	"github.com/katallaxie/service-lense/internal/models"
 	"github.com/katallaxie/service-lense/internal/ports"
 	"github.com/katallaxie/service-lense/internal/services/lense"
 
+	"github.com/caarlos0/env/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/spf13/cobra"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
+
+var cfg = config.New()
 
 var rootCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
@@ -61,10 +69,24 @@ func run(ctx context.Context) error {
 
 	logger.RedirectStdLog(logger.LogSink)
 
+	if err := env.Parse(cfg); err != nil {
+		return err
+	}
+
+	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		cfg.Flags.DatabaseHost, cfg.Flags.DatabasePort, cfg.Flags.DatabaseUser, cfg.Flags.DatabasePassword, cfg.Flags.DatabaseName)
+
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		return err
+	}
+
+	db.AutoMigrate(&models.Lense{})
+
 	s := &srv{}
 	srv, _ := server.WithContext(ctx)
 
-	ctrl := controllers.New(adapters.NewSQLite())
+	ctrl := controllers.New(adapters.NewDB(db))
 
 	leaseService := lense.New(ctrl)
 	s.leaseService = leaseService

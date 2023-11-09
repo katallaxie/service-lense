@@ -24,7 +24,9 @@ import {
   FiSettings
 } from 'react-icons/fi'
 import { SidebarButton } from '@/components/SidebarButton'
+import { Router } from 'next/router'
 import React from 'react'
+import NextLink from 'next/link'
 
 export type DefaultLayoutProps = {
   children: React.ReactNode
@@ -52,9 +54,13 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
             <Input placeholder="Search" variant="filled.accent" />
           </InputGroup>
           <Stack spacing="1">
-            <SidebarButton leftIcon={<FiGrid />}>Dashboard</SidebarButton>
+            <NextLink href="/" passHref legacyBehavior>
+              <SidebarButton leftIcon={<FiGrid />}>Dashboard</SidebarButton>
+            </NextLink>
             <SidebarButton leftIcon={<FiPieChart />}>Analysis</SidebarButton>
-            <SidebarButton leftIcon={<FiFileText />}>Lenses</SidebarButton>
+            <NextLink href="/lenses" passHref legacyBehavior>
+              <SidebarButton leftIcon={<FiFileText />}>Lenses</SidebarButton>
+            </NextLink>
           </Stack>
         </Stack>
         <Stack
