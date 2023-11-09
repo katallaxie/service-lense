@@ -3,7 +3,7 @@ module github.com/katallaxie/service-lense
 go 1.21
 
 require (
-	github.com/go-playground/validator/v10 v10.15.5
+	github.com/go-playground/validator/v10 v10.16.0
 	github.com/gofiber/fiber/v2 v2.50.0
 	github.com/golang/mock v1.7.0-rc.1
 	github.com/golangci/golangci-lint v1.55.2
