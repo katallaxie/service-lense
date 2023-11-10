@@ -64,8 +64,7 @@ func RegisterHandlersWithOptions(router fiber.Router, si ServerInterface, option
 }
 
 type AddTemplateRequestObject struct {
-	ContentType string
-	Body        io.Reader
+	Body io.Reader
 }
 
 type AddTemplateResponseObject interface {
@@ -104,8 +103,6 @@ type strictHandler struct {
 func (sh *strictHandler) AddTemplate(ctx *fiber.Ctx) error {
 	var request AddTemplateRequestObject
 
-	request.ContentType = string(ctx.Request().Header.ContentType())
-
 	request.Body = bytes.NewReader(ctx.Request().Body())
 
 	handler := func(ctx *fiber.Ctx, request interface{}) (interface{}, error) {
@@ -132,11 +129,11 @@ func (sh *strictHandler) AddTemplate(ctx *fiber.Ctx) error {
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/2RQTUsDMRT8K8scZe1u9SIRD/VWFBT0Jh7i5rUNNC8x7221lPx3ya5QwVPCfGRmcsIQ",
-	"Q4pMrAJzKi08byLMCY5kyD6pjwyDR2JpVs9rtFCve4LBC+WDH6j5Qx0oy6xfLvpFj9IiJmKbPAyuJ6hF",
-	"srqrWegOy25PLNQphbS3ShOcomg9Y6Jsa/zawWDl3OuvCi0yfY4keh/dsUqHyEo8uZS+tbu4bYadzUJ6",
-	"N+rm8qYSMuwo2HrbxByswuDDs83HOumY6iLR7HmLUsqc4DM5GM0jTYCkyDJ3vOr7/3/09IDqlDGE+uzU",
-	"ubEN01ej5+pqtwLzhvPm91JK+QkAAP//uxBxcYkBAAA=",
+	"H4sIAAAAAAAC/2RQT0s7MRD9Kss776+7/XnLrd6KgoLexEPMTtvAZjJmppVS8t0lW6GCp4T3J++9XBBy",
+	"kszEpnCX2iPyLsNdMJGGEsViZjg8Emu3ed6ih0WbCQ4vVE4xUPeLOlHRq369Glcjao8sxF4iHO4WqId4",
+	"O7QsDKf1MBMrDUZJZm+0wJLV2pmFim/x2wkOm2l6/VGhR6HPI6nd5+ncpCGzES8uLzLHsPiGHIzsn1oh",
+	"nxqn4UDJt9sul+QNDh+RfTm3VWdpo9RK5D1qrdeQWGiCs3KkBVDJrNea/8fx7zc9PaA59ZhSe3ap3fmO",
+	"6auzW3vze4V7w232e621fgcAAP//O9BW6owBAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

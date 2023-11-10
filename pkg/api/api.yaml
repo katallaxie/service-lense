@@ -13,7 +13,7 @@ paths:
       requestBody:
         required: true
         content:
-          text/*; charset=utf-8:
+          application/octet-stream:
             schema:
               type: string
               format: binary

@@ -101,6 +101,11 @@ func (s *Spec) UnmarshalYAML(data []byte) error {
 		return errors.WithStack(err)
 	}
 
+	s.Version = 1
+	s.Name = spec.Name
+	s.Description = spec.Description
+	s.Pillars = spec.Pillars
+
 	return nil
 }
 
