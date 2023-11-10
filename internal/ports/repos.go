@@ -4,44 +4,44 @@ import (
 	"github.com/katallaxie/service-lense/internal/models"
 )
 
-// LenseRepository ...
-type LenseRepository interface {
+// LensRepository ...
+type LensRepository interface {
 	// Add a new spec.
-	Add(id string, lense models.Lense) error
+	Add(id string, lens models.Lens) error
 	// Get a spec.
-	Get(id string) (models.Lense, error)
+	Get(id string) (models.Lens, error)
 	// List returns a list of specs.
-	List() ([]models.Lense, error)
+	List() ([]models.Lens, error)
 	// Update updates a spec.
-	Update(id string, lense models.Lense) error
+	Update(id string, lens models.Lens) error
 	// Delete deletes a spec.
 	Delete(id string) error
 }
 
-// LeaseRepositoryUnimplemented ...
-type LeaseRepositoryUnimplemented struct{}
+// LensRepositoryUnimplemented ...
+type LensRepositoryUnimplemented struct{}
 
 // Add ...
-func (l *LeaseRepositoryUnimplemented) Add(id string, lense models.Lense) error {
+func (l *LensRepositoryUnimplemented) Add(id string, lens models.Lens) error {
 	return nil
 }
 
 // Get ...
-func (l *LeaseRepositoryUnimplemented) Get(id string) (models.Lense, error) {
-	return models.Lense{}, nil
+func (l *LensRepositoryUnimplemented) Get(id string) (models.Lens, error) {
+	return models.Lens{}, nil
 }
 
 // List ...
-func (l *LeaseRepositoryUnimplemented) List() ([]models.Lense, error) {
-	return []models.Lense{}, nil
+func (l *LensRepositoryUnimplemented) List() ([]models.Lens, error) {
+	return []models.Lens{}, nil
 }
 
 // Update ...
-func (l *LeaseRepositoryUnimplemented) Update(id string, lense models.Lense) error {
+func (l *LensRepositoryUnimplemented) Update(id string, lens models.Lens) error {
 	return nil
 }
 
 // Delete ...
-func (l *LeaseRepositoryUnimplemented) Delete(id string) error {
+func (l *LensRepositoryUnimplemented) Delete(id string) error {
 	return nil
 }

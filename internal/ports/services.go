@@ -1,17 +1,22 @@
 package ports
 
-import "github.com/katallaxie/service-lense/internal/models"
+import (
+	"context"
+
+	"github.com/katallaxie/service-lense/pkg/api"
+)
+
+var _ LensService = (*LensServiceUnimplemented)(nil)
 
 // LenseService ...
-type LenseService interface {
-	// Get a spec.
-	Get(id string) (models.Lense, error)
+type LensService interface {
+	api.StrictServerInterface
 }
 
-// LenseServiceUnimplemented ...
-type LenseServiceUnimplemented struct{}
+// LensServiceUnimplemented ...
+type LensServiceUnimplemented struct{}
 
-// Get ...
-func (l *LenseServiceUnimplemented) Get(id string) (models.Lense, error) {
-	return models.Lense{}, nil
+// AddTemplate ...
+func (l *LensServiceUnimplemented) AddTemplate(ctx context.Context, request api.AddTemplateRequestObject) (api.AddTemplateResponseObject, error) {
+	return api.AddTemplate200Response{}, nil
 }

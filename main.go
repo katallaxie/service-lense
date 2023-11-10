@@ -10,15 +10,16 @@ import (
 	"github.com/katallaxie/pkg/logger"
 	"github.com/katallaxie/pkg/server"
 	"github.com/katallaxie/service-lense/internal/adapters"
-	"github.com/katallaxie/service-lense/internal/adapters/handlers"
 	"github.com/katallaxie/service-lense/internal/config"
 	"github.com/katallaxie/service-lense/internal/controllers"
 	"github.com/katallaxie/service-lense/internal/models"
 	"github.com/katallaxie/service-lense/internal/ports"
-	"github.com/katallaxie/service-lense/internal/services/lense"
+	"github.com/katallaxie/service-lense/internal/services/lens"
+	"github.com/katallaxie/service-lense/pkg/api"
 
 	"github.com/caarlos0/env/v10"
 	"github.com/gofiber/fiber/v2"
+	middleware "github.com/oapi-codegen/fiber-middleware"
 	"github.com/spf13/cobra"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -43,7 +44,7 @@ func main() {
 }
 
 type srv struct {
-	leaseService ports.LenseService
+	lensService ports.LensService
 
 	server.Listener
 	server.Unimplemented
@@ -52,12 +53,18 @@ type srv struct {
 // Start ...
 func (s *srv) Start(ctx context.Context, ready server.ReadyFunc, run server.RunFunc) func() error {
 	return func() error {
-		app := fiber.New(fiber.Config{
-			ErrorHandler: handlers.DefaultErrorHandler,
-		})
+		swagger, err := api.GetSwagger()
+		if err != nil {
+			return err
+		}
 
-		lenseHandler := handlers.NewLenseHandler(s.leaseService)
-		app.Get("/lense/:id", lenseHandler.Get)
+		swagger.Servers = nil
+		handlers := api.NewStrictHandler(s.lensService, nil)
+
+		app := fiber.New()
+		app.Use(middleware.OapiRequestValidator(swagger))
+
+		api.RegisterHandlers(app, handlers)
 
 		return app.Listen(":8080")
 	}
@@ -81,15 +88,15 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	db.AutoMigrate(&models.Lense{}, &models.Workflow{})
+	db.AutoMigrate(&models.Lens{}, &models.Workflow{})
 
 	s := &srv{}
 	srv, _ := server.WithContext(ctx)
 
 	ctrl := controllers.New(adapters.NewDB(db))
 
-	leaseService := lense.New(ctrl)
-	s.leaseService = leaseService
+	leaseService := lens.New(ctrl)
+	s.lensService = leaseService
 
 	srv.Listen(s, true)
 

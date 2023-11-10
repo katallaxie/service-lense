@@ -6,12 +6,12 @@ import (
 	"github.com/katallaxie/service-lense/internal/ports"
 )
 
-var _ ports.LenseRepository = (*DB)(nil)
+var _ ports.LensRepository = (*DB)(nil)
 
 // DB ...
 type DB struct {
 	db *gorm.DB
-	ports.LeaseRepositoryUnimplemented
+	ports.LensRepositoryUnimplemented
 }
 
 // NewDB ...
