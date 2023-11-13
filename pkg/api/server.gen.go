@@ -16,6 +16,7 @@ import (
 
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/gofiber/fiber/v2"
+	"github.com/oapi-codegen/runtime"
 )
 
 // ServerInterface represents all server handlers.
@@ -23,6 +24,15 @@ type ServerInterface interface {
 	// Add a new template
 	// (POST /v1/lense/templates)
 	AddTemplate(c *fiber.Ctx) error
+	// List all workloads
+	// (GET /v1/workloads)
+	ListWorkloads(c *fiber.Ctx) error
+	// Add a new workload
+	// (POST /v1/workloads)
+	AddWorkload(c *fiber.Ctx) error
+	// Get a workload
+	// (GET /v1/workloads/{id})
+	GetWorkload(c *fiber.Ctx, id string) error
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -36,6 +46,34 @@ type MiddlewareFunc fiber.Handler
 func (siw *ServerInterfaceWrapper) AddTemplate(c *fiber.Ctx) error {
 
 	return siw.Handler.AddTemplate(c)
+}
+
+// ListWorkloads operation middleware
+func (siw *ServerInterfaceWrapper) ListWorkloads(c *fiber.Ctx) error {
+
+	return siw.Handler.ListWorkloads(c)
+}
+
+// AddWorkload operation middleware
+func (siw *ServerInterfaceWrapper) AddWorkload(c *fiber.Ctx) error {
+
+	return siw.Handler.AddWorkload(c)
+}
+
+// GetWorkload operation middleware
+func (siw *ServerInterfaceWrapper) GetWorkload(c *fiber.Ctx) error {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameter("simple", false, "id", c.Params("id"), &id)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("Invalid format for parameter id: %w", err).Error())
+	}
+
+	return siw.Handler.GetWorkload(c, id)
 }
 
 // FiberServerOptions provides options for the Fiber server.
@@ -61,6 +99,12 @@ func RegisterHandlersWithOptions(router fiber.Router, si ServerInterface, option
 
 	router.Post(options.BaseURL+"/v1/lense/templates", wrapper.AddTemplate)
 
+	router.Get(options.BaseURL+"/v1/workloads", wrapper.ListWorkloads)
+
+	router.Post(options.BaseURL+"/v1/workloads", wrapper.AddWorkload)
+
+	router.Get(options.BaseURL+"/v1/workloads/:id", wrapper.GetWorkload)
+
 }
 
 type AddTemplateRequestObject struct {
@@ -79,11 +123,74 @@ func (response AddTemplate200Response) VisitAddTemplateResponse(ctx *fiber.Ctx) 
 	return nil
 }
 
+type ListWorkloadsRequestObject struct {
+}
+
+type ListWorkloadsResponseObject interface {
+	VisitListWorkloadsResponse(ctx *fiber.Ctx) error
+}
+
+type ListWorkloads200JSONResponse struct {
+	Items  *[]Workload `json:"items,omitempty"`
+	Limit  *int        `json:"limit,omitempty"`
+	Offset *int        `json:"offset,omitempty"`
+	Total  *int        `json:"total,omitempty"`
+}
+
+func (response ListWorkloads200JSONResponse) VisitListWorkloadsResponse(ctx *fiber.Ctx) error {
+	ctx.Response().Header.Set("Content-Type", "application/json")
+	ctx.Status(200)
+
+	return ctx.JSON(&response)
+}
+
+type AddWorkloadRequestObject struct {
+	Body *AddWorkloadJSONRequestBody
+}
+
+type AddWorkloadResponseObject interface {
+	VisitAddWorkloadResponse(ctx *fiber.Ctx) error
+}
+
+type AddWorkload200Response struct {
+}
+
+func (response AddWorkload200Response) VisitAddWorkloadResponse(ctx *fiber.Ctx) error {
+	ctx.Status(200)
+	return nil
+}
+
+type GetWorkloadRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetWorkloadResponseObject interface {
+	VisitGetWorkloadResponse(ctx *fiber.Ctx) error
+}
+
+type GetWorkload200JSONResponse Workload
+
+func (response GetWorkload200JSONResponse) VisitGetWorkloadResponse(ctx *fiber.Ctx) error {
+	ctx.Response().Header.Set("Content-Type", "application/json")
+	ctx.Status(200)
+
+	return ctx.JSON(&response)
+}
+
 // StrictServerInterface represents all server handlers.
 type StrictServerInterface interface {
 	// Add a new template
 	// (POST /v1/lense/templates)
 	AddTemplate(ctx context.Context, request AddTemplateRequestObject) (AddTemplateResponseObject, error)
+	// List all workloads
+	// (GET /v1/workloads)
+	ListWorkloads(ctx context.Context, request ListWorkloadsRequestObject) (ListWorkloadsResponseObject, error)
+	// Add a new workload
+	// (POST /v1/workloads)
+	AddWorkload(ctx context.Context, request AddWorkloadRequestObject) (AddWorkloadResponseObject, error)
+	// Get a workload
+	// (GET /v1/workloads/{id})
+	GetWorkload(ctx context.Context, request GetWorkloadRequestObject) (GetWorkloadResponseObject, error)
 }
 
 type StrictHandlerFunc func(ctx *fiber.Ctx, args interface{}) (interface{}, error)
@@ -126,14 +233,101 @@ func (sh *strictHandler) AddTemplate(ctx *fiber.Ctx) error {
 	return nil
 }
 
+// ListWorkloads operation middleware
+func (sh *strictHandler) ListWorkloads(ctx *fiber.Ctx) error {
+	var request ListWorkloadsRequestObject
+
+	handler := func(ctx *fiber.Ctx, request interface{}) (interface{}, error) {
+		return sh.ssi.ListWorkloads(ctx.UserContext(), request.(ListWorkloadsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "ListWorkloads")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else if validResponse, ok := response.(ListWorkloadsResponseObject); ok {
+		if err := validResponse.VisitListWorkloadsResponse(ctx); err != nil {
+			return fiber.NewError(fiber.StatusBadRequest, err.Error())
+		}
+	} else if response != nil {
+		return fmt.Errorf("unexpected response type: %T", response)
+	}
+	return nil
+}
+
+// AddWorkload operation middleware
+func (sh *strictHandler) AddWorkload(ctx *fiber.Ctx) error {
+	var request AddWorkloadRequestObject
+
+	var body AddWorkloadJSONRequestBody
+	if err := ctx.BodyParser(&body); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+	request.Body = &body
+
+	handler := func(ctx *fiber.Ctx, request interface{}) (interface{}, error) {
+		return sh.ssi.AddWorkload(ctx.UserContext(), request.(AddWorkloadRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "AddWorkload")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else if validResponse, ok := response.(AddWorkloadResponseObject); ok {
+		if err := validResponse.VisitAddWorkloadResponse(ctx); err != nil {
+			return fiber.NewError(fiber.StatusBadRequest, err.Error())
+		}
+	} else if response != nil {
+		return fmt.Errorf("unexpected response type: %T", response)
+	}
+	return nil
+}
+
+// GetWorkload operation middleware
+func (sh *strictHandler) GetWorkload(ctx *fiber.Ctx, id string) error {
+	var request GetWorkloadRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *fiber.Ctx, request interface{}) (interface{}, error) {
+		return sh.ssi.GetWorkload(ctx.UserContext(), request.(GetWorkloadRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetWorkload")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else if validResponse, ok := response.(GetWorkloadResponseObject); ok {
+		if err := validResponse.VisitGetWorkloadResponse(ctx); err != nil {
+			return fiber.NewError(fiber.StatusBadRequest, err.Error())
+		}
+	} else if response != nil {
+		return fmt.Errorf("unexpected response type: %T", response)
+	}
+	return nil
+}
+
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/2RQT0s7MRD9Kss776+7/XnLrd6KgoLexEPMTtvAZjJmppVS8t0lW6GCp4T3J++9XBBy",
-	"kszEpnCX2iPyLsNdMJGGEsViZjg8Emu3ed6ih0WbCQ4vVE4xUPeLOlHRq369Glcjao8sxF4iHO4WqId4",
-	"O7QsDKf1MBMrDUZJZm+0wJLV2pmFim/x2wkOm2l6/VGhR6HPI6nd5+ncpCGzES8uLzLHsPiGHIzsn1oh",
-	"nxqn4UDJt9sul+QNDh+RfTm3VWdpo9RK5D1qrdeQWGiCs3KkBVDJrNea/8fx7zc9PaA59ZhSe3ap3fmO",
-	"6auzW3vze4V7w232e621fgcAAP//O9BW6owBAAA=",
+	"H4sIAAAAAAAC/6yUTW+bQBCG/wqa9kiD0964pZcoaqREaqUcIh8mMDiT7ld3J7Ysi/9e7YINNbi21N6W",
+	"+WDfeXiHHVRWO2vISIByB6F6JY3p+IgrNihsTXxy3jrywpRyijVLPMjWEZTARmhFHtocbNMEOpETK6jm",
+	"UjHXhezLG1USi5+s/6ks1tPbawqVZ7eX1ncG8WxWsZPMmo23RpOR2QKuZ8MGNc0kpuJiiE1jJ2LgnkzI",
+	"bh7vIAdhUbHpO/k1V5SNUmvyoau/vlpcLRI2RwYdQwlfUigHh/Kaxi3W14UiE6gQ0k6hdBScDWm6SCZ9",
+	"prsaSrip6x99FeTg6dc7Bflq620srayRngk6p7hKfYWthORTEE+oBxPEU2O9RoESXtig30I+YdN2l7Cn",
+	"Gkrx75QCwVkTOpmfF4sppodvCWt41zq+NsnOMDO0yWRQL7gKUD7DMPYydkUem94c6YoVzYC45yBPh6p5",
+	"USd4vIXOWAMHVOqhgfJ5Bx89NVDCh2LYm6JfmmK0MW1+bFoW0n8e/vaqg/kH86H3uJ1z4zJ9hTOAI44M",
+	"lco2IyZ7wENs2eanjXUQdamxpiAvm/n/u2ozSJ8b+thVxY7r9qS1bklGKBx61CTkQzIIRyVxd2H/Q4m/",
+	"m+N58hGT45Va/qNZL2d8Bt8tSYZn0bXt7wAAAP//qw+g8EUGAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

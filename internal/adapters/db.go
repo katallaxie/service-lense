@@ -7,11 +7,13 @@ import (
 )
 
 var _ ports.LensRepository = (*DB)(nil)
+var _ ports.WorkloadRepository = (*DB)(nil)
 
 // DB ...
 type DB struct {
 	db *gorm.DB
 	ports.LensRepositoryUnimplemented
+	ports.WorkloadRepositoryUnimplemented
 }
 
 // NewDB ...

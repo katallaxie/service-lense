@@ -11,13 +11,13 @@ type LensController struct {
 }
 
 // NewLensController ...
-func New(db ports.LensRepository) *LensController {
+func NewLensController(db ports.LensRepository) *LensController {
 	return &LensController{
 		db: db,
 	}
 }
 
-// Get ...
-func (c *LensController) Get(id string) (models.Lens, error) {
-	return c.db.Get(id)
+// GetLens ...
+func (c *LensController) GetLens(id string) (models.Lens, error) {
+	return c.db.GetLens(id)
 }

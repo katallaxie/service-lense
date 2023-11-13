@@ -29,7 +29,7 @@ export default function FileUploadForm() {
 
       await addTemplate(blob)
     } catch (error) {
-      throw new Error()
+      throw new Error('Error uploading file')
     }
   })
 

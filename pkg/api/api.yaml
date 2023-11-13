@@ -4,6 +4,63 @@ info:
   description: Lens API
   version: 1.0.0
 paths:
+  # Workloads
+  /v1/workloads:
+    get:
+      summary: List all workloads
+      operationId: listWorkloads
+      tags:
+        - workloads
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Pagination'
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Workload'
+    
+    post:
+      summary: Add a new workload
+      operationId: addWorkload
+      tags:
+        - workloads
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Workload'
+      responses:
+        '200':
+          description: OK
+
+  /v1/workloads/{id}:
+    get:
+      summary: Get a workload
+      operationId: getWorkload
+      tags:
+        - workloads
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workload'
+
   /v1/lense/templates:
     post:
       summary: Add a new template
@@ -23,6 +80,28 @@ paths:
 
 components:
   schemas:
+    Pagination:
+      type: object
+      properties:
+        total:
+          type: integer
+        offset:
+          type: integer
+        limit:
+          type: integer
+
+    Workload:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        envinronment:
+          type: string
+
     Template:
       type: object
       properties:
