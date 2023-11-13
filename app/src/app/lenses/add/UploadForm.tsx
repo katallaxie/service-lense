@@ -5,6 +5,12 @@ import { Button, FormControl, FormErrorMessage, FormLabel, Icon } from '@/ui'
 import { useForm } from 'react-hook-form'
 import { FiFile } from 'react-icons/fi'
 
+import { OpenAPI, TemplatesService } from '@/generated'
+
+const { addTemplate } = TemplatesService
+
+OpenAPI.BASE = 'http://localhost:8080'
+
 type FormValues = {
   file_: FileList
 }
@@ -15,12 +21,23 @@ export default function FileUploadForm() {
     handleSubmit,
     formState: { errors }
   } = useForm<FormValues>()
-  const onSubmit = handleSubmit(data => console.log('On Submit: ', data))
+  const onSubmit = handleSubmit(async data => {
+    try {
+      const blob = new Blob([await data.file_[0].text()], {
+        type: data.file_[0].type
+      })
+
+      await addTemplate(blob)
+    } catch (error) {
+      throw new Error()
+    }
+  })
 
   const validateFiles = (value: FileList) => {
     if (value.length < 1) {
       return 'Files is required'
     }
+
     for (const file of Array.from(value)) {
       const fsMb = file.size / (1024 * 1024)
       const MAX_FILE_SIZE = 10
@@ -28,6 +45,7 @@ export default function FileUploadForm() {
         return 'Max file size 10mb'
       }
     }
+
     return true
   }
 

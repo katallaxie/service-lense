@@ -19,6 +19,7 @@ import (
 
 	"github.com/caarlos0/env/v10"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	middleware "github.com/oapi-codegen/fiber-middleware"
 	"github.com/spf13/cobra"
 	"gorm.io/driver/postgres"
@@ -62,6 +63,7 @@ func (s *srv) Start(ctx context.Context, ready server.ReadyFunc, run server.RunF
 		handlers := api.NewStrictHandler(s.lensService, nil)
 
 		app := fiber.New()
+		app.Use(cors.New())
 		app.Use(middleware.OapiRequestValidator(swagger))
 
 		api.RegisterHandlers(app, handlers)

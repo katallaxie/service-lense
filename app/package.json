@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "fix": "next lint --fix"
+    "fix": "next lint --fix",
+    "api:docs": "openapi --input ../pkg/api/api.yaml --output ./src/generated --client xhr"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.1.5",
@@ -36,6 +37,8 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-jest": "^27.6.0",
     "eslint-plugin-prettier": "^5.0.1",
+    "openapi-typescript": "^6.7.1",
+    "openapi-typescript-codegen": "^0.25.0",
     "prettier": "^3.0.3",
     "typescript": "^5"
   }
