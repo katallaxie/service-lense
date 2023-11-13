@@ -1,19 +1,11 @@
-import { theme } from '@chakra-ui/pro-theme'
-import { extendTheme } from '@chakra-ui/react'
-import '@fontsource-variable/inter'
+'use client'
 
-const proTheme = extendTheme(theme)
+import * as React from 'react'
+import { ThemeProvider as NextThemesProvider } from 'next-themes'
+import { type ThemeProviderProps } from 'next-themes/dist/types'
 
-const extenstion = {
-  colors: { ...proTheme.colors, brand: proTheme.colors.teal },
-  fonts: {
-    heading: "'Inter Variable', -apple-system, system-ui, sans-serif",
-    body: "'Inter Variable', -apple-system, system-ui, sans-serif"
-  },
-  initialColorMode: 'system',
-  useSystemColorMode: true
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
 }
 
-const myTheme = extendTheme(extenstion, proTheme)
-
-export default myTheme
+export default ThemeProvider
