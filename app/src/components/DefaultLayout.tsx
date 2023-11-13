@@ -12,7 +12,7 @@ import {
   BiCog,
   BiCommentAdd,
   BiCreditCard,
-  BiEnvelope,
+  BiSolidTruck,
   BiHome,
   BiNews,
   BiPurchaseTagAlt,
@@ -41,7 +41,16 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
                 <NavItem active icon={<BiHome />} label="Get Started" />
                 <NavItem icon={<BiCommentAdd />} label="Inbox" />
               </Stack>
-              <NavGroup label="Review">
+
+              <NavGroup label="Workloads">
+                <NavItem
+                  href="/workloads"
+                  icon={<BiSolidTruck />}
+                  label="Workloads"
+                />
+              </NavGroup>
+
+              <NavGroup label="Lenses">
                 <NavItem
                   href="/lenses"
                   icon={<BiCreditCard />}
