@@ -21,18 +21,27 @@ import (
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
-	// Add a new template
-	// (POST /v1/lense/templates)
-	AddTemplate(c *fiber.Ctx) error
+	// Add a new lens
+	// (POST /v1/lens)
+	AddLens(c *fiber.Ctx) error
+	// Delete a lens
+	// (DELETE /v1/lens/{id})
+	DeleteLens(c *fiber.Ctx, id string) error
+	// Get a lens
+	// (GET /v1/lens/{id})
+	GetLens(c *fiber.Ctx, id string) error
+	// List all lenses
+	// (GET /v1/lenses)
+	ListLenses(c *fiber.Ctx) error
+	// Add a new workload
+	// (POST /v1/workload)
+	AddWorkload(c *fiber.Ctx) error
+	// Get a workload
+	// (GET /v1/workload/{id})
+	GetWorkload(c *fiber.Ctx, id string) error
 	// List all workloads
 	// (GET /v1/workloads)
 	ListWorkloads(c *fiber.Ctx) error
-	// Add a new workload
-	// (POST /v1/workloads)
-	AddWorkload(c *fiber.Ctx) error
-	// Get a workload
-	// (GET /v1/workloads/{id})
-	GetWorkload(c *fiber.Ctx, id string) error
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -42,16 +51,48 @@ type ServerInterfaceWrapper struct {
 
 type MiddlewareFunc fiber.Handler
 
-// AddTemplate operation middleware
-func (siw *ServerInterfaceWrapper) AddTemplate(c *fiber.Ctx) error {
+// AddLens operation middleware
+func (siw *ServerInterfaceWrapper) AddLens(c *fiber.Ctx) error {
 
-	return siw.Handler.AddTemplate(c)
+	return siw.Handler.AddLens(c)
 }
 
-// ListWorkloads operation middleware
-func (siw *ServerInterfaceWrapper) ListWorkloads(c *fiber.Ctx) error {
+// DeleteLens operation middleware
+func (siw *ServerInterfaceWrapper) DeleteLens(c *fiber.Ctx) error {
 
-	return siw.Handler.ListWorkloads(c)
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameter("simple", false, "id", c.Params("id"), &id)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("Invalid format for parameter id: %w", err).Error())
+	}
+
+	return siw.Handler.DeleteLens(c, id)
+}
+
+// GetLens operation middleware
+func (siw *ServerInterfaceWrapper) GetLens(c *fiber.Ctx) error {
+
+	var err error
+
+	// ------------- Path parameter "id" -------------
+	var id string
+
+	err = runtime.BindStyledParameter("simple", false, "id", c.Params("id"), &id)
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, fmt.Errorf("Invalid format for parameter id: %w", err).Error())
+	}
+
+	return siw.Handler.GetLens(c, id)
+}
+
+// ListLenses operation middleware
+func (siw *ServerInterfaceWrapper) ListLenses(c *fiber.Ctx) error {
+
+	return siw.Handler.ListLenses(c)
 }
 
 // AddWorkload operation middleware
@@ -76,6 +117,12 @@ func (siw *ServerInterfaceWrapper) GetWorkload(c *fiber.Ctx) error {
 	return siw.Handler.GetWorkload(c, id)
 }
 
+// ListWorkloads operation middleware
+func (siw *ServerInterfaceWrapper) ListWorkloads(c *fiber.Ctx) error {
+
+	return siw.Handler.ListWorkloads(c)
+}
+
 // FiberServerOptions provides options for the Fiber server.
 type FiberServerOptions struct {
 	BaseURL     string
@@ -97,47 +144,87 @@ func RegisterHandlersWithOptions(router fiber.Router, si ServerInterface, option
 		router.Use(m)
 	}
 
-	router.Post(options.BaseURL+"/v1/lense/templates", wrapper.AddTemplate)
+	router.Post(options.BaseURL+"/v1/lens", wrapper.AddLens)
+
+	router.Delete(options.BaseURL+"/v1/lens/:id", wrapper.DeleteLens)
+
+	router.Get(options.BaseURL+"/v1/lens/:id", wrapper.GetLens)
+
+	router.Get(options.BaseURL+"/v1/lenses", wrapper.ListLenses)
+
+	router.Post(options.BaseURL+"/v1/workload", wrapper.AddWorkload)
+
+	router.Get(options.BaseURL+"/v1/workload/:id", wrapper.GetWorkload)
 
 	router.Get(options.BaseURL+"/v1/workloads", wrapper.ListWorkloads)
 
-	router.Post(options.BaseURL+"/v1/workloads", wrapper.AddWorkload)
-
-	router.Get(options.BaseURL+"/v1/workloads/:id", wrapper.GetWorkload)
-
 }
 
-type AddTemplateRequestObject struct {
+type AddLensRequestObject struct {
 	Body io.Reader
 }
 
-type AddTemplateResponseObject interface {
-	VisitAddTemplateResponse(ctx *fiber.Ctx) error
+type AddLensResponseObject interface {
+	VisitAddLensResponse(ctx *fiber.Ctx) error
 }
 
-type AddTemplate200Response struct {
+type AddLens200Response struct {
 }
 
-func (response AddTemplate200Response) VisitAddTemplateResponse(ctx *fiber.Ctx) error {
+func (response AddLens200Response) VisitAddLensResponse(ctx *fiber.Ctx) error {
 	ctx.Status(200)
 	return nil
 }
 
-type ListWorkloadsRequestObject struct {
+type DeleteLensRequestObject struct {
+	Id string `json:"id"`
 }
 
-type ListWorkloadsResponseObject interface {
-	VisitListWorkloadsResponse(ctx *fiber.Ctx) error
+type DeleteLensResponseObject interface {
+	VisitDeleteLensResponse(ctx *fiber.Ctx) error
 }
 
-type ListWorkloads200JSONResponse struct {
-	Items  *[]Workload `json:"items,omitempty"`
-	Limit  *int        `json:"limit,omitempty"`
-	Offset *int        `json:"offset,omitempty"`
-	Total  *int        `json:"total,omitempty"`
+type DeleteLens200JSONResponse Lens
+
+func (response DeleteLens200JSONResponse) VisitDeleteLensResponse(ctx *fiber.Ctx) error {
+	ctx.Response().Header.Set("Content-Type", "application/json")
+	ctx.Status(200)
+
+	return ctx.JSON(&response)
 }
 
-func (response ListWorkloads200JSONResponse) VisitListWorkloadsResponse(ctx *fiber.Ctx) error {
+type GetLensRequestObject struct {
+	Id string `json:"id"`
+}
+
+type GetLensResponseObject interface {
+	VisitGetLensResponse(ctx *fiber.Ctx) error
+}
+
+type GetLens200JSONResponse Lens
+
+func (response GetLens200JSONResponse) VisitGetLensResponse(ctx *fiber.Ctx) error {
+	ctx.Response().Header.Set("Content-Type", "application/json")
+	ctx.Status(200)
+
+	return ctx.JSON(&response)
+}
+
+type ListLensesRequestObject struct {
+}
+
+type ListLensesResponseObject interface {
+	VisitListLensesResponse(ctx *fiber.Ctx) error
+}
+
+type ListLenses200JSONResponse struct {
+	Items  *[]Lens `json:"items,omitempty"`
+	Limit  *int    `json:"limit,omitempty"`
+	Offset *int    `json:"offset,omitempty"`
+	Total  *int    `json:"total,omitempty"`
+}
+
+func (response ListLenses200JSONResponse) VisitListLensesResponse(ctx *fiber.Ctx) error {
 	ctx.Response().Header.Set("Content-Type", "application/json")
 	ctx.Status(200)
 
@@ -177,20 +264,50 @@ func (response GetWorkload200JSONResponse) VisitGetWorkloadResponse(ctx *fiber.C
 	return ctx.JSON(&response)
 }
 
+type ListWorkloadsRequestObject struct {
+}
+
+type ListWorkloadsResponseObject interface {
+	VisitListWorkloadsResponse(ctx *fiber.Ctx) error
+}
+
+type ListWorkloads200JSONResponse struct {
+	Items  *[]Workload `json:"items,omitempty"`
+	Limit  *int        `json:"limit,omitempty"`
+	Offset *int        `json:"offset,omitempty"`
+	Total  *int        `json:"total,omitempty"`
+}
+
+func (response ListWorkloads200JSONResponse) VisitListWorkloadsResponse(ctx *fiber.Ctx) error {
+	ctx.Response().Header.Set("Content-Type", "application/json")
+	ctx.Status(200)
+
+	return ctx.JSON(&response)
+}
+
 // StrictServerInterface represents all server handlers.
 type StrictServerInterface interface {
-	// Add a new template
-	// (POST /v1/lense/templates)
-	AddTemplate(ctx context.Context, request AddTemplateRequestObject) (AddTemplateResponseObject, error)
+	// Add a new lens
+	// (POST /v1/lens)
+	AddLens(ctx context.Context, request AddLensRequestObject) (AddLensResponseObject, error)
+	// Delete a lens
+	// (DELETE /v1/lens/{id})
+	DeleteLens(ctx context.Context, request DeleteLensRequestObject) (DeleteLensResponseObject, error)
+	// Get a lens
+	// (GET /v1/lens/{id})
+	GetLens(ctx context.Context, request GetLensRequestObject) (GetLensResponseObject, error)
+	// List all lenses
+	// (GET /v1/lenses)
+	ListLenses(ctx context.Context, request ListLensesRequestObject) (ListLensesResponseObject, error)
+	// Add a new workload
+	// (POST /v1/workload)
+	AddWorkload(ctx context.Context, request AddWorkloadRequestObject) (AddWorkloadResponseObject, error)
+	// Get a workload
+	// (GET /v1/workload/{id})
+	GetWorkload(ctx context.Context, request GetWorkloadRequestObject) (GetWorkloadResponseObject, error)
 	// List all workloads
 	// (GET /v1/workloads)
 	ListWorkloads(ctx context.Context, request ListWorkloadsRequestObject) (ListWorkloadsResponseObject, error)
-	// Add a new workload
-	// (POST /v1/workloads)
-	AddWorkload(ctx context.Context, request AddWorkloadRequestObject) (AddWorkloadResponseObject, error)
-	// Get a workload
-	// (GET /v1/workloads/{id})
-	GetWorkload(ctx context.Context, request GetWorkloadRequestObject) (GetWorkloadResponseObject, error)
 }
 
 type StrictHandlerFunc func(ctx *fiber.Ctx, args interface{}) (interface{}, error)
@@ -206,25 +323,25 @@ type strictHandler struct {
 	middlewares []StrictMiddlewareFunc
 }
 
-// AddTemplate operation middleware
-func (sh *strictHandler) AddTemplate(ctx *fiber.Ctx) error {
-	var request AddTemplateRequestObject
+// AddLens operation middleware
+func (sh *strictHandler) AddLens(ctx *fiber.Ctx) error {
+	var request AddLensRequestObject
 
 	request.Body = bytes.NewReader(ctx.Request().Body())
 
 	handler := func(ctx *fiber.Ctx, request interface{}) (interface{}, error) {
-		return sh.ssi.AddTemplate(ctx.UserContext(), request.(AddTemplateRequestObject))
+		return sh.ssi.AddLens(ctx.UserContext(), request.(AddLensRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "AddTemplate")
+		handler = middleware(handler, "AddLens")
 	}
 
 	response, err := handler(ctx, request)
 
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
-	} else if validResponse, ok := response.(AddTemplateResponseObject); ok {
-		if err := validResponse.VisitAddTemplateResponse(ctx); err != nil {
+	} else if validResponse, ok := response.(AddLensResponseObject); ok {
+		if err := validResponse.VisitAddLensResponse(ctx); err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}
 	} else if response != nil {
@@ -233,23 +350,77 @@ func (sh *strictHandler) AddTemplate(ctx *fiber.Ctx) error {
 	return nil
 }
 
-// ListWorkloads operation middleware
-func (sh *strictHandler) ListWorkloads(ctx *fiber.Ctx) error {
-	var request ListWorkloadsRequestObject
+// DeleteLens operation middleware
+func (sh *strictHandler) DeleteLens(ctx *fiber.Ctx, id string) error {
+	var request DeleteLensRequestObject
+
+	request.Id = id
 
 	handler := func(ctx *fiber.Ctx, request interface{}) (interface{}, error) {
-		return sh.ssi.ListWorkloads(ctx.UserContext(), request.(ListWorkloadsRequestObject))
+		return sh.ssi.DeleteLens(ctx.UserContext(), request.(DeleteLensRequestObject))
 	}
 	for _, middleware := range sh.middlewares {
-		handler = middleware(handler, "ListWorkloads")
+		handler = middleware(handler, "DeleteLens")
 	}
 
 	response, err := handler(ctx, request)
 
 	if err != nil {
 		return fiber.NewError(fiber.StatusBadRequest, err.Error())
-	} else if validResponse, ok := response.(ListWorkloadsResponseObject); ok {
-		if err := validResponse.VisitListWorkloadsResponse(ctx); err != nil {
+	} else if validResponse, ok := response.(DeleteLensResponseObject); ok {
+		if err := validResponse.VisitDeleteLensResponse(ctx); err != nil {
+			return fiber.NewError(fiber.StatusBadRequest, err.Error())
+		}
+	} else if response != nil {
+		return fmt.Errorf("unexpected response type: %T", response)
+	}
+	return nil
+}
+
+// GetLens operation middleware
+func (sh *strictHandler) GetLens(ctx *fiber.Ctx, id string) error {
+	var request GetLensRequestObject
+
+	request.Id = id
+
+	handler := func(ctx *fiber.Ctx, request interface{}) (interface{}, error) {
+		return sh.ssi.GetLens(ctx.UserContext(), request.(GetLensRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "GetLens")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else if validResponse, ok := response.(GetLensResponseObject); ok {
+		if err := validResponse.VisitGetLensResponse(ctx); err != nil {
+			return fiber.NewError(fiber.StatusBadRequest, err.Error())
+		}
+	} else if response != nil {
+		return fmt.Errorf("unexpected response type: %T", response)
+	}
+	return nil
+}
+
+// ListLenses operation middleware
+func (sh *strictHandler) ListLenses(ctx *fiber.Ctx) error {
+	var request ListLensesRequestObject
+
+	handler := func(ctx *fiber.Ctx, request interface{}) (interface{}, error) {
+		return sh.ssi.ListLenses(ctx.UserContext(), request.(ListLensesRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "ListLenses")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else if validResponse, ok := response.(ListLensesResponseObject); ok {
+		if err := validResponse.VisitListLensesResponse(ctx); err != nil {
 			return fiber.NewError(fiber.StatusBadRequest, err.Error())
 		}
 	} else if response != nil {
@@ -316,18 +487,45 @@ func (sh *strictHandler) GetWorkload(ctx *fiber.Ctx, id string) error {
 	return nil
 }
 
+// ListWorkloads operation middleware
+func (sh *strictHandler) ListWorkloads(ctx *fiber.Ctx) error {
+	var request ListWorkloadsRequestObject
+
+	handler := func(ctx *fiber.Ctx, request interface{}) (interface{}, error) {
+		return sh.ssi.ListWorkloads(ctx.UserContext(), request.(ListWorkloadsRequestObject))
+	}
+	for _, middleware := range sh.middlewares {
+		handler = middleware(handler, "ListWorkloads")
+	}
+
+	response, err := handler(ctx, request)
+
+	if err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	} else if validResponse, ok := response.(ListWorkloadsResponseObject); ok {
+		if err := validResponse.VisitListWorkloadsResponse(ctx); err != nil {
+			return fiber.NewError(fiber.StatusBadRequest, err.Error())
+		}
+	} else if response != nil {
+		return fmt.Errorf("unexpected response type: %T", response)
+	}
+	return nil
+}
+
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/6yUTW+bQBCG/wqa9kiD0964pZcoaqREaqUcIh8mMDiT7ld3J7Ysi/9e7YINNbi21N6W",
-	"+WDfeXiHHVRWO2vISIByB6F6JY3p+IgrNihsTXxy3jrywpRyijVLPMjWEZTARmhFHtocbNMEOpETK6jm",
-	"UjHXhezLG1USi5+s/6ks1tPbawqVZ7eX1ncG8WxWsZPMmo23RpOR2QKuZ8MGNc0kpuJiiE1jJ2LgnkzI",
-	"bh7vIAdhUbHpO/k1V5SNUmvyoau/vlpcLRI2RwYdQwlfUigHh/Kaxi3W14UiE6gQ0k6hdBScDWm6SCZ9",
-	"prsaSrip6x99FeTg6dc7Bflq620srayRngk6p7hKfYWthORTEE+oBxPEU2O9RoESXtig30I+YdN2l7Cn",
-	"Gkrx75QCwVkTOpmfF4sppodvCWt41zq+NsnOMDO0yWRQL7gKUD7DMPYydkUem94c6YoVzYC45yBPh6p5",
-	"USd4vIXOWAMHVOqhgfJ5Bx89NVDCh2LYm6JfmmK0MW1+bFoW0n8e/vaqg/kH86H3uJ1z4zJ9hTOAI44M",
-	"lco2IyZ7wENs2eanjXUQdamxpiAvm/n/u2ozSJ8b+thVxY7r9qS1bklGKBx61CTkQzIIRyVxd2H/Q4m/",
-	"m+N58hGT45Va/qNZL2d8Bt8tSYZn0bXt7wAAAP//qw+g8EUGAAA=",
+	"H4sIAAAAAAAC/9yVTW/bMAyG/4rB7ejV6XbzrcOAoliBFhiGHoYcVJtO1cmSJjEJgsD/fZAUfzRWPrq1",
+	"RdtTZIqhyUevX62hULVWEiVZyNdgizusmV9eovS/2iiNhjj6pxJtYbgmrqR7pJVGyMGS4XIGTQq8jIYl",
+	"qzG6oZYSTXTHaiyiG8RmvhVOWNt4RggwY9gKmj6gbu+xIJdxzWZcsnaKhyMKXnMa1OWScIbGd1tVFnfs",
+	"kSImYlux998o81soVj4eMMoFl0bJGiU9wQmMm3MhLis1asYrIjm7voAUiJNwf/qBZsELTAZbCzQ25J+e",
+	"TE4mHptGyTSHHL74UAqa0Z0fN1ucZqJVmrJ+JIfDn81FCTmclaWXYgoG/8zR0ldVrlxaoSRtIAyWTGvB",
+	"C//3TBWE9MmSQVb36narSpmaEeRwyyUzK0hHXBwG90JusISczBx9wGolbTipz5PJmNHVd8/Uzuva1fXt",
+	"JyyRuExEmCLI9xe4R7QwdekthWzNyyYUFUg4hvHNxzc8NDOsRkLj6q2Bu/c7sNCettPC9hTpgML2zNP4",
+	"hDvo3tsg0b7eR4MV5PAh600l2zhK5nv2VA8ACyMmLMYLpk0KM4yo5BzpXVM5R4oj2ZZQ6DHK6JJbDwnD",
+	"x/QfIzEhriqPd99wA5Nt0m2f69y7WxzmdNjZp8ewdBwSJkQiWhi7gC6HNr3LnTov3+dQ/y6RrvwzWNKy",
+	"b71F0IYiFDp32qhrl0mF+ADLm/okH/I+1qwOkEzHdvXMfPQ8ota5LtkLnMyr+AheXgw/Pd1jxPA6+g13",
+	"yuM8YP/tctNlvbULpgf31JfMcsAkCrhp/gYAAP//GO6m74YNAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

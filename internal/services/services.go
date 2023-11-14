@@ -36,25 +36,25 @@ func New(lc *controllers.LensController, wc *controllers.WorkloadController) *Sr
 	}
 }
 
-// AddTemplate ...
-func (s *Srv) AddTemplate(ctx context.Context, request api.AddTemplateRequestObject) (api.AddTemplateResponseObject, error) {
+// AddLense ...
+func (s *Srv) AddLens(ctx context.Context, request api.AddLensRequestObject) (api.AddLensResponseObject, error) {
 	tpl := spec.Default()
 
 	v, err := io.ReadAll(request.Body)
 	if err != nil {
-		return api.AddTemplate200Response{}, err
+		return api.AddLens200Response{}, err
 	}
 
 	fmt.Println(string(v))
 
 	err = tpl.UnmarshalYAML(v)
 	if err != nil {
-		return api.AddTemplate200Response{}, err
+		return api.AddLens200Response{}, err
 	}
 
 	fmt.Println(tpl)
 
-	return api.AddTemplate200Response{}, nil
+	return api.AddLens200Response{}, nil
 }
 
 // Start ...

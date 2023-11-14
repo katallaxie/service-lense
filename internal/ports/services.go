@@ -16,9 +16,24 @@ type Srv interface {
 // SrvUnimplemented ...
 type SrvUnimplemented struct{}
 
-// AddTemplate ...
-func (s *SrvUnimplemented) AddTemplate(ctx context.Context, request api.AddTemplateRequestObject) (api.AddTemplateResponseObject, error) {
-	return api.AddTemplate200Response{}, nil
+// AddLens ...
+func (s *SrvUnimplemented) AddLens(ctx context.Context, request api.AddLensRequestObject) (api.AddLensResponseObject, error) {
+	return api.AddLens200Response{}, nil
+}
+
+// DeleteLens ...
+func (s *SrvUnimplemented) DeleteLens(ctx context.Context, request api.DeleteLensRequestObject) (api.DeleteLensResponseObject, error) {
+	return api.DeleteLens200JSONResponse{}, nil
+}
+
+// GetLens ...
+func (s *SrvUnimplemented) GetLens(ctx context.Context, request api.GetLensRequestObject) (api.GetLensResponseObject, error) {
+	return api.GetLens200JSONResponse{}, nil
+}
+
+// ListLenses ...
+func (s *SrvUnimplemented) ListLenses(ctx context.Context, request api.ListLensesRequestObject) (api.ListLensesResponseObject, error) {
+	return api.ListLenses200JSONResponse{}, nil
 }
 
 // AddWorkload ...

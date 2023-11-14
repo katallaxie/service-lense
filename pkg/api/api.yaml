@@ -4,6 +4,86 @@ info:
   description: Lens API
   version: 1.0.0
 paths:
+
+  # Workload
+  /v1/workload:
+    post:
+      summary: Add a new workload
+      operationId: addWorkload
+      tags:
+        - workloads
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Workload'
+      responses:
+        '200':
+          description: OK
+          
+  /v1/workload/{id}:
+    get:
+      summary: Get a workload
+      operationId: getWorkload
+      tags:
+        - workloads
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workload'
+      put:
+        summary: Update a workload
+        operationId: updateWorkload
+        tags:
+          - workloads
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workload'
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Workload'
+      delete:
+        summary: Delete a workload
+        operationId: deleteWorkload
+        tags:
+          - workloads
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Workload'
+
   # Workloads
   /v1/workloads:
     get:
@@ -25,28 +105,32 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/Workload'
-    
+                          
+  # Lens
+  /v1/lens:
     post:
-      summary: Add a new workload
-      operationId: addWorkload
+      summary: Add a new lens
+      operationId: addLens
       tags:
-        - workloads
+        - lenses
       requestBody:
         required: true
         content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Workload'
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
       responses:
         '200':
           description: OK
 
-  /v1/workloads/{id}:
+  /v1/lens/{id}:
     get:
-      summary: Get a workload
-      operationId: getWorkload
+      summary: Get a lens
+      operationId: getLens
       tags:
-        - workloads
+        - lenses
       parameters:
         - name: id
           in: path
@@ -59,24 +143,48 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Workload'
+                $ref: '#/components/schemas/Lens'
 
-  /v1/lense/templates:
-    post:
-      summary: Add a new template
-      operationId: addTemplate
+    delete:
+      summary: Delete a lens
+      operationId: deleteLens
       tags:
-        - templates
-      requestBody:
-        required: true
-        content:
-          application/octet-stream:
-            schema:
-              type: string
-              format: binary
+        - lens
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lens'
+  
+  # Lenses
+  /v1/lenses:
+    get:
+      summary: List all lenses
+      operationId: listLenses
+      tags:
+        - lenses
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/Pagination'
+                  - type: object
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Lens'
 
 components:
   schemas:
@@ -102,7 +210,7 @@ components:
         envinronment:
           type: string
 
-    Template:
+    Lens:
       type: object
       properties:
         id:
@@ -111,5 +219,11 @@ components:
           type: string
         description:
           type: string
+        owner:
+          type: string
         spec:
           type: string
+        tags:
+          type: array
+          items:
+            type: string

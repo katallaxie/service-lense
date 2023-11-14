@@ -2,44 +2,43 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { Lens } from '../models/Lens';
 import type { Pagination } from '../models/Pagination';
-import type { Workload } from '../models/Workload';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
 
-export class WorkloadsService {
+export class LensesService {
 
     /**
-     * Add a new workload
+     * Add a new lens
      * @param requestBody
      * @returns any OK
      * @throws ApiError
      */
-    public static addWorkload(
-        requestBody: Workload,
+    public static addLens(
+        requestBody: any,
     ): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/v1/workload',
+            url: '/v1/lens',
             body: requestBody,
-            mediaType: 'application/json',
         });
     }
 
     /**
-     * Get a workload
+     * Get a lens
      * @param id
-     * @returns Workload OK
+     * @returns Lens OK
      * @throws ApiError
      */
-    public static getWorkload(
+    public static getLens(
         id: string,
-    ): CancelablePromise<Workload> {
+    ): CancelablePromise<Lens> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/v1/workload/{id}',
+            url: '/v1/lens/{id}',
             path: {
                 'id': id,
             },
@@ -47,16 +46,16 @@ export class WorkloadsService {
     }
 
     /**
-     * List all workloads
+     * List all lenses
      * @returns any OK
      * @throws ApiError
      */
-    public static listWorkloads(): CancelablePromise<(Pagination & {
-        items?: Array<Workload>;
+    public static listLenses(): CancelablePromise<(Pagination & {
+        items?: Array<Lens>;
     })> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/v1/workloads',
+            url: '/v1/lenses',
         });
     }
 

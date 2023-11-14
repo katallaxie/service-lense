@@ -3,10 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Template = {
+export type Lens = {
     id?: string;
     name?: string;
     description?: string;
+    owner?: string;
     spec?: string;
+    tags?: Array<string>;
 };
 
