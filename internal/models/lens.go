@@ -8,6 +8,8 @@ type Lens struct {
 	Name string `json:"name,omitempty" yaml:"name" db:"name"`
 	// Description is a description of the lens.
 	Description string `json:"description,omitempty" yaml:"description" db:"description"`
+	// Spec is the spec of the lens.
+	Spec string `json:"spec" yaml:"spec" db:"spec"`
 }
 
 // Workflow ...

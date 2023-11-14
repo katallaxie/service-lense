@@ -118,7 +118,11 @@ paths:
       tags:
         - lens
       requestBody:
-        $ref: '#/components/requestBodies/AddLensRequest'
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lens'
       responses:
         '200':
           description: Success
@@ -239,6 +243,9 @@ components:
           type: integer
 
     Workload:
+      x-go-type: models.Workload
+      x-go-type-import:
+          path: github.com/katallaxie/service-lense/internal/models
       type: object
       properties:
         id:
@@ -251,6 +258,9 @@ components:
           type: string
 
     Lens:
+      x-go-type: models.Lens
+      x-go-type-import:
+          path: github.com/katallaxie/service-lense/internal/models
       type: object
       properties:
         id:

@@ -20,26 +20,26 @@ func NewWorkloadController(db ports.WorkloadRepository) *WorkloadController {
 }
 
 // Get ...
-func (c *WorkloadController) Get(id string) (models.Workload, error) {
-	return c.db.GetWorkload(id)
+func (c *WorkloadController) Get(ctx context.Context, id string) (*models.Workload, error) {
+	return c.db.GetWorkload(ctx, id)
 }
 
 // List ...
-func (c *WorkloadController) List() ([]models.Workload, error) {
-	return c.db.ListWorkload()
+func (c *WorkloadController) List(ctx context.Context) ([]*models.Workload, error) {
+	return c.db.ListWorkload(ctx)
 }
 
 // Add ...
-func (c *WorkloadController) Add(ctx context.Context, id string, workload models.Workload) error {
-	return c.db.AddWorkload(id, workload)
+func (c *WorkloadController) Add(ctx context.Context, id string, workload *models.Workload) error {
+	return c.db.AddWorkload(ctx, id, workload)
 }
 
 // Update ...
-func (c *WorkloadController) Update(id string, workload models.Workload) error {
-	return c.db.UpdateWorkload(id, workload)
+func (c *WorkloadController) Update(ctx context.Context, id string, workload *models.Workload) error {
+	return c.db.UpdateWorkload(ctx, id, workload)
 }
 
 // Delete ...
-func (c *WorkloadController) Delete(id string) error {
-	return c.db.DeleteWorkload(id)
+func (c *WorkloadController) Delete(ctx context.Context, id string) error {
+	return c.db.DeleteWorkload(ctx, id)
 }

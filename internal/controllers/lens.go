@@ -20,11 +20,11 @@ func NewLensController(db ports.LensRepository) *LensController {
 }
 
 // AddLens ...
-func (c *LensController) AddLens(ctx context.Context, id string, lens models.Lens) error {
-	return c.db.AddLens(id, lens)
+func (c *LensController) AddLens(ctx context.Context, id string, lens *models.Lens) error {
+	return c.db.AddLens(ctx, id, lens)
 }
 
 // GetLens ...
-func (c *LensController) GetLens(ctx context.Context, id string) (models.Lens, error) {
-	return c.db.GetLens(id)
+func (c *LensController) GetLens(ctx context.Context, id string) (*models.Lens, error) {
+	return c.db.GetLens(ctx, id)
 }

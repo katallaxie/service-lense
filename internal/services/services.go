@@ -7,7 +7,6 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/google/uuid"
 	"github.com/katallaxie/service-lense/internal/controllers"
-	"github.com/katallaxie/service-lense/internal/models"
 	"github.com/katallaxie/service-lense/internal/ports"
 	"github.com/katallaxie/service-lense/pkg/api"
 	"github.com/katallaxie/service-lense/pkg/spec"
@@ -40,21 +39,15 @@ func New(lc *controllers.LensController, wc *controllers.WorkloadController) *Sr
 func (s *Srv) AddWorkload(ctx context.Context, request api.AddWorkloadRequestObject) (api.AddWorkloadResponseObject, error) {
 	id := uuid.New()
 
-	l := models.Workload{
-		ID:          id.String(),
-		Description: *request.Body.Description,
-		Name:        *request.Body.Name,
-		Environment: *request.Body.Environment,
-	}
+	w := request.Body
+	w.ID = id.String()
 
-	err := s.wc.Add(ctx, id.String(), l)
+	err := s.wc.Add(ctx, id.String(), w)
 	if err != nil {
 		return nil, err
 	}
 
-	return api.AddWorkload200JSONResponse(api.Workload{
-		Id: &l.ID,
-	}), nil
+	return api.AddWorkload200JSONResponse(*w), nil
 }
 
 // AddLense ...
@@ -63,14 +56,12 @@ func (s *Srv) AddLens(ctx context.Context, request api.AddLensRequestObject) (ap
 
 	id := uuid.New()
 
-	err := tpl.UnmarshalYAML([]byte(*request.Body.Spec))
+	l := request.Body
+	l.ID = id.String()
+
+	err := tpl.UnmarshalYAML([]byte(l.Spec))
 	if err != nil {
 		return api.AddLens200JSONResponse{}, err
-	}
-
-	l := models.Lens{
-		ID:          id.String(),
-		Description: *request.Body.Description,
 	}
 
 	err = s.lc.AddLens(ctx, id.String(), l)
@@ -78,9 +69,7 @@ func (s *Srv) AddLens(ctx context.Context, request api.AddLensRequestObject) (ap
 		return nil, err
 	}
 
-	return api.AddLens200JSONResponse(api.Lens{
-		Id: &l.ID,
-	}), nil
+	return api.AddLens200JSONResponse(*l), nil
 }
 
 // Start ...

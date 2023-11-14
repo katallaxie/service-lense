@@ -2,7 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AddLensBody } from '../models/AddLensBody';
 import type { Lens } from '../models/Lens';
 
 import type { CancelablePromise } from '../core/CancelablePromise';
@@ -18,7 +17,7 @@ export class LensService {
      * @throws ApiError
      */
     public static addLens(
-        requestBody?: AddLensBody,
+        requestBody: Lens,
     ): CancelablePromise<Lens> {
         return __request(OpenAPI, {
             method: 'POST',
