@@ -30,10 +30,10 @@ type Pagination struct {
 
 // Workload defines model for Workload.
 type Workload struct {
-	Description  *string `json:"description,omitempty"`
-	Envinronment *string `json:"envinronment,omitempty"`
-	Id           *string `json:"id,omitempty"`
-	Name         *string `json:"name,omitempty"`
+	Description *string `json:"description,omitempty"`
+	Environment *string `json:"environment,omitempty"`
+	Id          *string `json:"id,omitempty"`
+	Name        *string `json:"name,omitempty"`
 }
 
 // AddLensRequest defines model for AddLensRequest.

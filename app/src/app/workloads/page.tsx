@@ -1,4 +1,7 @@
-import { Metadata } from 'next'
+import Link from 'next/link'
+import type { Metadata } from 'next'
+import { SubNav } from '@/components/sub-nav'
+import { Button } from '@/components/ui/button'
 
 export const metadata: Metadata = {
   title: 'Workloads',
@@ -10,5 +13,13 @@ type RootProps = {
 }
 
 export default function Workloads({ children }: RootProps) {
-  return <>Workloads</>
+  return (
+    <>
+      <SubNav name="Workloads">
+        <Link href="/workloads/add" passHref>
+          <Button>Add Workload</Button>
+        </Link>
+      </SubNav>
+    </>
+  )
 }

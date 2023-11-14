@@ -7,6 +7,6 @@ export type Workload = {
     id?: string;
     name?: string;
     description?: string;
-    envinronment?: string;
+    environment?: string;
 };
 

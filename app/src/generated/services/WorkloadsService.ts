@@ -14,12 +14,12 @@ export class WorkloadsService {
     /**
      * Add a new workload
      * @param requestBody
-     * @returns any OK
+     * @returns Workload Success
      * @throws ApiError
      */
     public static addWorkload(
         requestBody: Workload,
-    ): CancelablePromise<any> {
+    ): CancelablePromise<Workload> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/v1/workload',

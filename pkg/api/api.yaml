@@ -20,7 +20,11 @@ paths:
               $ref: '#/components/schemas/Workload'
       responses:
         '200':
-          description: OK
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workload'
           
   /v1/workload/{id}:
     get:
@@ -243,7 +247,7 @@ components:
           type: string
         description:
           type: string
-        envinronment:
+        environment:
           type: string
 
     Lens:

@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"context"
+
 	"github.com/katallaxie/service-lense/internal/models"
 	"github.com/katallaxie/service-lense/internal/ports"
 )
@@ -28,7 +30,7 @@ func (c *WorkloadController) List() ([]models.Workload, error) {
 }
 
 // Add ...
-func (c *WorkloadController) Add(id string, workload models.Workload) error {
+func (c *WorkloadController) Add(ctx context.Context, id string, workload models.Workload) error {
 	return c.db.AddWorkload(id, workload)
 }
 

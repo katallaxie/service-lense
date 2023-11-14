@@ -38,7 +38,7 @@ func (s *SrvUnimplemented) ListLenses(ctx context.Context, request api.ListLense
 
 // AddWorkload ...
 func (w *SrvUnimplemented) AddWorkload(ctx context.Context, request api.AddWorkloadRequestObject) (api.AddWorkloadResponseObject, error) {
-	return api.AddWorkload200Response{}, nil
+	return api.AddWorkload200JSONResponse{}, nil
 }
 
 // ListWorkloads ...

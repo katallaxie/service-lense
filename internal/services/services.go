@@ -36,6 +36,27 @@ func New(lc *controllers.LensController, wc *controllers.WorkloadController) *Sr
 	}
 }
 
+// AddWorkload ...
+func (s *Srv) AddWorkload(ctx context.Context, request api.AddWorkloadRequestObject) (api.AddWorkloadResponseObject, error) {
+	id := uuid.New()
+
+	l := models.Workload{
+		ID:          id.String(),
+		Description: *request.Body.Description,
+		Name:        *request.Body.Name,
+		Environment: *request.Body.Environment,
+	}
+
+	err := s.wc.Add(ctx, id.String(), l)
+	if err != nil {
+		return nil, err
+	}
+
+	return api.AddWorkload200JSONResponse(api.Workload{
+		Id: &l.ID,
+	}), nil
+}
+
 // AddLense ...
 func (s *Srv) AddLens(ctx context.Context, request api.AddLensRequestObject) (api.AddLensResponseObject, error) {
 	tpl := spec.Default()
