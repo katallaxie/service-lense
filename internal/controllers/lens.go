@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"context"
+
 	"github.com/katallaxie/service-lense/internal/models"
 	"github.com/katallaxie/service-lense/internal/ports"
 )
@@ -17,7 +19,12 @@ func NewLensController(db ports.LensRepository) *LensController {
 	}
 }
 
+// AddLens ...
+func (c *LensController) AddLens(ctx context.Context, id string, lens models.Lens) error {
+	return c.db.AddLens(id, lens)
+}
+
 // GetLens ...
-func (c *LensController) GetLens(id string) (models.Lens, error) {
+func (c *LensController) GetLens(ctx context.Context, id string) (models.Lens, error) {
 	return c.db.GetLens(id)
 }

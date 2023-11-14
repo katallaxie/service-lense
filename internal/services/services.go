@@ -2,12 +2,12 @@ package services
 
 import (
 	"context"
-	"fmt"
-	"io"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/google/uuid"
 	"github.com/katallaxie/service-lense/internal/controllers"
+	"github.com/katallaxie/service-lense/internal/models"
 	"github.com/katallaxie/service-lense/internal/ports"
 	"github.com/katallaxie/service-lense/pkg/api"
 	"github.com/katallaxie/service-lense/pkg/spec"
@@ -40,21 +40,26 @@ func New(lc *controllers.LensController, wc *controllers.WorkloadController) *Sr
 func (s *Srv) AddLens(ctx context.Context, request api.AddLensRequestObject) (api.AddLensResponseObject, error) {
 	tpl := spec.Default()
 
-	v, err := io.ReadAll(request.Body)
+	id := uuid.New()
+
+	err := tpl.UnmarshalYAML([]byte(*request.Body.Spec))
 	if err != nil {
-		return api.AddLens200Response{}, err
+		return api.AddLens200JSONResponse{}, err
 	}
 
-	fmt.Println(string(v))
-
-	err = tpl.UnmarshalYAML(v)
-	if err != nil {
-		return api.AddLens200Response{}, err
+	l := models.Lens{
+		ID:          id.String(),
+		Description: *request.Body.Description,
 	}
 
-	fmt.Println(tpl)
+	err = s.lc.AddLens(ctx, id.String(), l)
+	if err != nil {
+		return nil, err
+	}
 
-	return api.AddLens200Response{}, nil
+	return api.AddLens200JSONResponse(api.Lens{
+		Id: &l.ID,
+	}), nil
 }
 
 // Start ...

@@ -9,7 +9,6 @@ import (
 	"context"
 	"encoding/base64"
 	"fmt"
-	"io"
 	"net/url"
 	"path"
 	"strings"
@@ -161,18 +160,27 @@ func RegisterHandlersWithOptions(router fiber.Router, si ServerInterface, option
 }
 
 type AddLensRequestObject struct {
-	Body io.Reader
+	Body *AddLensJSONRequestBody
 }
 
 type AddLensResponseObject interface {
 	VisitAddLensResponse(ctx *fiber.Ctx) error
 }
 
-type AddLens200Response struct {
+type AddLens200JSONResponse Lens
+
+func (response AddLens200JSONResponse) VisitAddLensResponse(ctx *fiber.Ctx) error {
+	ctx.Response().Header.Set("Content-Type", "application/json")
+	ctx.Status(200)
+
+	return ctx.JSON(&response)
 }
 
-func (response AddLens200Response) VisitAddLensResponse(ctx *fiber.Ctx) error {
-	ctx.Status(200)
+type AddLens400Response struct {
+}
+
+func (response AddLens400Response) VisitAddLensResponse(ctx *fiber.Ctx) error {
+	ctx.Status(400)
 	return nil
 }
 
@@ -327,7 +335,11 @@ type strictHandler struct {
 func (sh *strictHandler) AddLens(ctx *fiber.Ctx) error {
 	var request AddLensRequestObject
 
-	request.Body = bytes.NewReader(ctx.Request().Body())
+	var body AddLensJSONRequestBody
+	if err := ctx.BodyParser(&body); err != nil {
+		return fiber.NewError(fiber.StatusBadRequest, err.Error())
+	}
+	request.Body = &body
 
 	handler := func(ctx *fiber.Ctx, request interface{}) (interface{}, error) {
 		return sh.ssi.AddLens(ctx.UserContext(), request.(AddLensRequestObject))
@@ -515,17 +527,18 @@ func (sh *strictHandler) ListWorkloads(ctx *fiber.Ctx) error {
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/9yVTW/bMAyG/4rB7ejV6XbzrcOAoliBFhiGHoYcVJtO1cmSJjEJgsD/fZAUfzRWPrq1",
-	"RdtTZIqhyUevX62hULVWEiVZyNdgizusmV9eovS/2iiNhjj6pxJtYbgmrqR7pJVGyMGS4XIGTQq8jIYl",
-	"qzG6oZYSTXTHaiyiG8RmvhVOWNt4RggwY9gKmj6gbu+xIJdxzWZcsnaKhyMKXnMa1OWScIbGd1tVFnfs",
-	"kSImYlux998o81soVj4eMMoFl0bJGiU9wQmMm3MhLis1asYrIjm7voAUiJNwf/qBZsELTAZbCzQ25J+e",
-	"TE4mHptGyTSHHL74UAqa0Z0fN1ucZqJVmrJ+JIfDn81FCTmclaWXYgoG/8zR0ldVrlxaoSRtIAyWTGvB",
-	"C//3TBWE9MmSQVb36narSpmaEeRwyyUzK0hHXBwG90JusISczBx9wGolbTipz5PJmNHVd8/Uzuva1fXt",
-	"JyyRuExEmCLI9xe4R7QwdekthWzNyyYUFUg4hvHNxzc8NDOsRkLj6q2Bu/c7sNCettPC9hTpgML2zNP4",
-	"hDvo3tsg0b7eR4MV5PAh600l2zhK5nv2VA8ACyMmLMYLpk0KM4yo5BzpXVM5R4oj2ZZQ6DHK6JJbDwnD",
-	"x/QfIzEhriqPd99wA5Nt0m2f69y7WxzmdNjZp8ewdBwSJkQiWhi7gC6HNr3LnTov3+dQ/y6RrvwzWNKy",
-	"b71F0IYiFDp32qhrl0mF+ADLm/okH/I+1qwOkEzHdvXMfPQ8ota5LtkLnMyr+AheXgw/Pd1jxPA6+g13",
-	"yuM8YP/tctNlvbULpgf31JfMcsAkCrhp/gYAAP//GO6m74YNAAA=",
+	"H4sIAAAAAAAC/9yVQW/bPAyG/4rB7zsadbrt5FuLAUWxAi1WDD0MPWgWk6qTJU1SEgSG//sgyXaURG5a",
+	"NOvS3RzSoV4+Jl81UMlaSYHCGigbOCf0K/6ao7HuVyWFReEfiVKcVcQyKYpHI4WLmeoBa+Ke/tc4hRL+",
+	"K9bVipA1RVSybdscKJpKM+UqQekOzIZ0Djo8nkvK0As6o/QKhTm0qK7suaQrp8rp6lLRoT5bNqC0VKht",
+	"p2hDfwN2pRBKMFYzMXMtyKVAncwYhVUyYcnMl2YWa5N+IwSI1sQJHgLyxyNWnpwT/HKxjCbDgtR4TM3d",
+	"kBkTpO9is0XOamajukxYnKH2aqdTgyM5Ky3hqVTq/Dupf3JJ6MsBo1gwoaWou5F95RfYFedCTEzljhg/",
+	"EdnZzSXkYJnl7k+3qBeswixKLVCb8P7pyeRk4rEpFEQxKOGjD+WgiH3w7RaL04L3kybDQjoc/ttcUij7",
+	"3YF4l1dj67ix7sXWrns7MEoKE1B/mEwOtv9eYsKObudVhca4sz+F456wKzf187omehX6zkgmcJnx0H6Y",
+	"++/gf967l3t4RcNoG2pztLjL8LOPdxgV0aRGi9pVa4A5Ge57QD8kboQCbaaRQmn1HPOIw/YI3f8Frtdf",
+	"tnCFFjMyQiuHGSaG6wLtP03lAu0okmiAgsIkoStmPCIMG/iKhgjn11MP96nWImdu821zHCx/eNhPaf91",
+	"cP8cko5DRjjPeA8jxokR0GXs7WOWNlwAO7Z2kAEZyvvWNod2xAb39L+2o+Vaeo+gDyUoDN7UTdeYRYV4",
+	"hOVdLeQm7+da1R6S+a5Z/WE+ap6Y1rmi5A2+zFEswdsPwzdP9znDcBx6w43yMg94+na5G956bxfMGtyh",
+	"L5llxCQJuG1/BwAA///94/yGag8AAA==",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

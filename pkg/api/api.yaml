@@ -112,25 +112,25 @@ paths:
       summary: Add a new lens
       operationId: addLens
       tags:
-        - lenses
+        - lens
       requestBody:
-        required: true
-        content:
-          content:
-            application/octet-stream:
-              schema:
-                type: string
-                format: binary
+        $ref: '#/components/requestBodies/AddLensRequest'
       responses:
         '200':
-          description: OK
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lens'
+        '400':
+          description: Bad Request
 
   /v1/lens/{id}:
     get:
       summary: Get a lens
       operationId: getLens
       tags:
-        - lenses
+        - lens
       parameters:
         - name: id
           in: path
@@ -187,7 +187,43 @@ paths:
                           $ref: '#/components/schemas/Lens'
 
 components:
+  requestBodies:
+    AddLensRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AddLensBody'
+
+  BadRequest:
+    description: Bad Request
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/BadRequest'
+
   schemas:
+    BadRequest:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+
+    AddLensBody:
+      type: object
+      properties:
+        description:
+          type: string
+        owner:
+          type: string
+        spec:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+
     Pagination:
       type: object
       properties:
@@ -227,3 +263,5 @@ components:
           type: array
           items:
             type: string
+
+  

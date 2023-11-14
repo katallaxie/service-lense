@@ -18,7 +18,7 @@ type SrvUnimplemented struct{}
 
 // AddLens ...
 func (s *SrvUnimplemented) AddLens(ctx context.Context, request api.AddLensRequestObject) (api.AddLensResponseObject, error) {
-	return api.AddLens200Response{}, nil
+	return api.AddLens200JSONResponse{}, nil
 }
 
 // DeleteLens ...

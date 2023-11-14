@@ -7,6 +7,8 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { AddLensBody } from './models/AddLensBody';
+export type { BadRequest } from './models/BadRequest';
 export type { Lens } from './models/Lens';
 export type { Pagination } from './models/Pagination';
 export type { Workload } from './models/Workload';
