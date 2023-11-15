@@ -4,8 +4,8 @@ import { config } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
-  title: 'Dashboard',
-  description: 'Dashboard'
+  title: 'Root',
+  description: 'Root'
 }
 
 type RootProps = {
@@ -19,5 +19,5 @@ export default async function Root({ children }: RootProps) {
     redirect('/login')
   }
 
-  return <>Dashboard</>
+  return <>Landing Page</>
 }
