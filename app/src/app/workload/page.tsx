@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
 
-export default async function Lens() {
-  redirect('/workloads')
-}
+export const Lens = () => redirect('/workloads')
+
+export default Lens

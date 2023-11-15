@@ -132,6 +132,10 @@ paths:
                 $ref: '#/components/schemas/Lens'
         '400':
           description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
 
   /v1/lens/{id}:
     get:
@@ -211,6 +215,9 @@ components:
 
   schemas:
     BadRequest:
+      x-go-type: models.BadRequest
+      x-go-type-import:
+        path: github.com/katallaxie/service-lense/internal/models
       type: object
       properties:
         message:

@@ -7,6 +7,9 @@ import (
 	"github.com/katallaxie/service-lense/internal/models"
 )
 
+// BadRequest defines model for BadRequest.
+type BadRequest = models.BadRequest
+
 // Lens defines model for Lens.
 type Lens = models.Lens
 

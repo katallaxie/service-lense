@@ -53,7 +53,6 @@ func (s *Srv) AddWorkload(ctx context.Context, request api.AddWorkloadRequestObj
 // AddLense ...
 func (s *Srv) AddLens(ctx context.Context, request api.AddLensRequestObject) (api.AddLensResponseObject, error) {
 	tpl := spec.Default()
-
 	id := uuid.New()
 
 	l := request.Body
@@ -61,7 +60,7 @@ func (s *Srv) AddLens(ctx context.Context, request api.AddLensRequestObject) (ap
 
 	err := tpl.UnmarshalYAML([]byte(l.Spec))
 	if err != nil {
-		return api.AddLens200JSONResponse{}, err
+		return api.AddLens400JSONResponse{}, nil
 	}
 
 	err = s.lc.AddLens(ctx, id.String(), l)

@@ -18,6 +18,12 @@ export function MainNav({
         Dashboard
       </Link>
       <Link
+        href="/solutions"
+        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+      >
+        Solutions
+      </Link>
+      <Link
         href="/workloads"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
