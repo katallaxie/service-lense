@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Suspense } from 'react'
 import { GroupedCountResultItem } from 'sequelize'
 import type { Workload } from '@/db/models/workload'
+import { Icons } from '@/components/icons'
 import {
   Table,
   TableBody,
@@ -78,7 +79,14 @@ export default async function Page({ children }: RootProps) {
         </Link>
       </SubNav>
       <section>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense
+          fallback={
+            <div className="flex items-center text-sm text-muted-foreground">
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              Loading...
+            </div>
+          }
+        >
           <Workloads />
         </Suspense>
       </section>

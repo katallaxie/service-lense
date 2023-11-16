@@ -12,31 +12,31 @@ export function MainNav({
       {...props}
     >
       <Link
-        href="/"
+        href="/dashboard"
         className="text-sm font-medium transition-colors hover:text-primary"
       >
         Dashboard
       </Link>
       <Link
-        href="/solutions"
+        href="/dashboard/solutions"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
         Solutions
       </Link>
       <Link
-        href="/workloads"
+        href="/dashboard/workloads"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
         Workloads
       </Link>
       <Link
-        href="/lenses"
+        href="/dashboard/lenses"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
         Lenses
       </Link>
       <Link
-        href="/settings"
+        href="/dashboard/settings"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
         Settings

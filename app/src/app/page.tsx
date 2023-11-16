@@ -11,7 +11,7 @@ type RootProps = {
 }
 
 export default async function Root({ children }: RootProps) {
-  const session = auth()
+  const session = await auth()
 
   return <>{JSON.stringify(session)}</>
 }

@@ -1,6 +1,6 @@
-import ThemeProvider from '@/theme'
 import '@/styles/globals.css'
 import Image from 'next/image'
+import React from 'react'
 
 import { MainNav } from '@/components/main-nav'
 import { Search } from '@/components/search'
