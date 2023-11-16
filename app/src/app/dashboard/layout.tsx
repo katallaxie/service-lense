@@ -6,6 +6,7 @@ import { MainNav } from '@/components/main-nav'
 import { Search } from '@/components/search'
 import TeamSwitcher from '@/components/team-switcher'
 import { UserNav } from '@/components/user-nav'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 export default function PageLayout({
   children
@@ -37,6 +38,7 @@ export default function PageLayout({
             <MainNav className="mx-6" />
             <div className="ml-auto flex items-center space-x-4">
               <Search />
+              <ThemeToggle />
               <UserNav />
             </div>
           </div>

@@ -1,11 +1,6 @@
 import ThemeProvider from '@/theme'
 import '@/styles/globals.css'
-import Image from 'next/image'
-
-import { MainNav } from '@/components/main-nav'
-import { Search } from '@/components/search'
-import TeamSwitcher from '@/components/team-switcher'
-import { UserNav } from '@/components/user-nav'
+import { cn } from '@/lib/utils'
 
 export default function RootLayout({
   children
@@ -15,13 +10,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+      <body className={cn('min-h-screen bg-background font-sans antialiased')}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
         </ThemeProvider>
       </body>
