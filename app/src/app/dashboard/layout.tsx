@@ -7,6 +7,7 @@ import { Search } from '@/components/search'
 import TeamSwitcher from '@/components/team-switcher'
 import { UserNav } from '@/components/user-nav'
 import { ThemeToggle } from '@/components/theme-toggle'
+import { Toaster } from '@/components/ui/toaster'
 
 export default function PageLayout({
   children
@@ -45,6 +46,7 @@ export default function PageLayout({
         </div>
         <div className="flex-1">{children}</div>
       </div>
+      <Toaster />
     </>
   )
 }

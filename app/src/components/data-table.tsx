@@ -25,7 +25,6 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { Icons } from '@/components/icons'
-import { columns } from '@/components/columns'
 
 import { DataTablePagination } from '../components/data-table-pagination'
 import { DataTableToolbar } from '../components/data-table-toolbar'

@@ -1,40 +1,42 @@
-import { getUsers, randomId, saveUsers } from '@/lib/api'
-import type { User } from '@/lib/common'
-import { validateUser } from '@/lib/common'
 import { logRequest } from '@/lib/middleware'
 import { createEdgeRouter } from 'next-connect'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import { Workload } from '@/db'
+import { createWorkload, findAndCountWorkloads } from '@/db/services/workloads'
 
 const router = createEdgeRouter<NextRequest, { params?: unknown }>()
 
 router.use(logRequest)
 
-router.get(async async => {
-  const workloads = await Workload.findAndCountAll({
-    order: [['name', 'DESC']],
-    offset: 0,
-    limit: 5
-  })
+router.get(async req => {
+  const workloads = await findAndCountWorkloads()
 
   return NextResponse.json({ ...workloads })
 })
 
 router.post(async req => {
-  const users = getUsers(req)
   const body = await req.json()
-  const newUser = {
-    id: randomId(),
-    ...body
-  } as User
-  validateUser(newUser)
-  users.push(newUser)
-  const res = NextResponse.json({
-    message: 'User has been created'
-  })
-  saveUsers(res, users)
-  return res
+
+  try {
+    const workload = await createWorkload({ ...body })
+    return NextResponse.json(workload)
+  } catch (error) {}
+
+  return NextResponse.json({})
+
+  // const users = getUsers(req)
+  // const body = await req.json()
+  // const newUser = {
+  //   id: randomId(),
+  //   ...body
+  // } as User
+  // validateUser(newUser)
+  // users.push(newUser)
+  // const res = NextResponse.json({
+  //   message: 'User has been created'
+  // })
+  // saveUsers(res, users)
+  // return res
 })
 
 export async function GET(request: NextRequest, ctx: { params?: unknown }) {
