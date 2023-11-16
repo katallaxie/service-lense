@@ -77,7 +77,7 @@ export default async function Page({ children }: RootProps) {
   return (
     <>
       <SubNav name="Workloads">
-        <Link href="/workloads/add" passHref>
+        <Link href="/dashboard/workloads/add" passHref>
           <Button>Add Workload</Button>
         </Link>
       </SubNav>
