@@ -7,6 +7,8 @@ import { Icons } from '@/components/icons'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import providers from '@/lib/providers'
+import { signIn } from 'next-auth/react'
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -58,14 +60,26 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
-        )}{' '}
-        Github
-      </Button>
+      <>
+        {Object.values(providers).map(provider => (
+          <div key={provider.name}>
+            <Button
+              variant="outline"
+              type="button"
+              disabled={isLoading}
+              className="w-full"
+              onClick={() => signIn(provider.id)}
+            >
+              {isLoading ? (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Icons.gitHub className="mr-2 h-4 w-4" />
+              )}{' '}
+              Github
+            </Button>
+          </div>
+        ))}
+      </>
     </div>
   )
 }

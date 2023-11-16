@@ -1,7 +1,5 @@
 import { Metadata } from 'next'
-import { getServerSession } from 'next-auth/next'
-import { config } from '@/lib/auth'
-import { redirect } from 'next/navigation'
+import { auth } from '@/lib/auth'
 
 export const metadata: Metadata = {
   title: 'Root',
@@ -13,11 +11,7 @@ type RootProps = {
 }
 
 export default async function Root({ children }: RootProps) {
-  const session = await getServerSession(config)
+  const session = auth()
 
-  if (!session) {
-    redirect('/login')
-  }
-
-  return <>Landing Page</>
+  return <>{JSON.stringify(session)}</>
 }

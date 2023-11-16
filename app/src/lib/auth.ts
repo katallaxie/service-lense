@@ -5,22 +5,40 @@ import type {
 } from 'next'
 import type { NextAuthOptions } from 'next-auth'
 import { getServerSession } from 'next-auth'
-import GithubProvider from 'next-auth/providers/github'
+import { Pool } from 'pg'
+import PostgresAdapter from '@auth/pg-adapter'
+import providers from './providers'
 
-export const config: NextAuthOptions = {
-  providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID ?? '',
-      clientSecret: process.env.GITHUB_SECRET ?? ''
-    })
-  ]
+const pool = new Pool({
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000
+})
+
+export const nextAuthOptions: NextAuthOptions = {
+  adapter: PostgresAdapter(pool),
+  secret: process.env.NEXTAUTH_SECRET,
+  providers,
+  pages: {
+    signIn: '/login'
+  }
 }
 
-export function auth(
+export async function auth(
   ...args:
     | [GetServerSidePropsContext['req'], GetServerSidePropsContext['res']]
     | [NextApiRequest, NextApiResponse]
     | []
 ) {
-  return getServerSession(...args, config)
+  return getServerSession(...args, nextAuthOptions)
+}
+
+export async function useSession() {
+  const session = await getServerSession(nextAuthOptions)
+
+  return { session }
 }
