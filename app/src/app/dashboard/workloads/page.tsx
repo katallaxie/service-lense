@@ -6,6 +6,7 @@ import { Suspense } from 'react'
 import { GroupedCountResultItem } from 'sequelize'
 import type { Workload } from '@/db/models/workload'
 import { Icons } from '@/components/icons'
+import { DataTable } from '@/components/data-table'
 import {
   Table,
   TableBody,
@@ -43,26 +44,29 @@ async function Workloads() {
   const workloads = await getWorkloads()
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">ID</TableHead>
-          <TableHead>Name</TableHead>
-          <TableHead>Description</TableHead>
-          <TableHead className="text-right">Environment</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {workloads.rows?.map(workload => (
-          <TableRow key={workload.id}>
-            <TableCell className="font-medium">{workload.id}</TableCell>
-            <TableCell>{workload.name}</TableCell>
-            <TableCell>{workload.description}</TableCell>
-            <TableCell className="text-right">{workload.environment}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
+      <DataTable data={[]} columns={[]} />
+    </div>
+    // <Table>
+    //   <TableHeader>
+    //     <TableRow>
+    //       <TableHead className="w-[100px]">ID</TableHead>
+    //       <TableHead>Name</TableHead>
+    //       <TableHead>Description</TableHead>
+    //       <TableHead className="text-right">Environment</TableHead>
+    //     </TableRow>
+    //   </TableHeader>
+    //   <TableBody>
+    //     {workloads.rows?.map(workload => (
+    //       <TableRow key={workload.id}>
+    //         <TableCell className="font-medium">{workload.id}</TableCell>
+    //         <TableCell>{workload.name}</TableCell>
+    //         <TableCell>{workload.description}</TableCell>
+    //         <TableCell className="text-right">{workload.environment}</TableCell>
+    //       </TableRow>
+    //     ))}
+    //   </TableBody>
+    // </Table>
   )
 }
 
