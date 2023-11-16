@@ -2,10 +2,9 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import { SubNav } from '@/components/sub-nav'
 import { Button } from '@/components/ui/button'
-import { Suspense } from 'react'
 import { GroupedCountResultItem } from 'sequelize'
 import type { Workload } from '@/db/models/workload'
-import { Icons } from '@/components/icons'
+import { columns } from '@/components/columns'
 import { DataTable } from '@/components/data-table'
 import {
   Table,
@@ -45,7 +44,7 @@ async function Workloads() {
 
   return (
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-      <DataTable data={[]} columns={[]} />
+      <DataTable data={[]} columns={columns} />
     </div>
     // <Table>
     //   <TableHeader>
@@ -83,16 +82,7 @@ export default async function Page({ children }: RootProps) {
         </Link>
       </SubNav>
       <section>
-        <Suspense
-          fallback={
-            <div className="flex items-center text-sm text-muted-foreground">
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              Loading...
-            </div>
-          }
-        >
-          <Workloads />
-        </Suspense>
+        <Workloads />
       </section>
     </>
   )

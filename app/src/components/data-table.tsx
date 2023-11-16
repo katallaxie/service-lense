@@ -24,6 +24,8 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
+import { Icons } from '@/components/icons'
+import { columns } from '@/components/columns'
 
 import { DataTablePagination } from '../components/data-table-pagination'
 import { DataTableToolbar } from '../components/data-table-toolbar'
@@ -91,32 +93,41 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(row => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+            <React.Suspense
+              fallback={
+                <div className="flex items-center text-sm text-muted-foreground">
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  Loading...
+                </div>
+              }
+            >
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map(row => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && 'selected'}
+                  >
+                    {row.getVisibleCells().map(cell => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                  >
+                    No results.
+                  </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
+              )}
+            </React.Suspense>
           </TableBody>
         </Table>
       </div>
