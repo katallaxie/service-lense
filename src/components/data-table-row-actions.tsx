@@ -26,10 +26,23 @@ interface DataTableRowActionsProps<TData> {
   row: Row<TData>
 }
 
+async function deleteWorkload(id: number): Promise<void> {
+  const res = await fetch(`http://localhost:3000/api/workloads/${id}`, {
+    method: 'DELETE'
+  })
+
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data')
+  }
+}
+
 export function DataTableRowActions<TData>({
   row
 }: DataTableRowActionsProps<TData>) {
   // const task = taskSchema.parse(row.original)
+
+  const id = row.getValue('id') as number
 
   return (
     <DropdownMenu>
@@ -60,7 +73,7 @@ export function DataTableRowActions<TData>({
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => deleteWorkload(id)}>
           Delete
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>

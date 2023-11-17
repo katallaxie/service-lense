@@ -23,20 +23,6 @@ router.post(async req => {
   } catch (error) {
     return NextResponse.json({ message: error }, { status: 500 })
   }
-
-  // const users = getUsers(req)
-  // const body = await req.json()
-  // const newUser = {
-  //   id: randomId(),
-  //   ...body
-  // } as User
-  // validateUser(newUser)
-  // users.push(newUser)
-  // const res = NextResponse.json({
-  //   message: 'User has been created'
-  // })
-  // saveUsers(res, users)
-  // return res
 })
 
 export async function GET(request: NextRequest, ctx: { params?: unknown }) {

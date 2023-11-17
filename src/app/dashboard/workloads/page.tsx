@@ -22,6 +22,8 @@ async function getWorkloads(): Promise<FindAndCountAllResponse<Workload>> {
   })
 
   if (!res.ok) {
+    console.log(res)
+
     // This will activate the closest `error.js` Error Boundary
     throw new Error('Failed to fetch data')
   }

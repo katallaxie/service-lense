@@ -18,6 +18,12 @@ export async function createWorkload({
   return workload.dataValues
 }
 
+export async function deleteWorkload(id: string) {
+  const workload = await Workload.destroy({ where: { id } })
+
+  return workload
+}
+
 export async function findAndCountWorkloads() {
   const workloads = await Workload.findAndCountAll({
     order: [['name', 'DESC']],
