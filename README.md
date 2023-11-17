@@ -1,53 +1,36 @@
-# :partying_face: Template Go
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-> This is the standard template for Go projects of @katallaxie.
+## Getting Started
 
-> This is a GitHub Template Repository. You can use the green button to create a new repository based on this template. Read more about [GitHub Template Repositories](https://help.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-from-a-template).
-
-## Get Started
+First, run the development server:
 
 ```bash
-make setup MODULE_NAME=github.com/username/repo
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-Features
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-* [Development Containers](https://containers.dev/)
-* [Editorconfig](https://editorconfig.org)
-* [GoReleaser](https://goreleaser.com)
-* [Hexagonal Architecture](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software))
-* [GitHub Actions](https://github.com/features/actions) (lint, test, build, release)
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-> You can `sh scripts/postCreateCommand.sh` if you are not running in a remote container or on [Codespaces](https://github.com/features/codespaces).
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Usage
+## Learn More
 
-This template supports `Makefile` to run tooling.
+To learn more about Next.js, take a look at the following resources:
 
-> `make` is choosen as it is available on most systems.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-```bash
-# show `help`
-make help
-```
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Setup
+## Deploy on Vercel
 
-Setup the project.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-```bash
-make setup MODULE_NAME=github.com/username/repo
-```
-
-Other available targets are
-
-* `build`
-* `fmt`
-* `lint`
-* `vet`
-* `generate`
-* `clean`
-
-The convention is to use `make` to run the build.
-
-Happy coding!
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
