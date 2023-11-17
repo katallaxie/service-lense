@@ -4,22 +4,18 @@ import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import useSWR from 'swr'
 import { useToast } from '@/components/ui/use-toast'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import * as z from 'zod'
-import { Toaster } from '@/components/ui/toaster'
-
 import {
   Form,
   FormControl,
@@ -30,6 +26,7 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
+import useSWR from 'swr'
 
 const FormSchema = z.object({
   name: z.string().min(3, {}),
@@ -45,9 +42,12 @@ const FormSchema = z.object({
   tags: z.array(z.string())
 })
 
+const updateWorkloads = (url: string) =>
+  fetch('/api/workloads').then(res => res.json())
+
 export function AddWorkloadDialog() {
   const router = useRouter()
-  const { data, mutate } = useSWR('/api/workloads', fetch)
+  const { data, mutate, isLoading } = useSWR('/api/workloads', updateWorkloads)
   const { toast } = useToast()
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -60,14 +60,14 @@ export function AddWorkloadDialog() {
     }
   })
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(form: z.infer<typeof FormSchema>) {
     try {
-      await mutate(
-        fetch('/api/workloads', {
-          method: 'POST',
-          body: JSON.stringify(data)
-        })
-      )
+      await fetch('/api/workloads', {
+        method: 'POST',
+        body: JSON.stringify(form)
+      })
+
+      await mutate({ ...data, rows: [...data.rows, form] }, true)
 
       toast({
         title: 'Workload created'
