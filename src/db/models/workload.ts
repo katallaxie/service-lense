@@ -7,7 +7,7 @@ import {
   Column,
   PrimaryKey,
   DataType,
-  Default,
+  AllowNull,
   NotEmpty,
   Min,
   Max
@@ -27,10 +27,12 @@ export interface WorkloadAttributes {
 
 export type WorkloadCreationAttributes = Omit<
   WorkloadAttributes,
-  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
+  'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
-@Table
+@Table({
+  tableName: 'workloads'
+})
 export class Workload extends Model<
   WorkloadAttributes,
   WorkloadCreationAttributes

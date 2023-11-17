@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { SubNav } from '@/components/sub-nav'
 import { GroupedCountResultItem } from 'sequelize'
 import type { Workload } from '@/db/models/workload'
-import { columns } from '@/components/columns'
+import { columns } from './components/columns'
 import { DataTable } from '@/components/data-table'
 import { AddWorkloadDialog } from './components/add-dialog'
 
@@ -34,29 +34,8 @@ async function Workloads() {
 
   return (
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-      {JSON.stringify(workloads)}
-      <DataTable data={[]} columns={columns} />
+      <DataTable data={workloads.rows} columns={columns} />
     </div>
-    // <Table>
-    //   <TableHeader>
-    //     <TableRow>
-    //       <TableHead className="w-[100px]">ID</TableHead>
-    //       <TableHead>Name</TableHead>
-    //       <TableHead>Description</TableHead>
-    //       <TableHead className="text-right">Environment</TableHead>
-    //     </TableRow>
-    //   </TableHeader>
-    //   <TableBody>
-    //     {workloads.rows?.map(workload => (
-    //       <TableRow key={workload.id}>
-    //         <TableCell className="font-medium">{workload.id}</TableCell>
-    //         <TableCell>{workload.name}</TableCell>
-    //         <TableCell>{workload.description}</TableCell>
-    //         <TableCell className="text-right">{workload.environment}</TableCell>
-    //       </TableRow>
-    //     ))}
-    //   </TableBody>
-    // </Table>
   )
 }
 

@@ -1,4 +1,5 @@
 import { Workload } from '..'
+import { v4 as uuidv4 } from 'uuid'
 import type { WorkloadCreationAttributes } from '../models/workload'
 
 export async function createWorkload({
@@ -6,7 +7,9 @@ export async function createWorkload({
   description,
   environment
 }: WorkloadCreationAttributes) {
-  const w = new Workload({ name, description, environment })
+  const id = uuidv4()
+
+  const w = new Workload({ id, name, description, environment })
 
   await w.validate()
 

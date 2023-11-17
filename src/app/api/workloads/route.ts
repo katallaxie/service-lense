@@ -20,9 +20,9 @@ router.post(async req => {
   try {
     const workload = await createWorkload({ ...body })
     return NextResponse.json(workload)
-  } catch (error) {}
-
-  return NextResponse.json({})
+  } catch (error) {
+    return NextResponse.json({ message: error }, { status: 500 })
+  }
 
   // const users = getUsers(req)
   // const body = await req.json()
