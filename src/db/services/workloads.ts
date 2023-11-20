@@ -24,6 +24,12 @@ export async function deleteWorkload(id: string) {
   return workload
 }
 
+export async function getWorkload(id: string) {
+  const workload = await Workload.findOne({ where: { id } })
+
+  return workload
+}
+
 export async function findAndCountWorkloads() {
   const workloads = await Workload.findAndCountAll({
     order: [['name', 'DESC']],

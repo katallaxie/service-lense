@@ -12,3 +12,17 @@ export function useWorkloads() {
     mutate
   }
 }
+
+export function useWorkload(id: string) {
+  const { data, error, mutate, isLoading } = useSWR(
+    `/api/workloads/${id}`,
+    fetcher
+  )
+
+  return {
+    workload: data,
+    isLoading,
+    isError: error,
+    mutate
+  }
+}

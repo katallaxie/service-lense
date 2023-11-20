@@ -46,7 +46,6 @@ const updateWorkloads = (url: string) =>
   fetch('/api/workloads').then(res => res.json())
 
 export function AddWorkloadDialog() {
-  const router = useRouter()
   const { data, mutate, isLoading } = useSWR('/api/workloads', updateWorkloads)
   const { toast } = useToast()
 
