@@ -16,9 +16,6 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
-      environment: {
-        type: Sequelize.STRING
-      },
       createdAt: {
         type: Sequelize.DATE
       },
@@ -32,6 +29,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('workloads')
+    await queryInterface.dropTable('profiles')
   }
 }

@@ -7,12 +7,6 @@ import { columns } from './components/columns'
 import { DataTable } from '@/components/data-table'
 import { AddWorkloadDialog } from './components/add-dialog'
 import { useWorkloads } from '@/components/data/workloads'
-import { baseUrl } from '@/lib/constants'
-
-type FindAndCountAllResponse<M> = {
-  rows: Workload[]
-  count: GroupedCountResultItem[]
-}
 
 type RootProps = {
   children: React.ReactNode

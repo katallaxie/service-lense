@@ -1,14 +1,13 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { SubNav } from '@/components/sub-nav'
+import AddLensDialog from './components/add-lens'
 
 export default function Lenses() {
   return (
     <>
       <SubNav name="Lenses">
-        <Link href="/lenses/add" passHref>
-          <Button>Add Lens</Button>
-        </Link>
+        <AddLensDialog />
       </SubNav>
     </>
   )
