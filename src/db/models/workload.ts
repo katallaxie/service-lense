@@ -1,19 +1,19 @@
 import {
-  Table,
-  Model,
-  CreatedAt,
-  UpdatedAt,
-  DeletedAt,
+  BelongsTo,
   Column,
-  PrimaryKey,
+  CreatedAt,
   DataType,
-  AllowNull,
-  NotEmpty,
+  DeletedAt,
+  ForeignKey,
+  Max,
   Min,
-  Max
+  Model,
+  NotEmpty,
+  PrimaryKey,
+  Table,
+  UpdatedAt
 } from 'sequelize-typescript'
-
-type Environment = 'production' | 'development' | 'staging'
+import { Profile } from './profile'
 
 export interface WorkloadAttributes {
   id: string
@@ -58,6 +58,13 @@ export class Workload extends Model<
   @Max(256)
   @Column
   environment!: string
+
+  @ForeignKey(() => Profile)
+  @Column
+  profilesId?: string
+
+  @BelongsTo(() => Profile)
+  profile?: Profile
 
   @CreatedAt
   @Column

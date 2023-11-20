@@ -7,11 +7,12 @@ import {
   Column,
   PrimaryKey,
   DataType,
-  AllowNull,
+  HasMany,
   NotEmpty,
   Min,
   Max
 } from 'sequelize-typescript'
+import { Workload } from './workload'
 
 export interface ProfileAttributes {
   id: string
@@ -61,4 +62,7 @@ export class Profile extends Model<
   @DeletedAt
   @Column
   deletedAt?: Date
+
+  @HasMany(() => Workload)
+  workloads?: Workload[]
 }

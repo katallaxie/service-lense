@@ -19,6 +19,15 @@ module.exports = {
       environment: {
         type: Sequelize.STRING
       },
+      profilesId: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'profiles',
+          key: 'id'
+        },
+        allowNull: true,
+        onDelete: 'CASCADE'
+      },
       createdAt: {
         type: Sequelize.DATE
       },

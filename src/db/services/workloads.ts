@@ -1,4 +1,4 @@
-import { Workload } from '..'
+import { Profile, Workload } from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { WorkloadCreationAttributes } from '../models/workload'
 
@@ -25,7 +25,7 @@ export async function deleteWorkload(id: string) {
 }
 
 export async function getWorkload(id: string) {
-  const workload = await Workload.findOne({ where: { id } })
+  const workload = await Workload.findOne({ where: { id }, include: [Profile] })
 
   return workload
 }
