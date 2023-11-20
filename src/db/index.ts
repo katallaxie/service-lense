@@ -12,7 +12,7 @@ export const sequelize = new Sequelize({
 
 sequelize.addModels([Workload, Solution, Profile])
 
-export { Workload }
+export { Workload, Solution, Profile }
 
 export const initDB = async () => {
   await sequelize.authenticate()
