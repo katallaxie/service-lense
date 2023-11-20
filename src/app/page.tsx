@@ -1,5 +1,7 @@
 import { Metadata } from 'next'
 import { auth } from '@/lib/auth'
+import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 export const metadata: Metadata = {
   title: 'Root',
@@ -13,5 +15,13 @@ type RootProps = {
 export default async function Root({ children }: RootProps) {
   const session = await auth()
 
-  return <>{JSON.stringify(session)}</>
+  if (session !== null) {
+    redirect('/dashboard')
+  }
+
+  return (
+    <>
+      <Link href="/login">Login</Link>
+    </>
+  )
 }
