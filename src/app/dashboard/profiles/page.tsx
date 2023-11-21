@@ -1,6 +1,12 @@
 'use client'
 
-import { SubNav, SubNavTitle, SubNavActions } from '@/components/sub-nav'
+import {
+  SubNav,
+  SubNavTitle,
+  SubNavActions,
+  SubNavSubtitle
+} from '@/components/sub-nav'
+
 import { AddProfileDialog } from './components/add-profile'
 
 type PageProps = {
@@ -11,7 +17,12 @@ export default function Page({ children }: PageProps) {
   return (
     <>
       <SubNav>
-        <SubNavTitle>Profiles</SubNavTitle>
+        <SubNavTitle>
+          <p>Profiles</p>
+          <SubNavSubtitle>
+            Provide business context for a workload
+          </SubNavSubtitle>
+        </SubNavTitle>
         <SubNavActions>
           <AddProfileDialog />
         </SubNavActions>

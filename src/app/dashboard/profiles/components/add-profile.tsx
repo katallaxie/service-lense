@@ -81,7 +81,7 @@ export function AddProfileDialog() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>New Workload</DialogTitle>
+          <DialogTitle>New Profile</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -96,11 +96,12 @@ export function AddProfileDialog() {
                       <Input
                         type="text"
                         disabled={form.formState.isSubmitting}
+                        placeholder="Give it a descriptive name."
                         {...field}
                       />
                     </FormControl>
                     <FormDescription>
-                      The name of workload to review.
+                      The name of the profile to create.
                     </FormDescription>
                     <FormMessage />
                   </div>
@@ -115,33 +116,13 @@ export function AddProfileDialog() {
                     <FormControl>
                       <Textarea
                         disabled={form.formState.isSubmitting}
-                        placeholder="Tell us a bit about the workload."
+                        placeholder="Tell us a bit about the profile."
                         className="resize-none"
                         {...field}
                       />
                     </FormControl>
                     <FormDescription>
-                      The specification to create a lense to review workloads.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="environment"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Environment</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={form.formState.isSubmitting}
-                        placeholder="production, staging, development"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      The environment the workload is running in.
+                      A description about the profile you create.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

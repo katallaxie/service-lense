@@ -6,12 +6,15 @@ export type SubNavProps = {
 }
 
 export type SubNavTitleProps = {
-  children?: string
-  subtitle?: React.FC
+  children?: React.ReactNode
 }
 
 export type SubNavActionsProps = {
   children?: React.ReactNode
+}
+
+export type SubNavSubtitleProps = {
+  children?: string
 }
 
 export function SubNav({ children, ...props }: SubNavProps) {
@@ -25,11 +28,7 @@ export function SubNav({ children, ...props }: SubNavProps) {
   )
 }
 
-export function SubNavTitle({
-  children,
-  subtitle,
-  ...props
-}: SubNavTitleProps) {
+export function SubNavTitle({ children, ...props }: SubNavTitleProps) {
   return (
     <h3
       className="scroll-m-20 text-2xl font-semibold tracking-tight"
@@ -37,6 +36,14 @@ export function SubNavTitle({
     >
       {children}
     </h3>
+  )
+}
+
+export function SubNavSubtitle({ children, ...props }: SubNavSubtitleProps) {
+  return (
+    <p className="text-sm text-muted-foreground" {...props}>
+      {children}
+    </p>
   )
 }
 

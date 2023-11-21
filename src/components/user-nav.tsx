@@ -2,6 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -50,7 +51,9 @@ export async function UserNav() {
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            Settings
+            <Link href={'/account'} scroll={true}>
+              Settings
+            </Link>
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>New Team</DropdownMenuItem>
