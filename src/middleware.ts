@@ -24,5 +24,5 @@ export const middleware = async (request: NextRequest) => {
 export { default as mi } from 'next-auth/middleware'
 
 export const config = {
-  matcher: ['/dashboard/:path*']
+  matcher: ['/dashboard/:path*', '/account/:path*']
 }

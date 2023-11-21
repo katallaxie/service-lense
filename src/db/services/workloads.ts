@@ -8,7 +8,6 @@ export async function createWorkload({
   environment
 }: WorkloadCreationAttributes) {
   const id = uuidv4()
-
   const w = new Workload({ id, name, description, environment })
 
   await w.validate()

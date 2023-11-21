@@ -2,6 +2,29 @@ import Link from 'next/link'
 
 import { cn } from '@/lib/utils'
 
+const nav = [
+  {
+    name: 'Dasbboard',
+    link: '/dashboard'
+  },
+  {
+    name: 'Solutions',
+    link: '/dashboard/solutions'
+  },
+  {
+    name: 'Workloads',
+    link: '/dashboard/workloads'
+  },
+  {
+    name: 'Solutions',
+    link: '/dashboard/lenses'
+  },
+  {
+    name: 'Profiles',
+    link: '/dashboard/profiles'
+  }
+]
+
 export function MainNav({
   className,
   ...props
@@ -11,36 +34,15 @@ export function MainNav({
       className={cn('flex items-center space-x-4 lg:space-x-6', className)}
       {...props}
     >
-      <Link
-        href="/dashboard"
-        className="text-sm font-medium transition-colors hover:text-primary"
-      >
-        Dashboard
-      </Link>
-      <Link
-        href="/dashboard/solutions"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-      >
-        Solutions
-      </Link>
-      <Link
-        href="/dashboard/workloads"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-      >
-        Workloads
-      </Link>
-      <Link
-        href="/dashboard/lenses"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-      >
-        Lenses
-      </Link>
-      <Link
-        href="/dashboard/settings"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-      >
-        Settings
-      </Link>
+      {nav.map((item, idx) => (
+        <Link
+          key={idx}
+          href={item.link}
+          className="text-sm font-medium transition-colors hover:text-primary"
+        >
+          {item.name}
+        </Link>
+      ))}
     </nav>
   )
 }
