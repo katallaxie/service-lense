@@ -14,7 +14,6 @@ import { useToast } from '@/components/ui/use-toast'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
 import * as z from 'zod'
 import {
   Form,
@@ -25,6 +24,16 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import { Profile } from '@/db/models/profile'
 import { Textarea } from '@/components/ui/textarea'
 import useSWR from 'swr'
 
@@ -39,14 +48,19 @@ const FormSchema = z.object({
     .max(2024, {
       message: 'Description must be less than 2024 characters.'
     }),
+  profilesId: z.string(),
   tags: z.array(z.string())
 })
 
 const updateWorkloads = (url: string) =>
   fetch('/api/workloads').then(res => res.json())
 
+const updateProfiles = (url: string) =>
+  fetch('/api/profiles').then(res => res.json())
+
 export function AddWorkloadDialog() {
   const { data, mutate, isLoading } = useSWR('/api/workloads', updateWorkloads)
+  const { data: profiles } = useSWR('/api/profiles', updateProfiles)
   const { toast } = useToast()
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -145,6 +159,32 @@ export function AddWorkloadDialog() {
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="profilesId"
+                render={({ field }) => (
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Select a profile" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Profile</SelectLabel>
+                        {profiles?.rows.map(
+                          (profile: Profile, index: number) => (
+                            <SelectItem key={index} value={profile.id}>
+                              {profile.name}
+                            </SelectItem>
+                          )
+                        )}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 )}
               />
             </div>

@@ -62,7 +62,4 @@ export class Profile extends Model<
   @DeletedAt
   @Column
   deletedAt?: Date
-
-  @HasMany(() => Workload)
-  workloads?: Workload[]
 }

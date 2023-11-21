@@ -1,12 +1,13 @@
-import { Workload } from '..'
 import { v4 as uuidv4 } from 'uuid'
-import type { ProfileCreationAttributes } from '../models/profile'
-import { Profile } from '../models/profile'
+import { Profile } from '..'
 
 export async function addProfile({
   name,
   description
-}: ProfileCreationAttributes) {
+}: {
+  name: string
+  description: string
+}) {
   const id = uuidv4()
 
   const p = new Profile({ id, name, description })
@@ -23,4 +24,14 @@ export async function deleteProfile(id: string) {
 
 export async function getProfile(id: string) {
   return await Profile.findOne({ where: { id } })
+}
+
+export async function findAndCountProfiles() {
+  const workloads = await Profile.findAndCountAll({
+    order: [['name', 'DESC']],
+    offset: 0,
+    limit: 5
+  })
+
+  return workloads
 }

@@ -12,9 +12,9 @@ import {
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 
+import { addProfile } from '@/db/services/profiles'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
 import * as z from 'zod'
 import {
   Form,
@@ -26,6 +26,7 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
+
 import useSWR from 'swr'
 
 const FormSchema = z.object({
@@ -45,6 +46,9 @@ const FormSchema = z.object({
 const updateWorkloads = (url: string) =>
   fetch('/api/workloads').then(res => res.json())
 
+const updateProfiles = (url: string) =>
+  fetch('/api/profiles').then(res => res.json())
+
 export function AddProfileDialog() {
   const { data, mutate, isLoading } = useSWR('/api/workloads', updateWorkloads)
   const { toast } = useToast()
@@ -61,15 +65,13 @@ export function AddProfileDialog() {
 
   async function onSubmit(form: z.infer<typeof FormSchema>) {
     try {
-      await fetch('/api/workloads', {
-        method: 'POST',
-        body: JSON.stringify(form)
-      })
+      const { name, description } = form
+      const profile = await addProfile({ name, description })
 
-      await mutate({ ...data, rows: [...data.rows, form] }, true)
+      // await mutate({ ...data, rows: [...data.rows, form] }, true)
 
       toast({
-        title: 'Workload created'
+        title: `Created profile ${profile.name}`
       })
     } catch (e) {}
   }

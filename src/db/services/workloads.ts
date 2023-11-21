@@ -5,10 +5,11 @@ import type { WorkloadCreationAttributes } from '../models/workload'
 export async function createWorkload({
   name,
   description,
-  environment
+  environment,
+  profilesId
 }: WorkloadCreationAttributes) {
   const id = uuidv4()
-  const w = new Workload({ id, name, description, environment })
+  const w = new Workload({ id, profilesId, name, description, environment })
 
   await w.validate()
 
@@ -31,6 +32,7 @@ export async function getWorkload(id: string) {
 
 export async function findAndCountWorkloads() {
   const workloads = await Workload.findAndCountAll({
+    include: [Profile],
     order: [['name', 'DESC']],
     offset: 0,
     limit: 5

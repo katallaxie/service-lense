@@ -58,6 +58,24 @@ export const columns: ColumnDef<Workload>[] = [
     }
   },
   {
+    accessorKey: 'profile',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Profile" />
+    ),
+    cell: ({ row }) => {
+      //   const label = labels.find(label => label.value === row.original.)
+
+      return (
+        <div className="flex space-x-2">
+          {/* {label && <Badge variant="outline">{label.label}</Badge>} */}
+          <span className="max-w-[500px] truncate font-medium">
+            {row.original?.profile?.name}
+          </span>
+        </div>
+      )
+    }
+  },
+  {
     accessorKey: 'environment',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Environment" />

@@ -16,7 +16,7 @@ const nav = [
     link: '/dashboard/workloads'
   },
   {
-    name: 'Solutions',
+    name: 'Lenses',
     link: '/dashboard/lenses'
   },
   {

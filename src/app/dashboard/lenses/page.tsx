@@ -1,14 +1,24 @@
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { SubNav } from '@/components/sub-nav'
 import AddLensDialog from './components/add-lens'
+import {
+  SubNav,
+  SubNavTitle,
+  SubNavActions,
+  SubNavSubtitle
+} from '@/components/sub-nav'
 
 export default function Lenses() {
   return (
     <>
-      <SubNav name="Lenses">
-        <AddLensDialog />
+      <SubNav>
+        <SubNavTitle>
+          Lenses
+          <SubNavSubtitle>Review specifications for workloads</SubNavSubtitle>
+        </SubNavTitle>
+        <SubNavActions>
+          <AddLensDialog />
+        </SubNavActions>
       </SubNav>
+      <section>Lenses</section>
     </>
   )
 }

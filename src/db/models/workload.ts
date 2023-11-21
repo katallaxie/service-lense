@@ -20,6 +20,7 @@ export interface WorkloadAttributes {
   name: string
   description: string
   environment: string
+  profilesId: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
