@@ -2,6 +2,7 @@ import { logRequest } from '@/lib/middleware'
 import { createEdgeRouter } from 'next-connect'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
+import { auth } from '@/lib/auth'
 import { createWorkload, findAndCountWorkloads } from '@/db/services/workloads'
 
 const router = createEdgeRouter<NextRequest, { params?: unknown }>()
@@ -9,6 +10,11 @@ const router = createEdgeRouter<NextRequest, { params?: unknown }>()
 router.use(logRequest)
 
 router.get(async req => {
+  const session = await auth()
+  if (!session) {
+    return NextResponse.json({}, { status: 404 })
+  }
+
   const workloads = await findAndCountWorkloads()
 
   return NextResponse.json({ ...workloads })

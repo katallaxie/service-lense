@@ -43,14 +43,11 @@ const FormSchema = z.object({
   tags: z.array(z.string())
 })
 
-const updateWorkloads = (url: string) =>
-  fetch('/api/workloads').then(res => res.json())
-
 const updateProfiles = (url: string) =>
   fetch('/api/profiles').then(res => res.json())
 
 export function AddProfileDialog() {
-  const { data, mutate, isLoading } = useSWR('/api/workloads', updateWorkloads)
+  const { data, mutate, isLoading } = useSWR('/api/profiles', updateProfiles)
   const { toast } = useToast()
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -66,13 +63,13 @@ export function AddProfileDialog() {
   async function onSubmit(form: z.infer<typeof FormSchema>) {
     try {
       const { name, description } = form
-      const profile = await addProfile({ name, description })
+      // const profile = await addProfile({ name, description })
 
       // await mutate({ ...data, rows: [...data.rows, form] }, true)
 
-      toast({
-        title: `Created profile ${profile.name}`
-      })
+      // toast({
+      //   title: `Created profile ${profile.name}`
+      // })
     } catch (e) {}
   }
 
