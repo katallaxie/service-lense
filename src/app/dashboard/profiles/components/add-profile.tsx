@@ -15,6 +15,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { addProfile } from '@/db/services/profiles'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useRef } from 'react'
 import * as z from 'zod'
 import {
   Form,
@@ -31,7 +32,6 @@ import useSWR from 'swr'
 
 const FormSchema = z.object({
   name: z.string().min(3, {}),
-  environment: z.string().min(3, {}),
   description: z
     .string()
     .min(10, {
@@ -39,44 +39,52 @@ const FormSchema = z.object({
     })
     .max(2024, {
       message: 'Description must be less than 2024 characters.'
-    }),
-  tags: z.array(z.string())
+    })
 })
 
-const updateProfiles = (url: string) =>
-  fetch('/api/profiles').then(res => res.json())
+const updateProfiles = () => fetch('/api/profiles').then(res => res.json())
+
+const createProfile = (form: z.infer<typeof FormSchema>) =>
+  fetch('/api/profiles', {
+    method: 'POST',
+    body: JSON.stringify(form)
+  }).then(res => res.json())
 
 export function AddProfileDialog() {
   const { data, mutate, isLoading } = useSWR('/api/profiles', updateProfiles)
   const { toast } = useToast()
+  const closeDialog = useRef<HTMLButtonElement>(null)
+
+  const dialogClose = () => closeDialog.current && closeDialog.current.click()
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       name: '',
-      description: '',
-      environment: '',
-      tags: []
+      description: ''
     }
   })
 
   async function onSubmit(form: z.infer<typeof FormSchema>) {
     try {
-      const { name, description } = form
-      // const profile = await addProfile({ name, description })
+      const profile = await createProfile(form)
 
       // await mutate({ ...data, rows: [...data.rows, form] }, true)
 
-      // toast({
-      //   title: `Created profile ${profile.name}`
-      // })
+      toast({
+        title: `Created ${profile.name} profile`
+      })
+
+      dialogClose()
     } catch (e) {}
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Profile</Button>
+        <Button ref={closeDialog} variant="outline">
+          Add Profile
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
