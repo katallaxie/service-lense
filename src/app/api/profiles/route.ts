@@ -17,8 +17,6 @@ router.get(async req => {
 router.post(async req => {
   const body = await req.json()
 
-  console.log(body)
-
   try {
     const workload = await addProfile({ ...body })
     return NextResponse.json(workload)

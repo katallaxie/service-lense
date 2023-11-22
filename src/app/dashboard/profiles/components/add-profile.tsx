@@ -11,8 +11,6 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
-
-import { addProfile } from '@/db/services/profiles'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { useRef } from 'react'
@@ -27,7 +25,6 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
-
 import useSWR from 'swr'
 
 const FormSchema = z.object({
@@ -50,7 +47,7 @@ const createProfile = (form: z.infer<typeof FormSchema>) =>
     body: JSON.stringify(form)
   }).then(res => res.json())
 
-export function AddProfileDialog() {
+export default function AddProfileDialog() {
   const { data, mutate, isLoading } = useSWR('/api/profiles', updateProfiles)
   const { toast } = useToast()
   const closeDialog = useRef<HTMLButtonElement>(null)
@@ -58,16 +55,12 @@ export function AddProfileDialog() {
   const dialogClose = () => closeDialog.current && closeDialog.current.click()
 
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      name: '',
-      description: ''
-    }
+    resolver: zodResolver(FormSchema)
   })
 
-  async function onSubmit(form: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const profile = await createProfile(form)
+      const profile = await createProfile(data)
 
       // await mutate({ ...data, rows: [...data.rows, form] }, true)
 
@@ -75,6 +68,7 @@ export function AddProfileDialog() {
         title: `Created ${profile.name} profile`
       })
 
+      form.reset()
       dialogClose()
     } catch (e) {}
   }
@@ -108,7 +102,7 @@ export function AddProfileDialog() {
                       />
                     </FormControl>
                     <FormDescription>
-                      The name of the profile to create.
+                      The business context for a workload.
                     </FormDescription>
                     <FormMessage />
                   </div>
@@ -129,7 +123,7 @@ export function AddProfileDialog() {
                       />
                     </FormControl>
                     <FormDescription>
-                      A description about the profile you create.
+                      A detailed description of the business context.
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -137,7 +131,12 @@ export function AddProfileDialog() {
               />
             </div>
             <DialogFooter>
-              <Button type="submit" disabled={form.formState.isSubmitting}>
+              <Button
+                type="submit"
+                disabled={
+                  form.formState.isSubmitting || !form.formState.isValid
+                }
+              >
                 Create
               </Button>
             </DialogFooter>
@@ -147,5 +146,3 @@ export function AddProfileDialog() {
     </Dialog>
   )
 }
-
-export default AddProfileDialog

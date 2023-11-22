@@ -6,6 +6,7 @@ import {
   ColumnFiltersState,
   SortingState,
   VisibilityState,
+  PaginationState,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -25,6 +26,7 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { Icons } from '@/components/icons'
+import { useDataTableContext } from '@/components/data-table-context'
 
 import { DataTablePagination } from '../components/data-table-pagination'
 import { DataTableToolbar } from '../components/data-table-toolbar'
@@ -40,6 +42,8 @@ export function DataTable<TData, TValue>({
   data,
   isLoading
 }: DataTableProps<TData, TValue>) {
+  const dataTableContext = useDataTableContext()
+
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
@@ -60,6 +64,7 @@ export function DataTable<TData, TValue>({
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
+    onPaginationChange: dataTableContext.setPagination,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),

@@ -5,7 +5,7 @@ import {
   SubNavSubtitle
 } from '@/components/sub-nav'
 
-import { AddProfileDialog } from './components/add-profile'
+import AddProfileDialog from './components/add-profile'
 
 type PageProps = {
   children: React.ReactNode

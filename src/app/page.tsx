@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import { auth } from '@/lib/auth'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import { Button } from '@nextui-org/react'
 
 export const metadata: Metadata = {
   title: 'Root',
@@ -13,15 +14,17 @@ type RootProps = {
 }
 
 export default async function Root({ children }: RootProps) {
-  const session = await auth()
+  return <Button color="primary">Button</Button>
 
-  if (session !== null) {
-    redirect('/dashboard')
-  }
+  // const session = await auth()
 
-  return (
-    <>
-      <Link href="/login">Login</Link>
-    </>
-  )
+  // if (session !== null) {
+  //   redirect('/dashboard')
+  // }
+
+  // return (
+  //   <>
+  //     <Link href="/login">Login</Link>
+  //   </>
+  // )
 }

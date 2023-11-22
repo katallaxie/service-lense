@@ -1,9 +1,17 @@
 import useSWR from 'swr'
+import { useDataTableContext } from '../data-table-context'
 
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 export function useWorkloads() {
-  const { data, error, mutate, isLoading } = useSWR(`/api/workloads`, fetcher)
+  const {
+    pagination: { pageSize: limit, pageIndex: page }
+  } = useDataTableContext()
+
+  const { data, error, mutate, isLoading } = useSWR(
+    `/api/workloads?page=${page}&limit=${limit}`,
+    fetcher
+  )
 
   return {
     workloads: data,

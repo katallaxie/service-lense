@@ -13,3 +13,7 @@ export const validateUser = (user: User) => {
     throw new Error("Aren't You a Little Young to be a Web Developer?")
   }
 }
+
+export function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
