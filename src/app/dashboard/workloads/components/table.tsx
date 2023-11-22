@@ -9,7 +9,11 @@ export function Table() {
 
   return (
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-      {!isLoading && <DataTable data={workloads?.rows} columns={columns} />}
+      <DataTable
+        data={workloads?.rows ?? []}
+        columns={columns}
+        isLoading={isLoading}
+      />
     </div>
   )
 }

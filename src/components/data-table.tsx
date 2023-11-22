@@ -32,11 +32,13 @@ import { DataTableToolbar } from '../components/data-table-toolbar'
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  isLoading?: Boolean
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data
+  data,
+  isLoading
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
@@ -92,41 +94,39 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            <React.Suspense
-              fallback={
-                <div className="flex items-center text-sm text-muted-foreground">
-                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                  Loading...
-                </div>
-              }
-            >
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map(row => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && 'selected'}
-                  >
-                    {row.getVisibleCells().map(cell => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    No results.
-                  </TableCell>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map(row => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                >
+                  {row.getVisibleCells().map(cell => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              )}
-            </React.Suspense>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  {isLoading ? (
+                    <div className="flex w-full justify-center items-center text-sm text-muted-foreground">
+                      <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                      Loading...
+                    </div>
+                  ) : (
+                    'No Results'
+                  )}
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
