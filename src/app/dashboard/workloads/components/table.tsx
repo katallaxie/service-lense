@@ -1,6 +1,6 @@
 'use client'
 
-import {useMemo} from 'react'
+import { useMemo } from 'react'
 import { useDataTableContext } from '@/components/data-table-context'
 import { columns } from './columns'
 import { DataTable } from '@/components/data-table'
@@ -18,14 +18,14 @@ export function Table() {
   // const { workloads, mutate, isLoading } = useWorkloads()
 
   return useMemo(() => {
-return <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-<DataTable
-  data={data?.rows ?? []}
-  columns={columns}
-  isLoading={isLoading}
-/>
-</div>
-  }, [dataTableContext.pagination.pageIndex, dataTableContext.pagination.pageSize, isLoading])
+    return (
+      <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
+        <DataTable
+          data={data?.rows ?? []}
+          columns={columns}
+          isLoading={isLoading}
+        />
+      </div>
+    )
+  }, [data?.rows, isLoading])
 }
-
-

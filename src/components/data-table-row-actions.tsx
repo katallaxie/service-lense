@@ -36,8 +36,6 @@ async function deleteWorkload(id: number): Promise<void> {
 export function DataTableRowActions<TData>({
   row
 }: DataTableRowActionsProps<TData>) {
-  // const task = taskSchema.parse(row.original)
-
   const id = row.getValue('id') as number
 
   return (
