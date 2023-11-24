@@ -22,8 +22,9 @@ export default async function Root({ children }: RootProps) {
 
   return (
     <>
-    <DefaultLayout><Link href="/login">Login</Link></DefaultLayout>
-      
+      <DefaultLayout>
+        <Link href="/login">Login</Link>
+      </DefaultLayout>
     </>
   )
 }

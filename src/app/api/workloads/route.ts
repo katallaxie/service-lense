@@ -35,6 +35,19 @@ router.get(async (req, ctx) => {
   return NextResponse.json({ ...workloads })
 })
 
+router.post(async (req, ctx) => {
+  const session = await auth()
+
+  if (!session) {
+    return NextResponse.json({}, { status: 404 })
+  }
+
+  const body = await req.json()
+  const workload = await createWorkload(body)
+
+  return NextResponse.json(workload)
+})
+
 export async function GET(request: NextRequest, ctx: RequestContext) {
   return router.run(request, ctx)
 }

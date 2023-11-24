@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
+import { useRef } from 'react'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -63,6 +64,10 @@ export function AddWorkloadDialog() {
   const { data: profiles } = useSWR('/api/profiles', updateProfiles)
   const { toast } = useToast()
 
+  const closeDialog = useRef<HTMLButtonElement>(null)
+
+  const dialogClose = () => closeDialog.current && closeDialog.current.click()
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -73,25 +78,32 @@ export function AddWorkloadDialog() {
     }
   })
 
+  const createWorkflow = (form: z.infer<typeof FormSchema>) =>
+    fetch('/api/workloads', {
+      method: 'POST',
+      body: JSON.stringify(form)
+    }).then(res => res.json())
+
   async function onSubmit(form: z.infer<typeof FormSchema>) {
     try {
-      await fetch('/api/workloads', {
-        method: 'POST',
-        body: JSON.stringify(form)
-      })
+      const workload = await createWorkflow(form)
 
-      await mutate({ ...data, rows: [...data.rows, form] }, true)
+      await mutate({ ...data, rows: [...data.rows, workload] }, true)
 
       toast({
-        title: 'Workload created'
+        title: `Workload ${workload.name} created.`
       })
+
+      dialogClose()
     } catch (e) {}
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Add Workload</Button>
+        <Button ref={closeDialog} variant="outline">
+          Add Workload
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

@@ -7,6 +7,7 @@ import TeamSwitcher from '@/components/team-switcher'
 import { UserNav } from '@/components/user-nav'
 import { ThemeToggle } from '@/components/theme-toggle'
 import { Toaster } from '@/components/ui/toaster'
+import Footer from '@/components/footer'
 
 export default function DefaultLayout({
   children
@@ -28,6 +29,7 @@ export default function DefaultLayout({
           </div>
         </div>
         <div className="flex-1">{children}</div>
+        <Footer />
       </div>
       <Toaster />
     </>

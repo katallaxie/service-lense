@@ -14,13 +14,19 @@ const DataTableContext = React.createContext<DataTableContext | undefined>(
 export default DataTableContext
 
 export interface DataTableProviderProps {
-  children: React.ReactNode
+  children?: React.ReactNode
+  pageIndex?: number
+  pageSize?: number
 }
 
-export const DataTableProvider = ({ children }: DataTableProviderProps) => {
+export const DataTableProvider = ({
+  children,
+  pageIndex = 1,
+  pageSize = 10
+}: DataTableProviderProps) => {
   const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 1
+    pageIndex,
+    pageSize
   })
 
   return (
