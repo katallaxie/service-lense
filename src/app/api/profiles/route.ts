@@ -4,22 +4,31 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { addProfile, findAndCountProfiles } from '@/db/services/profiles'
 
+export type Pagination = {
+  offset?: number
+  limit?: number
+}
+
 const router = createEdgeRouter<NextRequest, { params?: unknown }>()
 
 router.use(logRequest)
 
 router.get(async req => {
-  const workloads = await findAndCountProfiles()
+  const { searchParams } = new URL(req.url)
+  const offset = Number(searchParams.get('page'))
+  const limit = Number(searchParams.get('limit'))
 
-  return NextResponse.json({ ...workloads })
+  const profiles = await findAndCountProfiles({ offset, limit })
+
+  return NextResponse.json({ ...profiles })
 })
 
 router.post(async req => {
   const body = await req.json()
 
   try {
-    const workload = await addProfile({ ...body })
-    return NextResponse.json(workload)
+    const profile = await addProfile({ ...body })
+    return NextResponse.json(profile)
   } catch (error) {
     return NextResponse.json({ message: error }, { status: 500 })
   }

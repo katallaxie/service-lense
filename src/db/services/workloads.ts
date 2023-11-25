@@ -2,9 +2,6 @@ import { Profile, Workload } from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { WorkloadCreationAttributes } from '../models/workload'
 
-const defaultOffset = 0
-const defaultLimit = 5
-
 export async function createWorkload({
   name,
   description,
@@ -38,12 +35,15 @@ export type Pagination = {
   limit?: number
 }
 
-export async function findAndCountWorkloads(params: Pagination) {
+export async function findAndCountWorkloads({
+  offset = 0,
+  limit = 10
+}: Pagination) {
   const workloads = await Workload.findAndCountAll({
     include: [Profile],
     order: [['name', 'DESC']],
-    offset: params.offset || 0,
-    limit: params.limit || 0
+    offset,
+    limit
   })
 
   return workloads

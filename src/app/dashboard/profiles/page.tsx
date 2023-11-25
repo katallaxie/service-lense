@@ -7,6 +7,7 @@ import {
 
 import AddProfileDialog from './components/add-profile'
 import { DataTableProvider } from '@/components/data-table-context'
+import DataTable from './components/data-table'
 
 type PageProps = {
   children: React.ReactNode
@@ -27,7 +28,9 @@ export default function Page({ children }: PageProps) {
         </SubNavActions>
       </SubNav>
       <section>
-        <DataTableProvider></DataTableProvider>
+        <DataTableProvider>
+          <DataTable></DataTable>
+        </DataTableProvider>
       </section>
     </>
   )
