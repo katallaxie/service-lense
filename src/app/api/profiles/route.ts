@@ -15,6 +15,8 @@ router.use(logRequest)
 
 router.get(async req => {
   const { searchParams } = new URL(req.url)
+  console.log(searchParams.get('limit'))
+
   const offset = Number(searchParams.get('page'))
   const limit = Number(searchParams.get('limit'))
 

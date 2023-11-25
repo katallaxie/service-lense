@@ -53,15 +53,15 @@ const FormSchema = z.object({
   tags: z.array(z.string())
 })
 
-const updateWorkloads = (url: string) =>
-  fetch('/api/workloads').then(res => res.json())
-
-const updateProfiles = (url: string) =>
-  fetch('/api/profiles').then(res => res.json())
+const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 export function AddWorkloadDialog() {
-  const { data, mutate, isLoading } = useSWR('/api/workloads', updateWorkloads)
-  const { data: profiles } = useSWR('/api/profiles', updateProfiles)
+  const {
+    data: workloads,
+    mutate,
+    isLoading
+  } = useSWR('/api/workloads', fetcher)
+  const { data: profiles } = useSWR('/api/profiles?limit=10', fetcher)
   const { toast } = useToast()
 
   const closeDialog = useRef<HTMLButtonElement>(null)
@@ -84,17 +84,18 @@ export function AddWorkloadDialog() {
       body: JSON.stringify(form)
     }).then(res => res.json())
 
-  async function onSubmit(form: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const workload = await createWorkflow(form)
+      const workload = await createWorkflow(data)
 
-      await mutate({ ...data, rows: [...data.rows, workload] }, true)
+      await mutate({ ...data, rows: [...workloads.rows, workload] }, true)
 
       toast({
         title: `Workload ${workload.name} created.`
       })
 
       dialogClose()
+      form.reset()
     } catch (e) {}
   }
 
@@ -201,7 +202,12 @@ export function AddWorkloadDialog() {
               />
             </div>
             <DialogFooter>
-              <Button type="submit" disabled={form.formState.isSubmitting}>
+              <Button
+                type="submit"
+                disabled={
+                  form.formState.isSubmitting || !form.formState.isValid
+                }
+              >
                 Create
               </Button>
             </DialogFooter>
