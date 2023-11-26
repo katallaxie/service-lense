@@ -7,7 +7,6 @@ import {
   Column,
   PrimaryKey,
   DataType,
-  AllowNull,
   NotEmpty,
   Min,
   Max
@@ -16,6 +15,8 @@ import {
 export interface LensAttributes {
   id: string
   spec: string
+  name: string
+  description: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -29,10 +30,16 @@ export type LensCreationAttributes = Omit<
 @Table({
   tableName: 'lenses'
 })
-export class Workload extends Model<LensAttributes, LensCreationAttributes> {
+export class Lens extends Model<LensAttributes, LensCreationAttributes> {
   @PrimaryKey
   @Column(DataType.UUIDV4)
   id!: string
+
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  name!: string
 
   @NotEmpty
   @Min(3)

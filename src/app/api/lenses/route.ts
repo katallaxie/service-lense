@@ -2,7 +2,7 @@ import { logRequest } from '@/lib/middleware'
 import { createEdgeRouter } from 'next-connect'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import { addProfile, findAndCountProfiles } from '@/db/services/profiles'
+import { addLens, findAndCountLenses } from '@/db/services/lenses'
 
 export type Pagination = {
   offset?: number
@@ -19,16 +19,16 @@ router.get(async req => {
   const offset = Number(searchParams.get('page'))
   const limit = Number(searchParams.get('limit'))
 
-  const profiles = await findAndCountProfiles({ offset, limit })
+  const lenses = await findAndCountLenses({ offset, limit })
 
-  return NextResponse.json({ ...profiles })
+  return NextResponse.json({ ...lenses })
 })
 
 router.post(async req => {
   const body = await req.json()
 
   try {
-    const profile = await addProfile({ ...body })
+    const profile = await addLens({ ...body })
     return NextResponse.json(profile)
   } catch (error) {
     return NextResponse.json({ message: error }, { status: 500 })

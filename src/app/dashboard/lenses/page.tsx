@@ -5,6 +5,9 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
+import AddProfileDialog from './components/add-lens'
+import { DataTableProvider } from '@/components/data-table-context'
+import DataTable from './components/data-table'
 
 export default function Lenses() {
   return (
@@ -18,7 +21,11 @@ export default function Lenses() {
           <AddLensDialog />
         </SubNavActions>
       </SubNav>
-      <section>Lenses</section>
+      <section>
+        <DataTableProvider>
+          <DataTable></DataTable>
+        </DataTableProvider>
+      </section>
     </>
   )
 }
