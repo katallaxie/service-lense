@@ -5,7 +5,6 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
-import AddProfileDialog from './components/add-lens'
 import { DataTableProvider } from '@/components/data-table-context'
 import DataTable from './components/data-table'
 
