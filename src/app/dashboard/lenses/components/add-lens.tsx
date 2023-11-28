@@ -78,19 +78,7 @@ export function AddLensDialog() {
       const spec = await readJSONFile(form.spec! as File)
       form.spec = spec
 
-      // const reader = new FileReader()
-      // reader.onload = async e => {
-      //   const content = e.target?.result
-      //   console.log(content)
-      // }
-      // reader.readAsBinaryString(spec)
-
       const lens = await createLens(form)
-
-      // await fetch('/api/workloads', {
-      //   method: 'POST',
-      //   body: JSON.stringify(form)
-      // })
 
       console.log(lens)
 

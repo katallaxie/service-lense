@@ -27,8 +27,6 @@ router.get(async req => {
 router.post(async req => {
   const body = await req.json()
 
-  console.log(body)
-
   try {
     const profile = await addLens({ ...body })
     return NextResponse.json(profile)

@@ -27,6 +27,10 @@ export type LensCreationAttributes = Omit<
   'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
+abstract class Spec {
+  
+}
+
 @Table({
   tableName: 'lenses'
 })
@@ -38,14 +42,14 @@ export class Lens extends Model<LensAttributes, LensCreationAttributes> {
   @NotEmpty
   @Min(3)
   @Max(256)
-  @Column
+  @Column(DataType.JSONB)
   name!: string
 
   @NotEmpty
   @Min(3)
   @Max(256)
   @Column
-  spec!: string
+  spec!: 
 
   @NotEmpty
   @Min(12)

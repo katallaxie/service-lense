@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       spec: {
-        type: Sequelize.STRING
+        type: Sequelize.JSONB
       },
       description: {
         type: Sequelize.STRING
