@@ -26,11 +26,19 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
-import useSWR from 'swr'
+
+const MAX_SIZE_MB = 1
 
 const FormSchema = z.object({
   name: z.string().min(3, {}),
-  spec: z.string(),
+  spec: z.union([
+    z
+      .custom<FileList>()
+      .transform(file => file.length > 0 && file.item(0))
+      .refine(file => file),
+    z.string()
+  ]),
+
   description: z
     .string()
     .min(10, {
@@ -57,15 +65,34 @@ export function AddLensDialog() {
     defaultValues: {}
   })
 
+  const readJSONFile = async (file: File) =>
+    new Promise<string>((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = event => resolve(event.target?.result as string)
+      reader.onerror = error => reject(error)
+      reader.readAsText(file)
+    })
+
   async function onSubmit(form: z.infer<typeof FormSchema>) {
     try {
-      console.log(form)
-      // const profile = await createLens(form)
+      const spec = await readJSONFile(form.spec! as File)
+      form.spec = spec
+
+      // const reader = new FileReader()
+      // reader.onload = async e => {
+      //   const content = e.target?.result
+      //   console.log(content)
+      // }
+      // reader.readAsBinaryString(spec)
+
+      const lens = await createLens(form)
 
       // await fetch('/api/workloads', {
       //   method: 'POST',
       //   body: JSON.stringify(form)
       // })
+
+      console.log(lens)
 
       // await mutate({ ...data, rows: [...data.rows, form] }, true)
 
@@ -132,15 +159,25 @@ export function AddLensDialog() {
               <FormField
                 control={form.control}
                 name="spec"
-                render={({ field }) => (
+                render={({ field: { onChange }, ...field }) => (
                   <div className="grid w-full max-w-sm items-center gap-1.5">
                     <FormLabel>Specification</FormLabel>
                     <FormControl>
                       <Input
                         type="file"
                         disabled={form.formState.isSubmitting}
-                        placeholder="Give it a descriptive name."
+                        placeholder=""
                         {...field}
+                        onChange={event => {
+                          const dataTransfer = new DataTransfer()
+
+                          Array.from(event.target.files!).forEach(spec =>
+                            dataTransfer.items.add(spec)
+                          )
+
+                          const newFiles = dataTransfer.files
+                          onChange(newFiles)
+                        }}
                       />
                     </FormControl>
                     <FormDescription>
