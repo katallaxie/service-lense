@@ -80,8 +80,6 @@ export function AddLensDialog() {
 
       const lens = await createLens(form)
 
-      console.log(lens)
-
       // await mutate({ ...data, rows: [...data.rows, form] }, true)
 
       toast({
