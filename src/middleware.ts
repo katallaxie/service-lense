@@ -12,6 +12,8 @@ export const middleware = async (request: NextRequest) => {
     cache: 'no-store'
   })
 
+  console.log(res.body)
+
   const session: Session = await res.json()
   const isLoggedIn = Object.keys(session).length > 0
   const pathname = request.nextUrl.pathname
