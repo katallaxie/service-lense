@@ -81,6 +81,8 @@ export async function useSession() {
   return { session }
 }
 
+export const getServerAuthSession = useSession
+
 export const authenticated = wrapper(async (next, request: NextRequest) => {
   const session = await auth()
 

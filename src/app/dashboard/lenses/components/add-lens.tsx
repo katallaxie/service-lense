@@ -45,7 +45,14 @@ function useZodForm<TSchema extends z.ZodType>(
 
 export function AddLensDialog() {
   const { toast } = useToast()
-  const mutation = useAction(addLensAction)
+  const mutation = useAction(addLensAction, {
+    onSuccess() {
+      toast({ title: 'Workload created' })
+    },
+    onError() {
+      toast({ title: 'Something went wrong' })
+    }
+  })
   const form = useZodForm({
     schema: AddLensActionSchema
   })
@@ -60,23 +67,7 @@ export function AddLensDialog() {
     })
 
   async function onSubmit(form: z.infer<typeof AddLensActionSchema>) {
-    try {
-      // const spec = await readJSONFile(form.spec! as File)
-      // form.spec = spec
-
-      const lens = await mutation.mutateAsync(form)
-      console.log(lens)
-
-      // await mutate({ ...data, rows: [...data.rows, form] }, true)
-
-      toast({
-        title: 'Workload created'
-      })
-    } catch (e) {
-      toast({
-        title: 'Error creating workload'
-      })
-    }
+    mutation.mutate({ ...form })
   }
 
   return (

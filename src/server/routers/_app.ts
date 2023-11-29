@@ -27,6 +27,7 @@ export const appRouter = router({
     if (!opts.ctx.session) {
       return 'You are not authenticated'
     }
+
     return "Cool, you're authenticated!"
   }),
 

@@ -1,6 +1,6 @@
 import { experimental_createServerActionHandler } from '@trpc/next/app-dir/server'
 import { initTRPC, TRPCError } from '@trpc/server'
-import { auth } from '@/lib/auth'
+import { auth, getServerAuthSession } from '@/lib/auth'
 import { headers } from 'next/headers'
 import superjson from 'superjson'
 import { ZodError } from 'zod'
@@ -26,8 +26,8 @@ const t = initTRPC.context<Context>().create({
 export const router = t.router
 export const publicProcedure = t.procedure
 
-export const protectedProcedure = publicProcedure.use(opts => {
-  const { session } = opts.ctx
+export const isAuth = t.middleware(({ ctx, next }) => {
+  const { session } = ctx
 
   if (!session?.user) {
     throw new TRPCError({
@@ -35,17 +35,18 @@ export const protectedProcedure = publicProcedure.use(opts => {
     })
   }
 
-  return opts.next({ ctx: { session } })
+  return next({ ctx: { session } })
 })
+
+export const protectedProcedure = t.procedure.use(isAuth)
 
 export const createAction = experimental_createServerActionHandler(t, {
   async createContext() {
-    const session = await auth()
+    const { session } = await getServerAuthSession()
 
     return {
       session,
       headers: {
-        // Pass the cookie header to the API
         cookies: headers().get('cookie') ?? ''
       }
     }
