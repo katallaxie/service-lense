@@ -1,5 +1,6 @@
 'use client'
 
+import { useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -56,7 +57,7 @@ export function AddLensDialog() {
   const form = useZodForm({
     schema: AddLensActionSchema
   })
-  // const formRef = useRef<HTMLFormElement>(null)
+  const formRef = useRef<HTMLFormElement>(null)
 
   const readJSONFile = async (file: File) =>
     new Promise<string>((resolve, reject) => {
@@ -67,7 +68,7 @@ export function AddLensDialog() {
     })
 
   async function onSubmit(form: z.infer<typeof AddLensActionSchema>) {
-    mutation.mutate({ ...form })
+    await mutation.mutateAsync({ description: '', name: 'demo 6', spec: {} })
   }
 
   return (
@@ -80,7 +81,7 @@ export function AddLensDialog() {
           <DialogTitle>New Lens</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
+          <form ref={formRef} onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid gap-4 py-4">
               <FormField
                 control={form.control}

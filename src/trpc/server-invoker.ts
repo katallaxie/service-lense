@@ -6,9 +6,6 @@ import { appRouter } from '@/server/routers/_app'
 import { cookies } from 'next/headers'
 import SuperJSON from 'superjson'
 
-/**
- * This client invokes procedures directly on the server without fetching over HTTP.
- */
 export const api = experimental_createTRPCNextAppDirServer<typeof appRouter>({
   config() {
     return {

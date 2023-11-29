@@ -34,6 +34,6 @@ export const api = experimental_createTRPCNextAppDirClient<AppRouter>({
 })
 
 export const useAction = experimental_createActionHook({
-  links: [loggerLink(), experimental_serverActionLink()],
+  links: [loggerLink({ enabled: op => true }), experimental_serverActionLink()],
   transformer: superjson
 })
