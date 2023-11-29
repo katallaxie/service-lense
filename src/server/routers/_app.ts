@@ -1,12 +1,12 @@
 import { z } from 'zod'
-import { publicProcedure, router } from '../trpc'
+import { publicProcedure, protectedProcedure, router } from '../trpc'
 import { findAndCountLenses } from '@/db/services/lenses'
 
-export const listLenses = publicProcedure
+export const listLenses = protectedProcedure
   .input(
     z.object({
-      limit: z.number().default(10),
-      offset: z.number().default(0)
+      limit: z.number().min(0).max(100).default(10),
+      offset: z.number().min(0).default(0)
     })
   )
   .query(async opts => await findAndCountLenses({ ...opts.input }))

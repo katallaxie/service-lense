@@ -25,7 +25,6 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { Icons } from '@/components/icons'
 import { useDataTableContext } from '@/components/data-table-context'
 
 import { DataTablePagination } from '../components/data-table-pagination'
@@ -59,7 +58,8 @@ export function DataTable<TData, TValue>({
       sorting,
       columnVisibility,
       rowSelection,
-      columnFilters
+      columnFilters,
+      pagination: dataTableContext.pagination
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
@@ -72,7 +72,8 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues()
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+    debugTable: true
   })
 
   return (

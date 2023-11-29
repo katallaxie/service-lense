@@ -5,6 +5,7 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
+import { Suspense } from 'react'
 import { DataTableProvider } from '@/components/data-table-context'
 import DataTable from './components/data-table'
 
@@ -21,9 +22,11 @@ export default function Lenses() {
         </SubNavActions>
       </SubNav>
       <section>
-        <DataTableProvider>
-          <DataTable></DataTable>
-        </DataTableProvider>
+        <Suspense>
+          <DataTableProvider>
+            <DataTable></DataTable>
+          </DataTableProvider>
+        </Suspense>
       </section>
     </>
   )

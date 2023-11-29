@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, use, Suspense } from 'react'
+import { useMemo, use } from 'react'
 import { useDataTableContext } from '@/components/data-table-context'
 import { columns } from './data-columns'
 import { DataTable } from '@/components/data-table'
