@@ -34,7 +34,7 @@ import { DataTableToolbar } from '../components/data-table-toolbar'
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  isLoading?: Boolean
+  isLoading: Boolean
 }
 
 export function DataTable<TData, TValue>({
@@ -121,14 +121,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  {isLoading ? (
-                    <div className="flex w-full justify-center items-center text-sm text-muted-foreground">
-                      <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                      Loading...
-                    </div>
-                  ) : (
-                    'No Results'
-                  )}
+                  No Results
                 </TableCell>
               </TableRow>
             )}

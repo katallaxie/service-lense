@@ -8,15 +8,22 @@ import { api } from '@/trpc/client'
 
 export default function LensesDataTable() {
   const dataTableContext = useDataTableContext()
-  const data = use(api.listLenses.query({}))
+  const data = use(
+    api.listLenses.query({
+      limit: dataTableContext.pagination.pageSize,
+      offset: dataTableContext.pagination.pageIndex
+    })
+  )
 
   return useMemo(() => {
     return (
       <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-        <Suspense>
-          <DataTable data={data?.rows ?? []} columns={columns} />
-        </Suspense>
+        <DataTable
+          data={data?.rows ?? []}
+          columns={columns}
+          isLoading={data === null}
+        />
       </div>
     )
-  }, [data?.rows])
+  }, [data])
 }

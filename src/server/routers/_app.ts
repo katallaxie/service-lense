@@ -9,7 +9,7 @@ export const listLenses = publicProcedure
       offset: z.number().default(0)
     })
   )
-  .query(async opts => await findAndCountLenses({}))
+  .query(async opts => await findAndCountLenses({ ...opts.input }))
 
 export const appRouter = router({
   greeting: publicProcedure
