@@ -1,0 +1,245 @@
+openapi: 3.0.0
+info:
+  title: Service Lens API
+  description: This is the Service Lens API documentation.
+  version: 0.0.1
+servers:
+  - url: http://api.example.com/v1
+  - url: http://staging-api.example.com
+paths:
+  /lenses:
+    post:
+      summary: Create a new lens.
+      description: |
+        This can only be done by the logged in user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lens'
+      responses:
+        '200':    # status code
+          description: A new lens is created
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Lens'
+        '400':    # status code
+          description: Bad Request
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/responses/BadRequest'
+        '401':    # status code
+          description: Unauthorized
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/responses/Unauthorized'
+        '403':    # status code
+          description: Forbidden
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schema/Forbidden'
+        '500':    # status code
+          description: Internal Server Error
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/responses/InternalServerError'
+
+  /users:
+    get:
+      summary: Returns a list of users.
+      description: Optional extended description in CommonMark or HTML.
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: string
+
+components:
+  responses:
+    PostLensesSuccess:
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Spec'
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Lens:
+      type: object
+      properties:
+        id:
+          type: string
+          required: true
+        name:
+          type: string
+          required: true
+        description:
+          type: string
+        spec:
+          $ref: '#/components/schemas/Spec'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+
+    Spec:
+      type: object
+      properties:
+        version:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        pillars:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pillar'
+    
+    # Pillar is a top level category of questions
+    Pillar:
+      type: object
+      properties:
+        id:
+          type: string
+          required: true
+        name:
+          type: string
+          required: true
+        description:
+          type: string
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Question'
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+
+    # Question is a question in a pillar.
+    Question:
+      type: object
+      properties:
+        id:
+          type: string
+          required: true
+        title:
+          type: string
+          required: true
+        description:
+          type: string
+        choices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Choice'
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+        risks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Risk'
+    
+    # Choice is a choice in a question.
+    Choice:
+      type: object
+      properties:
+        id:
+          type: string
+          required: true
+        title:
+          type: string
+          required: true
+        resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/Resource'
+        improvements:
+          type: array
+          items:
+            $ref: '#/components/schemas/Improvement'
+    
+    # Resource is a resource in a question.
+    Resource:
+      type: object
+      properties:
+        description:
+          type: string
+        url:
+          type: string
+    
+    # Risk is a risk in a question.
+    Risk:
+      type: object
+      properties:
+        risk:
+          type: string
+        condition:
+          type: string
+    
+    # Improvement is an improvement in a question.
+    Improvement:
+      type: object
+      properties:
+        description:
+          type: string
+        url:
+          type: string
+
+      
