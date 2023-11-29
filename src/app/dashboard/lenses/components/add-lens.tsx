@@ -13,10 +13,10 @@ import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 
 import { useAction } from '@/trpc/client'
-import { createLens } from '@/server/actions/_actions'
+import { addLensAction } from './add-lens.action'
+import { AddLensActionSchema } from './add-lens.schema'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import {
   Form,
@@ -27,46 +27,29 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import { FormProvider, useForm, UseFormProps } from 'react-hook-form'
 import { Textarea } from '@/components/ui/textarea'
 
-const MAX_SIZE_MB = 1
+function useZodForm<TSchema extends z.ZodType>(
+  props: Omit<UseFormProps<TSchema['_input']>, 'resolver'> & {
+    schema: TSchema
+  }
+) {
+  const form = useForm<TSchema['_input']>({
+    ...props,
+    resolver: zodResolver(props.schema, undefined)
+  })
 
-const FormSchema = z.object({
-  name: z.string().min(3, {}),
-  spec: z.union([
-    z
-      .custom<FileList>()
-      .transform(file => file.length > 0 && file.item(0))
-      .refine(file => file),
-    z.string()
-  ]),
-
-  description: z
-    .string()
-    .min(10, {
-      message: 'Description must be at least 30 characters.'
-    })
-    .max(2024, {
-      message: 'Description must be less than 2024 characters.'
-    })
-})
-
-const update = () => fetch('/api/profiles').then(res => res.json())
-
-// const createLens = (form: z.infer<typeof FormSchema>) =>
-//   fetch('/api/lenses', {
-//     method: 'POST',
-//     body: JSON.stringify(form)
-//   }).then(res => res.json())
+  return form
+}
 
 export function AddLensDialog() {
   const { toast } = useToast()
-  const mutation = useAction(createLens)
-
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {}
+  const mutation = useAction(addLensAction)
+  const form = useZodForm({
+    schema: AddLensActionSchema
   })
+  // const formRef = useRef<HTMLFormElement>(null)
 
   const readJSONFile = async (file: File) =>
     new Promise<string>((resolve, reject) => {
@@ -76,12 +59,13 @@ export function AddLensDialog() {
       reader.readAsText(file)
     })
 
-  async function onSubmit(form: z.infer<typeof FormSchema>) {
+  async function onSubmit(form: z.infer<typeof AddLensActionSchema>) {
     try {
-      const spec = await readJSONFile(form.spec! as File)
-      form.spec = spec
+      // const spec = await readJSONFile(form.spec! as File)
+      // form.spec = spec
 
-      mutation.mutate(form)
+      const lens = await mutation.mutateAsync(form)
+      console.log(lens)
 
       // await mutate({ ...data, rows: [...data.rows, form] }, true)
 

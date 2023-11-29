@@ -14,7 +14,7 @@ import {
 
 export interface LensAttributes {
   id: string
-  spec: string
+  spec: object
   name: string
   description: string
   createdAt: Date

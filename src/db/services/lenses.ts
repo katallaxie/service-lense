@@ -13,7 +13,7 @@ export async function addLens({
 }: {
   name: string
   description: string
-  spec: string
+  spec: object
 }) {
   const id = uuidv4()
 
@@ -37,11 +37,11 @@ export async function findAndCountLenses({
   offset = 0,
   limit = 10
 }: Pagination) {
-  const workloads = await Lens.findAndCountAll({
+  const lenses = await Lens.findAndCountAll({
     order: [['name', 'DESC']],
     offset,
     limit
   })
 
-  return workloads
+  return lenses
 }

@@ -1,29 +1,22 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useMemo, use, Suspense } from 'react'
 import { useDataTableContext } from '@/components/data-table-context'
 import { columns } from './data-columns'
 import { DataTable } from '@/components/data-table'
-import useSWR from 'swr'
-
-const fetcher = (url: string) => fetch(url).then(res => res.json())
+import { api } from '@/trpc/client'
 
 export default function LensesDataTable() {
   const dataTableContext = useDataTableContext()
-  const { data, mutate, isLoading } = useSWR(
-    `/api/lenses?page=${dataTableContext.pagination.pageIndex}&limit=${dataTableContext.pagination.pageSize}`,
-    fetcher
-  )
+  const data = use(api.listLenses.query({}))
 
   return useMemo(() => {
     return (
       <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-        <DataTable
-          data={data?.rows ?? []}
-          columns={columns}
-          isLoading={isLoading}
-        />
+        <Suspense>
+          <DataTable data={data?.rows ?? []} columns={columns} />
+        </Suspense>
       </div>
     )
-  }, [data?.rows, isLoading])
+  }, [data?.rows])
 }

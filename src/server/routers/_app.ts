@@ -1,29 +1,15 @@
 import { z } from 'zod'
 import { publicProcedure, router } from '../trpc'
+import { findAndCountLenses } from '@/db/services/lenses'
 
-let latestPost = {
-  id: 0,
-  title: 'latest post',
-  content: 'hello world',
-  createdAt: new Date()
-}
-
-export const createPost = publicProcedure
+export const listLenses = publicProcedure
   .input(
     z.object({
-      title: z.string(),
-      content: z.string()
+      limit: z.number().default(10),
+      offset: z.number().default(0)
     })
   )
-  .mutation(async opts => {
-    latestPost = {
-      id: latestPost.id + 1,
-      createdAt: new Date(),
-      ...opts.input
-    }
-
-    return latestPost
-  })
+  .query(async opts => await findAndCountLenses({}))
 
 export const appRouter = router({
   greeting: publicProcedure
@@ -48,11 +34,7 @@ export const appRouter = router({
     return opts.ctx.session
   }),
 
-  createPost,
-
-  getLatestPost: publicProcedure.query(async () => {
-    return latestPost
-  })
+  listLenses
 })
 
 export type AppRouter = typeof appRouter
