@@ -10,8 +10,10 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { useToast } from '@/components/ui/use-toast'
+
+import { useAction } from '@/trpc/client'
+import { createLens } from '@/server/actions/_actions'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -51,14 +53,15 @@ const FormSchema = z.object({
 
 const update = () => fetch('/api/profiles').then(res => res.json())
 
-const createLens = (form: z.infer<typeof FormSchema>) =>
-  fetch('/api/lenses', {
-    method: 'POST',
-    body: JSON.stringify(form)
-  }).then(res => res.json())
+// const createLens = (form: z.infer<typeof FormSchema>) =>
+//   fetch('/api/lenses', {
+//     method: 'POST',
+//     body: JSON.stringify(form)
+//   }).then(res => res.json())
 
 export function AddLensDialog() {
   const { toast } = useToast()
+  const mutation = useAction(createLens)
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -78,14 +81,18 @@ export function AddLensDialog() {
       const spec = await readJSONFile(form.spec! as File)
       form.spec = spec
 
-      const lens = await createLens(form)
+      mutation.mutate(form)
 
       // await mutate({ ...data, rows: [...data.rows, form] }, true)
 
       toast({
         title: 'Workload created'
       })
-    } catch (e) {}
+    } catch (e) {
+      toast({
+        title: 'Error creating workload'
+      })
+    }
   }
 
   return (

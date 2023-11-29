@@ -110,13 +110,11 @@ export class Lens extends Model<LensAttributes, LensCreationAttributes> {
   @NotEmpty
   @Min(3)
   @Max(256)
-  @Column(DataType.JSONB)
+  @Column
   name!: string
 
   @NotEmpty
-  @Min(3)
-  @Max(256)
-  @Column
+  @Column(DataType.JSONB)
   spec!: Spec
 
   @NotEmpty
