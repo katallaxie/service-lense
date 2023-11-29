@@ -8,8 +8,8 @@ import type { Resource } from './Resource';
 import type { Risk } from './Risk';
 
 export type Question = {
-    id?: string;
-    title?: string;
+    id: string;
+    title: string;
     description?: string;
     choices?: Array<Choice>;
     resources?: Array<Resource>;

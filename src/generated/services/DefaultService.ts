@@ -14,13 +14,14 @@ export class DefaultService {
      * Create a new lens.
      * This can only be done by the logged in user.
      *
-     * @param requestBody
      * @returns Lens A new lens is created
      * @throws ApiError
      */
-    public static postLenses(
-        requestBody: Lens,
-    ): CancelablePromise<Lens> {
+    public static postLenses({
+        requestBody,
+    }: {
+        requestBody?: Lens,
+    }): CancelablePromise<Lens> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/lenses',

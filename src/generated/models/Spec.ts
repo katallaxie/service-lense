@@ -3,10 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { Pillar } from './Pillar';
+
 export type Spec = {
     version?: string;
     name?: string;
     description?: string;
-    pillars?: Array<string>;
+    pillars?: Array<Pillar>;
 };
 

@@ -7,8 +7,8 @@ import type { Question } from './Question';
 import type { Resource } from './Resource';
 
 export type Pillar = {
-    id?: string;
-    name?: string;
+    id: string;
+    name: string;
     description?: string;
     questions?: Array<Question>;
     resources?: Array<Resource>;

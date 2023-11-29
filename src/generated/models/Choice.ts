@@ -7,8 +7,8 @@ import type { Improvement } from './Improvement';
 import type { Resource } from './Resource';
 
 export type Choice = {
-    id?: string;
-    title?: string;
+    id: string;
+    title: string;
     resources?: Array<Resource>;
     improvements?: Array<Improvement>;
 };

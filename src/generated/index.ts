@@ -17,4 +17,14 @@ export type { Resource } from './models/Resource';
 export type { Risk } from './models/Risk';
 export type { Spec } from './models/Spec';
 
+export { $Choice } from './schemas/$Choice';
+export { $Error } from './schemas/$Error';
+export { $Improvement } from './schemas/$Improvement';
+export { $Lens } from './schemas/$Lens';
+export { $Pillar } from './schemas/$Pillar';
+export { $Question } from './schemas/$Question';
+export { $Resource } from './schemas/$Resource';
+export { $Risk } from './schemas/$Risk';
+export { $Spec } from './schemas/$Spec';
+
 export { DefaultService } from './services/DefaultService';

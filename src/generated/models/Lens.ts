@@ -7,9 +7,9 @@ import type { Spec } from './Spec';
 
 export type Lens = {
     id?: string;
-    name?: string;
+    name: string;
     description?: string;
-    spec?: Spec;
+    spec: Spec;
     created_at?: string;
     updated_at?: string;
     deleted_at?: string;
