@@ -8,20 +8,20 @@ export const middleware = async (request: NextRequest) => {
   const { origin } = request.nextUrl
 
   const res = await fetch(`${origin}/api/auth/session`, {
-    headers: headers(),
+    headers: {
+      cookie: headers().get('cookie') ?? ''
+    },
     cache: 'no-store'
   })
 
   const session: Session = await res.json()
-  const isLoggedIn = Object.keys(session).length > 0
+  const isLoggedIn = session !== null
   const pathname = request.nextUrl.pathname
 
   if (pathname != '/login' && !isLoggedIn) {
     return NextResponse.redirect(new URL('/login', origin))
   }
 }
-
-export { default as mi } from 'next-auth/middleware'
 
 export const config = {
   matcher: ['/dashboard/:path*', '/account/:path*']

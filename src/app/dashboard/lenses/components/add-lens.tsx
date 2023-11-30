@@ -16,6 +16,7 @@ import { useToast } from '@/components/ui/use-toast'
 import { useAction } from '@/trpc/client'
 import { addLensAction } from './add-lens.action'
 import { AddLensActionSchema } from './add-lens.schema'
+import { handle } from './demo.action'
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
@@ -28,7 +29,7 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
-import { FormProvider, useForm, UseFormProps } from 'react-hook-form'
+import { useForm, UseFormProps } from 'react-hook-form'
 import { Textarea } from '@/components/ui/textarea'
 
 function useZodForm<TSchema extends z.ZodType>(
@@ -68,7 +69,7 @@ export function AddLensDialog() {
     })
 
   async function onSubmit(form: z.infer<typeof AddLensActionSchema>) {
-    await mutation.mutateAsync({ description: '', name: 'demo 6', spec: {} })
+    await mutation.mutateAsync(new FormData(formRef.current!))
   }
 
   return (
@@ -81,7 +82,11 @@ export function AddLensDialog() {
           <DialogTitle>New Lens</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form ref={formRef} onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            action={addLensAction}
+            ref={formRef}
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
             <div className="grid gap-4 py-4">
               <FormField
                 control={form.control}

@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { auth } from '@/lib/auth'
+import { auth } from '@/auth'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import DefaultLayout from '@/components/default-layout'

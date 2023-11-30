@@ -2,7 +2,7 @@ import { logRequest } from '@/lib/middleware'
 import { createEdgeRouter } from 'next-connect'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import { auth } from '@/lib/auth'
+import { auth } from '@/auth'
 import { createWorkload, findAndCountWorkloads } from '@/db/services/workloads'
 
 export type Pagination = {

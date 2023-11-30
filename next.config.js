@@ -1,11 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    serverComponentsExternalPackages: [
-      'sequelize',
-      'sequelize-typescript',
-      '@trpc/server'
-    ]
+    serverActions: {
+      bodySizeLimit: '2mb'
+    },
+    serverComponentsExternalPackages: ['sequelize', 'sequelize-typescript']
   }
 }
 

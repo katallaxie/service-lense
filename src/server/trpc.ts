@@ -1,6 +1,6 @@
 import { experimental_createServerActionHandler } from '@trpc/next/app-dir/server'
 import { initTRPC, TRPCError } from '@trpc/server'
-import { getServerAuthSession } from '@/lib/auth'
+import { auth } from '@/auth'
 import { headers } from 'next/headers'
 import superjson from 'superjson'
 import { ZodError } from 'zod'
@@ -40,12 +40,12 @@ export const protectedProcedure = publicProcedure.use(opts => {
 
 export const createAction = experimental_createServerActionHandler(t, {
   async createContext() {
-    const { session } = await getServerAuthSession()
+    const session = await auth()
 
     return {
       session,
       headers: {
-        cooki: headers().get('cookie') ?? ''
+        cookie: headers().get('cookie') ?? ''
       }
     }
   }
