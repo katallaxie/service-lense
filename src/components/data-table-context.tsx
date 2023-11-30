@@ -21,7 +21,7 @@ export interface DataTableProviderProps {
 
 export const DataTableProvider = ({
   children,
-  pageIndex = 1,
+  pageIndex = 0,
   pageSize = 10
 }: DataTableProviderProps) => {
   const [pagination, setPagination] = useState<PaginationState>({

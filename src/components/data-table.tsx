@@ -58,8 +58,7 @@ export function DataTable<TData, TValue>({
       sorting,
       columnVisibility,
       rowSelection,
-      columnFilters,
-      pagination: dataTableContext.pagination
+      columnFilters
     },
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
