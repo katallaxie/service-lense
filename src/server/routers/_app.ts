@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { publicProcedure, protectedProcedure, router } from '../trpc'
 import { findAndCountLenses } from '@/db/services/lenses'
 
-export const listLenses = protectedProcedure
+export const listLenses = publicProcedure
   .input(
     z.object({
       limit: z.number().min(0).max(100).default(10),

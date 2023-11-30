@@ -9,7 +9,7 @@ export const AddLensActionSchema = z.object({
   //       .refine(file => file),
   //     z.string()
   //   ]),
-  spec: z.object({}),
+  // spec: z.object({}),
   description: z
     .string()
     .min(10, {
