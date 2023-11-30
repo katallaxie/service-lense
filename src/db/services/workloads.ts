@@ -1,4 +1,4 @@
-import { Profile, Workload } from '..'
+import { Profile, Workload, Lens, WorkloadLens } from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { WorkloadCreationAttributes } from '../models/workload'
 
@@ -25,7 +25,10 @@ export async function deleteWorkload(id: string) {
 }
 
 export async function getWorkload(id: string) {
-  const workload = await Workload.findOne({ where: { id }, include: [Profile] })
+  const workload = await Workload.findOne({
+    where: { id },
+    include: [Profile, Lens]
+  })
 
   return workload
 }
@@ -40,7 +43,7 @@ export async function findAndCountWorkloads({
   limit = 10
 }: Pagination) {
   const workloads = await Workload.findAndCountAll({
-    include: [Profile],
+    include: [Profile, Lens],
     order: [['name', 'DESC']],
     offset,
     limit

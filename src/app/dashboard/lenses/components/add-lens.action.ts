@@ -8,6 +8,6 @@ export const addLensAction = createAction(
   protectedProcedure.input(AddLensActionSchema).mutation(async opts => {
     const lens = await addLens({ ...opts.input, spec: {} })
 
-    return { name: 'hello', description: 'world' }
+    return { name: 'hello', description: 'world', spec: { name: 'test' } }
   })
 )

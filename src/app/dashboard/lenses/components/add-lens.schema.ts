@@ -2,14 +2,19 @@ import { z } from 'zod'
 
 export const AddLensActionSchema = z.object({
   name: z.string().min(3, {}),
-  //   spec: z.union([
-  //     z
-  //       .custom<FileList>()
-  //       .transform(file => file.length > 0 && file.item(0))
-  //       .refine(file => file),
-  //     z.string()
-  //   ]),
-  // spec: z.object({}),
+  spec: z.union([
+    z
+      .custom<FileList>()
+      .transform(file => file.length > 0 && file.item(0))
+      .refine(file => file),
+    z.string()
+  ]),
+  // this is really super minimal
+  // spec: z
+  //   .object({
+  //     name: z.string()
+  //   })
+  //   .optional(),
   description: z
     .string()
     .min(10, {

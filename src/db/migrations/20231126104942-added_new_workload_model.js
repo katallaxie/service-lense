@@ -38,6 +38,16 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
+
+    await queryInterface.addColumn('workloads', 'lensesId', {
+      type: Sequelize.UUID,
+      references: {
+        model: 'lenses',
+        key: 'id'
+      },
+      allowNull: true,
+      onDelete: 'CASCADE'
+    })
   },
 
   async down(queryInterface, Sequelize) {

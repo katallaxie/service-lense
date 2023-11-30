@@ -20,9 +20,9 @@ export async function addLens({
   const p = new Lens({ id, name, spec, description })
   await p.validate()
 
-  const profile = await p.save()
+  const lens = await p.save()
 
-  return profile.dataValues
+  return lens.dataValues
 }
 
 export async function deleteLens(id: string) {

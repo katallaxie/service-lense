@@ -5,6 +5,7 @@ import {
   DataType,
   DeletedAt,
   ForeignKey,
+  BelongsToMany,
   Max,
   Min,
   Model,
@@ -14,6 +15,8 @@ import {
   UpdatedAt
 } from 'sequelize-typescript'
 import { Profile } from './profile'
+import { Lens } from './lens'
+import { WorkloadLens } from './workload-lens'
 
 export interface WorkloadAttributes {
   id: string
@@ -66,6 +69,9 @@ export class Workload extends Model<
 
   @BelongsTo(() => Profile)
   profile?: Profile
+
+  @BelongsToMany(() => Lens, () => WorkloadLens)
+  lenses?: Lens[]
 
   @CreatedAt
   @Column

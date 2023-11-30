@@ -9,8 +9,11 @@ import {
   DataType,
   NotEmpty,
   Min,
-  Max
+  Max,
+  BelongsToMany
 } from 'sequelize-typescript'
+import { WorkloadLens } from './workload-lens'
+import { Workload } from './workload'
 
 export interface LensAttributes {
   id: string
@@ -122,6 +125,9 @@ export class Lens extends Model<LensAttributes, LensCreationAttributes> {
   @Max(2048)
   @Column
   description!: string
+
+  @BelongsToMany(() => Workload, () => WorkloadLens)
+  workloads?: Workload[]
 
   @CreatedAt
   @Column
