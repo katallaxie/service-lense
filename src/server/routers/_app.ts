@@ -1,15 +1,20 @@
 import { z } from 'zod'
 import { publicProcedure, protectedProcedure, router } from '../trpc'
 import { findAndCountLenses } from '@/db/services/lenses'
+import { findAndCountWorkloads } from '@/db/services/workloads'
 
-export const listLenses = publicProcedure
-  .input(
-    z.object({
-      limit: z.number().min(0).max(100).default(10),
-      offset: z.number().min(0).default(0)
-    })
-  )
+export const PaginationSchema = z.object({
+  limit: z.number().min(0).max(100).default(10),
+  offset: z.number().min(0).default(0)
+})
+
+export const listLenses = protectedProcedure
+  .input(PaginationSchema)
   .query(async opts => await findAndCountLenses({ ...opts.input }))
+
+export const listWorkloads = protectedProcedure
+  .input(PaginationSchema)
+  .query(async opts => await findAndCountWorkloads({ ...opts.input }))
 
 export const appRouter = router({
   greeting: publicProcedure
@@ -35,7 +40,8 @@ export const appRouter = router({
     return opts.ctx.session
   }),
 
-  listLenses
+  listLenses,
+  listWorkloads
 })
 
 export type AppRouter = typeof appRouter
