@@ -2,11 +2,9 @@ import { z } from 'zod'
 import { publicProcedure, protectedProcedure, router } from '../trpc'
 import { findAndCountLenses } from '@/db/services/lenses'
 import { findAndCountWorkloads } from '@/db/services/workloads'
+import { PaginationSchema } from './schemas/pagination'
 
-export const PaginationSchema = z.object({
-  limit: z.number().min(0).max(100).default(10),
-  offset: z.number().min(0).default(0)
-})
+import { listEnvironments } from './actions/environments'
 
 export const listLenses = protectedProcedure
   .input(PaginationSchema)
@@ -40,6 +38,7 @@ export const appRouter = router({
     return opts.ctx.session
   }),
 
+  listEnvironments,
   listLenses,
   listWorkloads
 })

@@ -3,21 +3,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('lenses', {
+    await queryInterface.createTable('workload-environment', {
       id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
         allowNull: false,
-        primaryKey: true
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
       },
-      name: {
-        type: Sequelize.STRING
+      workloadId: {
+        type: Sequelize.UUID
       },
-      description: {
-        type: Sequelize.STRING
-      },
-      spec: {
-        type: Sequelize.JSONB
+      environmentId: {
+        type: Sequelize.UUID
       },
       createdAt: {
         type: Sequelize.DATE
@@ -32,6 +29,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('lenses')
+    await queryInterface.dropTable('workload-environment')
   }
 }

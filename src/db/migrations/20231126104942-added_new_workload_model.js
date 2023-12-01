@@ -48,6 +48,16 @@ module.exports = {
       allowNull: true,
       onDelete: 'CASCADE'
     })
+
+    await queryInterface.addColumn('workloads', 'environmentsId', {
+      type: Sequelize.UUID,
+      references: {
+        model: 'environments',
+        key: 'id'
+      },
+      allowNull: true,
+      onDelete: 'CASCADE'
+    })
   },
 
   async down(queryInterface, Sequelize) {

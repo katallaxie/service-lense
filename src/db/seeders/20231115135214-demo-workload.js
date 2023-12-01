@@ -29,6 +29,24 @@ module.exports = {
         spec: '{"version":1,"name":"SAP Lens","description":"SAP Lens","pillars":[{"id":"operational_excellence","name":"Operational Excellence","description":"Operational Excellence","questions":[{"id":"question_1","name":"Question 1","description":"Question 1","choices":[{"id":"choice_1","name":"Choice 1","description":"Choice 1"}],"risks":[{"risk":"HIGH","condition":"default"}]}]}]}'
       }
     ])
+
+    await queryInterface.bulkInsert('environments', [
+      {
+        id: crypto.randomUUID(),
+        name: 'production',
+        description: 'Production environment'
+      },
+      {
+        id: crypto.randomUUID(),
+        name: 'staging',
+        description: 'Staging environment'
+      },
+      {
+        id: crypto.randomUUID(),
+        name: 'development',
+        description: 'Development environment'
+      }
+    ])
   },
 
   async down(queryInterface, Sequelize) {

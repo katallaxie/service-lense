@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('lenses', {
+    await queryInterface.createTable('environments', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -15,9 +15,6 @@ module.exports = {
       },
       description: {
         type: Sequelize.STRING
-      },
-      spec: {
-        type: Sequelize.JSONB
       },
       createdAt: {
         type: Sequelize.DATE
@@ -32,6 +29,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('lenses')
+    await queryInterface.dropTable('environments')
   }
 }

@@ -1,7 +1,8 @@
 import { Separator } from '@/components/ui/separator'
 import { EnvironmentsForm } from '@/app/dashboard/settings/environments/environments-form'
+import { DataTableProvider } from '@/components/data-table-context'
 
-export default function SettingsAppearancePage() {
+export default function Page() {
   return (
     <div className="space-y-6">
       <div>
@@ -10,8 +11,10 @@ export default function SettingsAppearancePage() {
           Customize the environments of the service lens.
         </p>
       </div>
-      <Separator />
-      <EnvironmentsForm />
+      <DataTableProvider>
+        <Separator />
+        <EnvironmentsForm />
+      </DataTableProvider>
     </div>
   )
 }
