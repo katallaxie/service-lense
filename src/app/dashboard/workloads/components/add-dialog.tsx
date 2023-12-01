@@ -187,7 +187,6 @@ export function AddWorkloadDialog() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectLabel>Profile</SelectLabel>
                         {profiles?.rows.map(
                           (profile: Profile, index: number) => (
                             <SelectItem key={index} value={profile.id}>

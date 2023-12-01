@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { headers } from 'next/headers'
 
 import { cn } from '@/lib/utils'
 
@@ -22,6 +23,10 @@ const nav = [
   {
     name: 'Profiles',
     link: '/dashboard/profiles'
+  },
+  {
+    name: 'Settings',
+    link: '/dashboard/settings'
   }
 ]
 
@@ -29,6 +34,9 @@ export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
+  // const heads = headers()
+  // const pathname = heads.get('next-url') ?? ''
+
   return (
     <nav
       className={cn('flex items-center space-x-4 lg:space-x-6', className)}
@@ -38,7 +46,9 @@ export function MainNav({
         <Link
           key={idx}
           href={item.link}
-          className="text-sm font-medium transition-colors hover:text-primary"
+          className={cn(
+            'text-sm font-medium transition-colors hover:text-primary'
+          )}
         >
           {item.name}
         </Link>
