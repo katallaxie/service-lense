@@ -14,8 +14,9 @@ export async function createWorkload({
   name,
   description,
   environments,
-  profilesId
-}: WorkloadCreationAttributes) {
+  profilesId,
+  environmentsIds
+}: WorkloadCreationAttributes & { environmentsIds: string[] }) {
   return await sequelize.transaction(async transaction => {
     const id = uuidv4()
     const workload = await Workload.create(
@@ -29,13 +30,11 @@ export async function createWorkload({
       { transaction }
     )
 
-    await WorkloadEnvironment.create(
-      {
-        workloadId: workload.id,
-        environmentId: '073ab171-70a1-4232-a64c-1479b14c43e9'
-      },
-      { transaction }
-    )
+    const items = Array.from(environmentsIds).map(id => ({
+      environmentId: id,
+      workloadId: workload.id
+    }))
+    await WorkloadEnvironment.bulkCreate(items, { transaction })
 
     return workload.dataValues
   })

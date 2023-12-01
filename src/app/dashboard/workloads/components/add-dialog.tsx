@@ -41,7 +41,7 @@ import useSWR from 'swr'
 
 const FormSchema = z.object({
   name: z.string().min(3, {}).default(''),
-  environments: z.array(z.string()).min(1).default([]),
+  environmentsIds: z.array(z.string()).min(1).default([]),
   description: z
     .string()
     .min(10, {
@@ -90,7 +90,6 @@ export function AddWorkloadDialog() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       const workload = await createWorkflow(data)
-
       await mutate({ ...data, rows: [...workloads.rows, workload] }, true)
 
       toast({
@@ -159,7 +158,7 @@ export function AddWorkloadDialog() {
               />
               <FormField
                 control={form.control}
-                name="environments"
+                name="environmentsIds"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Environments</FormLabel>

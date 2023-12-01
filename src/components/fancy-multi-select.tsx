@@ -6,7 +6,6 @@ import { X } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Command, CommandGroup, CommandItem } from '@/components/ui/command'
 import { Command as CommandPrimitive } from 'cmdk'
-import { date } from 'zod'
 
 export type FancyMultiSelectValue<T> = {
   value: T
@@ -32,25 +31,19 @@ export function FancyMultiSelect<T>({
   ])
   const [inputValue, setInputValue] = React.useState('')
 
-  const handleSelect = React.useCallback(
-    (value: FancyMultiSelectValue<T>) => {
-      setSelected(prev => [...prev, value])
+  React.useEffect(() => {
+    onValueChange?.(selected.map(s => s.value))
+  }, [selected, onValueChange])
 
-      if (onValueChange) {
-        onValueChange(selected.map(s => s.value))
-      }
-    },
-    [onValueChange, selected]
-  )
+  const handleSelect = React.useCallback((value: FancyMultiSelectValue<T>) => {
+    setSelected(prev => [...prev, value])
+  }, [])
 
   const handleUnselect = React.useCallback(
     (select: FancyMultiSelectValue<T>) => {
       setSelected(prev => prev.filter(s => s.value !== select.value))
-      if (onValueChange) {
-        onValueChange(selected.map(s => s.value))
-      }
     },
-    [onValueChange, selected]
+    []
   )
 
   const handleKeyDown = React.useCallback(
@@ -63,10 +56,6 @@ export function FancyMultiSelect<T>({
               const newSelected = [...prev]
               newSelected.pop()
 
-              if (onValueChange) {
-                onValueChange(newSelected.map(s => s.value))
-              }
-
               return newSelected
             })
           }
@@ -77,7 +66,7 @@ export function FancyMultiSelect<T>({
         }
       }
     },
-    [onValueChange]
+    []
   )
 
   const selectables = dataValues.filter(select =>
