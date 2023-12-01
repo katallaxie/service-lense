@@ -22,8 +22,8 @@ const sidebarNavItems = [
     href: '/dashboard/settings/environments'
   },
   {
-    title: 'Appearance',
-    href: '/dashboard/settings/appearance'
+    title: 'Developer',
+    href: '/dashboard/settings/developer'
   }
 ]
 

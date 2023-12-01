@@ -12,21 +12,6 @@ type PageProps = {
   children: React.ReactNode
 }
 
-const sidebarNavItems = [
-  {
-    title: 'General',
-    href: '/dashboard/settings/general'
-  },
-  {
-    title: 'Environments',
-    href: '/dashboard/settings/environments'
-  },
-  {
-    title: 'Appearance',
-    href: '/dashboard/settings/appearance'
-  }
-]
-
 export default function Page({ children }: PageProps) {
   return (
     <>
