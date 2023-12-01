@@ -1,33 +1,50 @@
-import { Profile, Workload, Lens, WorkloadLens } from '..'
+import {
+  Profile,
+  Workload,
+  Lens,
+  WorkloadLens,
+  WorkloadEnvironment,
+  Environment
+} from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { WorkloadCreationAttributes } from '../models/workload'
+import { sequelize } from '..'
 
 export async function createWorkload({
   name,
   description,
-  environment,
+  environments,
   profilesId
 }: WorkloadCreationAttributes) {
-  const id = uuidv4()
-  const w = new Workload({ id, profilesId, name, description, environment })
+  return await sequelize.transaction(async transaction => {
+    const id = uuidv4()
+    const workload = await Workload.create(
+      {
+        id,
+        profilesId,
+        name,
+        environments,
+        description
+      },
+      { transaction }
+    )
 
-  await w.validate()
+    await WorkloadEnvironment.create(
+      {
+        workloadId: workload.id,
+        environmentId: '073ab171-70a1-4232-a64c-1479b14c43e9'
+      },
+      { transaction }
+    )
 
-  const workload = await w.save()
-
-  return workload.dataValues
-}
-
-export async function deleteWorkload(id: string) {
-  const workload = await Workload.destroy({ where: { id } })
-
-  return workload
+    return workload.dataValues
+  })
 }
 
 export async function getWorkload(id: string) {
   const workload = await Workload.findOne({
     where: { id },
-    include: [Profile, Lens]
+    include: [Profile, Environment]
   })
 
   return workload
@@ -43,7 +60,7 @@ export async function findAndCountWorkloads({
   limit = 10
 }: Pagination) {
   const workloads = await Workload.findAndCountAll({
-    include: [Profile, Lens],
+    include: [Profile, Environment],
     order: [['name', 'DESC']],
     offset,
     limit

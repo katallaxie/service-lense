@@ -11,8 +11,10 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
-import { useRef } from 'react'
+import { useRef, use } from 'react'
+import { FancyMultiSelect } from '@/components/fancy-multi-select'
 
+import { api } from '@/trpc/client'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
@@ -30,7 +32,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
@@ -39,8 +40,8 @@ import { Textarea } from '@/components/ui/textarea'
 import useSWR from 'swr'
 
 const FormSchema = z.object({
-  name: z.string().min(3, {}),
-  environment: z.string().min(3, {}),
+  name: z.string().min(3, {}).default(''),
+  environments: z.array(z.string()).min(1).default([]),
   description: z
     .string()
     .min(10, {
@@ -48,14 +49,22 @@ const FormSchema = z.object({
     })
     .max(2024, {
       message: 'Description must be less than 2024 characters.'
-    }),
-  profilesId: z.string(),
-  tags: z.array(z.string())
+    })
+    .default(''),
+  profilesId: z.string().default(''),
+  tags: z.array(z.string()).default([])
 })
 
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 export function AddWorkloadDialog() {
+  const environments = use(
+    api.listEnvironments.query({
+      limit: 100,
+      offset: 0
+    })
+  )
+
   const {
     data: workloads,
     mutate,
@@ -69,13 +78,7 @@ export function AddWorkloadDialog() {
   const dialogClose = () => closeDialog.current && closeDialog.current.click()
 
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
-    defaultValues: {
-      name: '',
-      description: '',
-      environment: '',
-      tags: []
-    }
+    resolver: zodResolver(FormSchema)
   })
 
   const createWorkflow = (form: z.infer<typeof FormSchema>) =>
@@ -156,24 +159,23 @@ export function AddWorkloadDialog() {
               />
               <FormField
                 control={form.control}
-                name="environment"
+                name="environments"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Environment</FormLabel>
+                    <FormLabel>Environments</FormLabel>
                     <FormControl>
-                      <Input
-                        disabled={form.formState.isSubmitting}
-                        placeholder="production, staging, development"
-                        {...field}
+                      <FancyMultiSelect
+                        placeholder="Select environments ..."
+                        onValueChange={field.onChange}
+                        dataValues={environments?.rows.map(env => ({
+                          value: env.id,
+                          label: env.name
+                        }))}
                       />
                     </FormControl>
-                    <FormDescription>
-                      The environment the workload is running in.
-                    </FormDescription>
-                    <FormMessage />
                   </FormItem>
                 )}
-              />
+              ></FormField>
               <FormField
                 control={form.control}
                 name="profilesId"

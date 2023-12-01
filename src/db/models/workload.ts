@@ -24,7 +24,7 @@ export interface WorkloadAttributes {
   id: string
   name: string
   description: string
-  environment: string
+  environments: Environment[]
   profilesId: string
   createdAt: Date
   updatedAt: Date
@@ -59,12 +59,6 @@ export class Workload extends Model<
   @Column
   description!: string
 
-  @NotEmpty
-  @Min(3)
-  @Max(256)
-  @Column
-  environment!: string
-
   @ForeignKey(() => Profile)
   @Column
   profilesId?: string
@@ -75,7 +69,7 @@ export class Workload extends Model<
   @BelongsToMany(() => Lens, () => WorkloadLens)
   lenses?: Lens[]
 
-  @BelongsToMany(() => Lens, () => WorkloadEnvironment)
+  @BelongsToMany(() => Environment, () => WorkloadEnvironment)
   environments?: Environment[]
 
   @CreatedAt

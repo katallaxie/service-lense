@@ -7,10 +7,11 @@ import {
   Model,
   PrimaryKey,
   Table,
+  AutoIncrement,
   UpdatedAt
 } from 'sequelize-typescript'
 import { Workload } from './workload'
-import { Lens } from './lens'
+import { Environment } from '..'
 
 export interface WorkloadEnvironmentAttributes {
   id: number
@@ -23,7 +24,7 @@ export interface WorkloadEnvironmentAttributes {
 
 export type WorkloadEnvironmentCreationAttributes = Omit<
   WorkloadEnvironmentAttributes,
-  'createdAt' | 'updatedAt' | 'deletedAt'
+  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
@@ -34,6 +35,7 @@ export class WorkloadEnvironment extends Model<
   WorkloadEnvironmentCreationAttributes
 > {
   @PrimaryKey
+  @AutoIncrement
   @Column(DataType.INTEGER)
   id!: string
 
@@ -41,7 +43,7 @@ export class WorkloadEnvironment extends Model<
   @Column(DataType.UUIDV4)
   workloadId?: string
 
-  @ForeignKey(() => Lens)
+  @ForeignKey(() => Environment)
   @Column(DataType.UUIDV4)
   environmentId?: string
 
