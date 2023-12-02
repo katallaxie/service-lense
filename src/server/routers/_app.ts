@@ -3,7 +3,8 @@ import { publicProcedure, protectedProcedure, router } from '../trpc'
 import { findAndCountLenses } from '@/db/services/lenses'
 import { findAndCountWorkloads } from '@/db/services/workloads'
 import { PaginationSchema } from './schemas/pagination'
-
+import { WorkloadDeleteSchema } from './schemas/workload'
+import { deleteWorkload as dt } from '@/db/services/workloads'
 import { listEnvironments } from './actions/environments'
 
 export const listLenses = protectedProcedure
@@ -13,6 +14,10 @@ export const listLenses = protectedProcedure
 export const listWorkloads = protectedProcedure
   .input(PaginationSchema)
   .query(async opts => await findAndCountWorkloads({ ...opts.input }))
+
+export const deleteWorkload = protectedProcedure
+  .input(WorkloadDeleteSchema)
+  .query(async opts => await dt(opts.input))
 
 export const appRouter = router({
   greeting: publicProcedure
@@ -40,7 +45,8 @@ export const appRouter = router({
 
   listEnvironments,
   listLenses,
-  listWorkloads
+  listWorkloads,
+  deleteWorkload
 })
 
 export type AppRouter = typeof appRouter

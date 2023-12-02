@@ -40,6 +40,9 @@ export async function createWorkload({
   })
 }
 
+export const deleteWorkload = async (id: string) =>
+  await Workload.update({ deletedAt: new Date(Date.now()) }, { where: { id } })
+
 export async function getWorkload(id: string) {
   const workload = await Workload.findOne({
     where: { id },
