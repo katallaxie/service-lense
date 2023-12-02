@@ -9,6 +9,7 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 import type { WorkloadCreationAttributes } from '../models/workload'
 import { sequelize } from '..'
+import { Op } from 'sequelize'
 
 export async function createWorkload({
   name,

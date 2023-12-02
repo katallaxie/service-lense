@@ -4,12 +4,11 @@ import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { Row } from '@tanstack/react-table'
 
 import { Button } from '@/components/ui/button'
+import { api } from '@/trpc/client'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuSub,
@@ -22,21 +21,14 @@ interface DataTableRowActionsProps<TData> {
   row: Row<TData>
 }
 
-async function deleteWorkload(id: number): Promise<void> {
-  const res = await fetch(`http://localhost:3000/api/workloads/${id}`, {
-    method: 'DELETE'
-  })
-
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error('Failed to fetch data')
-  }
+async function deleteWorkload(id: string): Promise<void> {
+  await api.deleteWorkload.query(id)
 }
 
 export function DataTableRowActions<TData>({
   row
 }: DataTableRowActionsProps<TData>) {
-  const id = row.getValue('id') as number
+  const id = row.getValue('id') as string
 
   return (
     <DropdownMenu>
