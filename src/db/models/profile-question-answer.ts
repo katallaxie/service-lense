@@ -8,30 +8,31 @@ import {
   Table,
   AutoIncrement,
   UpdatedAt,
-  NotEmpty,
   Min,
-  Max
+  Max,
+  NotEmpty
 } from 'sequelize-typescript'
 
-export interface ProfileAnswerAttributes {
+export interface ProfileQuestionAnswerAttributes {
   id: number
-  description: string
+  name: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
 }
 
-export type ProfileAnswerCreationAttributes = Omit<
-  ProfileAnswerAttributes,
+export type ProfileQuestionAnswerCreationAttributes = Omit<
+  ProfileQuestionAnswerAttributes,
   'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
+// This table stores all of the possible answers to a question
 @Table({
-  tableName: 'profile-answer'
+  tableName: 'profile-question-answer'
 })
-export class ProfileAnswer extends Model<
-  ProfileAnswerAttributes,
-  ProfileAnswerCreationAttributes
+export class ProfileQuestionAnswer extends Model<
+  ProfileQuestionAnswerAttributes,
+  ProfileQuestionAnswerCreationAttributes
 > {
   @PrimaryKey
   @AutoIncrement
@@ -39,10 +40,10 @@ export class ProfileAnswer extends Model<
   id!: string
 
   @NotEmpty
-  @Min(12)
-  @Max(2048)
+  @Min(3)
+  @Max(256)
   @Column
-  description!: string
+  name?: string
 
   @CreatedAt
   @Column
