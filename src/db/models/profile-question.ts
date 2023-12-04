@@ -7,41 +7,35 @@ import {
   Column,
   PrimaryKey,
   DataType,
-  HasMany,
   NotEmpty,
   Min,
   Max
 } from 'sequelize-typescript'
 
-export interface ProfileAttributes {
+export interface ProfileQuestionAttributes {
   id: string
-  name: string
+  name: string // is this really needed, have to double check this.
+  description: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
 }
 
-export type ProfileCreationAttributes = Omit<
-  ProfileAttributes,
+export type ProfileQuestionCreationAttributes = Omit<
+  ProfileQuestionAttributes,
   'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
-  tableName: 'profiles'
+  tableName: 'profile-question'
 })
-export class Profile extends Model<
-  ProfileAttributes,
-  ProfileCreationAttributes
+export class ProfileQuestion extends Model<
+  ProfileQuestionAttributes,
+  ProfileQuestionCreationAttributes
 > {
   @PrimaryKey
   @Column(DataType.UUIDV4)
   id!: string
-
-  @NotEmpty
-  @Min(3)
-  @Max(256)
-  @Column
-  name!: string
 
   @NotEmpty
   @Min(12)

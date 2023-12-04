@@ -10,6 +10,12 @@ module.exports = {
         allowNull: false,
         primaryKey: true
       },
+      label: {
+        type: Sequelize.STRING
+      },
+      labelColor: {
+        type: Sequelize.STRING
+      },
       name: {
         type: Sequelize.STRING
       },

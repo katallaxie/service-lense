@@ -16,6 +16,7 @@ export interface EnvironmentAttributes {
   id: string
   name: string
   description: string
+  label: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -42,6 +43,16 @@ export class Environment extends Model<
   @Max(256)
   @Column
   name!: string
+
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  label!: string
+
+  @NotEmpty
+  @Column
+  labelColor!: string
 
   @NotEmpty
   @Min(12)
