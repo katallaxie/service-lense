@@ -16,6 +16,10 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
+      isMultiple: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true
+      },
       createdAt: {
         type: Sequelize.DATE
       },

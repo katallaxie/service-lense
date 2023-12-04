@@ -20,7 +20,6 @@ export interface ProfileQuestionAttributes {
   id: string
   name: string // is this really needed, have to double check this.
   description: string
-  isMultiple: boolean
   createdAt: Date
   updatedAt: Date
   deletedAt: Date

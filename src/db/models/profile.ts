@@ -7,15 +7,18 @@ import {
   Column,
   PrimaryKey,
   DataType,
-  HasMany,
   NotEmpty,
   Min,
-  Max
+  Max,
+  BelongsToMany
 } from 'sequelize-typescript'
+import { ProfileQuestions } from './profile-questions'
+import { ProfileQuestion } from './profile-question'
 
 export interface ProfileAttributes {
   id: string
   name: string
+  description: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -48,6 +51,9 @@ export class Profile extends Model<
   @Max(2048)
   @Column
   description!: string
+
+  @BelongsToMany(() => ProfileQuestion, () => ProfileQuestions)
+  questions?: ProfileQuestion[]
 
   @CreatedAt
   @Column

@@ -40,11 +40,11 @@ export class ProfileQuestionAnswers extends Model<
 
   @ForeignKey(() => ProfileQuestion)
   @Column(DataType.UUIDV4)
-  profileQuestionId?: string
+  questionId?: string
 
   @ForeignKey(() => ProfileQuestionAnswer)
   @Column(DataType.UUIDV4)
-  profileAnswerId?: string
+  answerId?: string
 
   @CreatedAt
   @Column

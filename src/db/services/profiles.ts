@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { Profile } from '..'
+import { Profile, ProfileQuestion, ProfileQuestionAnswer } from '..'
 
 export type Pagination = {
   offset?: number
@@ -35,11 +35,15 @@ export async function findAndCountProfiles({
   offset = 0,
   limit = 10
 }: Pagination) {
-  const workloads = await Profile.findAndCountAll({
+  const profiles = await Profile.findAndCountAll({
     order: [['name', 'DESC']],
+    include: {
+      model: ProfileQuestion,
+      include: [ProfileQuestionAnswer]
+    },
     offset,
     limit
   })
 
-  return workloads
+  return profiles
 }

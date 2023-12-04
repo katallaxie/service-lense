@@ -5,6 +5,10 @@ import { Sequelize } from 'sequelize-typescript'
 import { Solution } from './models/solution'
 import { Workload } from './models/workload'
 import { WorkloadLens } from './models/workload-lens'
+import { ProfileQuestion } from './models/profile-question'
+import { ProfileQuestionAnswer } from './models/profile-question-answer'
+import { ProfileQuestionAnswers } from './models/profile-question-answers'
+import { ProfileQuestions } from './models/profile-questions'
 import { WorkloadEnvironment } from './models/workload-environment'
 import config from './config/config'
 
@@ -21,7 +25,11 @@ sequelize.addModels([
   Solution,
   Workload,
   WorkloadEnvironment,
-  WorkloadLens
+  WorkloadLens,
+  ProfileQuestion,
+  ProfileQuestionAnswer,
+  ProfileQuestionAnswers,
+  ProfileQuestions
 ])
 
 export {
@@ -31,7 +39,11 @@ export {
   Lens,
   WorkloadLens,
   WorkloadEnvironment,
-  Environment
+  Environment,
+  ProfileQuestion,
+  ProfileQuestionAnswer,
+  ProfileQuestionAnswers,
+  ProfileQuestions
 }
 
 export const initDB = async () => {

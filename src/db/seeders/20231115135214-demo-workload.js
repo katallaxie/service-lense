@@ -1,26 +1,62 @@
 'use strict'
 
 const crypto = require('crypto')
-const profilesId = crypto.randomUUID()
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
+    const profileId = crypto.randomUUID()
     await queryInterface.bulkInsert('profiles', [
       {
-        id: profilesId,
+        id: profileId,
         name: 'demo',
         description: 'This is an initial demo workload'
       }
     ])
+
+    const answerId = crypto.randomUUID()
+    await queryInterface.bulkInsert('profile-question-answer', [
+      {
+        id: answerId,
+        name: 'demo',
+        description: 'This is an initial demo answer'
+      }
+    ])
+
+    const questionId = crypto.randomUUID()
+    await queryInterface.bulkInsert('profile-question', [
+      {
+        id: questionId,
+        name: 'demo',
+        description: 'This is an initial demo question'
+      }
+    ])
+
+    await queryInterface.bulkInsert('profile-question-answers', [
+      {
+        id: crypto.randomUUID(),
+        questionId,
+        answerId
+      }
+    ])
+
+    await queryInterface.bulkInsert('profile-questions', [
+      {
+        id: crypto.randomUUID(),
+        questionId: questionId,
+        profileId: profileId
+      }
+    ])
+
     await queryInterface.bulkInsert('workloads', [
       {
         id: crypto.randomUUID(),
         name: 'demo',
         description: 'This is an initial demo profile',
-        profilesId
+        profilesId: profileId
       }
     ])
+
     await queryInterface.bulkInsert('lenses', [
       {
         id: crypto.randomUUID(),
