@@ -11,10 +11,22 @@ module.exports = {
         primaryKey: true
       },
       questionId: {
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        references: {
+          model: 'profile-question',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       answerId: {
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        references: {
+          model: 'profile-question-answer',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       createdAt: {
         type: Sequelize.DATE

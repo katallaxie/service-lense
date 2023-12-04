@@ -3,18 +3,18 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('profile-questions', {
+    await queryInterface.createTable('profile-question', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         primaryKey: true
       },
-      profileId: {
-        type: Sequelize.UUID
+      name: {
+        type: Sequelize.STRING
       },
-      questionId: {
-        type: Sequelize.UUID
+      description: {
+        type: Sequelize.STRING
       },
       createdAt: {
         type: Sequelize.DATE
@@ -29,6 +29,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('profile-questions')
+    await queryInterface.dropTable('profile-question')
   }
 }

@@ -1,22 +1,32 @@
 'use strict'
 
-const { SERIALIZABLE } = require('sequelize/types/table-hints')
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('profile-question', {
+    await queryInterface.createTable('profile-questions', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         primaryKey: true
       },
-      name: {
-        type: Sequelize.STRING
+      profileId: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'profiles',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
-      description: {
-        type: Sequelize.STRING
+      questionId: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'profile-question',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       },
       createdAt: {
         type: Sequelize.DATE
@@ -31,6 +41,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('profile-question')
+    await queryInterface.dropTable('profile-questions')
   }
 }

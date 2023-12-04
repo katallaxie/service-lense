@@ -14,7 +14,8 @@
     "db:migrate": "sequelize db:migrate",
     "db:seed": "npx sequelize-cli db:seed:all",
     "migrate:up": "npx sequelize-cli db:migrate",
-    "migrate:undo": "npx sequelize-cli db:migrate:undo"
+    "migrate:undo": "npx sequelize-cli db:migrate:undo:",
+    "migrate:undo:all": "npx sequelize-cli db:migrate:undo:all"
   },
   "dependencies": {
     "@auth/pg-adapter": "^0.2.7",
