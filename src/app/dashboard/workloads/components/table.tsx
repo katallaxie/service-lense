@@ -17,7 +17,7 @@ export function Table() {
   return useMemo(() => {
     return (
       <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-        <DataTable data={data?.rows} columns={columns} isLoading={false} />
+        <DataTable data={data?.rows} columns={columns} />
       </div>
     )
   }, [data])

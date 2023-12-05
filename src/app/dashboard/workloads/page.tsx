@@ -7,12 +7,13 @@ import {
   SubNavSubtitle
 } from '@/components/sub-nav'
 
-type RootProps = {
-  children: React.ReactNode
+export type PageProps = {
+  children?: React.ReactNode
 }
+
 import { DataTableProvider } from '@/components/data-table-context'
 
-export default function Page({ children }: RootProps) {
+export default function Page({ children }: PageProps) {
   return (
     <>
       <SubNav>

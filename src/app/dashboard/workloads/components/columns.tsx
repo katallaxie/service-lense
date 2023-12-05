@@ -1,7 +1,7 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-
+import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 
 import { Workload } from '@/db'
@@ -81,22 +81,21 @@ export const columns: ColumnDef<Workload>[] = [
       <DataTableColumnHeader column={column} title="Environment" />
     ),
     cell: ({ row }) => {
-      //   const status = statuses.find(
-      //     status => status.value === row.getValue('environment')
-      //   )
-
-      //   if (!status) {
-      //     return null
-      //   }
-
       return (
         <div className="flex space-x-2 items-center">
           {/* {status.icon && (
             <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )} */}
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('environment')}
-          </span>
+          {row.original?.environments?.map(env => (
+            <Button
+              key={env.id}
+              variant="outline"
+              size="sm"
+              className="h-8 border-dashed"
+            >
+              {env.name}
+            </Button>
+          ))}
         </div>
       )
     },
