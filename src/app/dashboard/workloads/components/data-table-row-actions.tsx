@@ -16,10 +16,13 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import Link from 'next/link'
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
 }
+
+export type RowBuilder<TData> = (row: Row<TData>) => React.ReactNode
 
 async function deleteWorkload(id: string): Promise<void> {
   await api.deleteWorkload.query(id)
@@ -42,7 +45,10 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>View</DropdownMenuItem>
+        <Link href="/">
+          <DropdownMenuItem>View</DropdownMenuItem>
+        </Link>
+
         <DropdownMenuItem>Make a copy</DropdownMenuItem>
         <DropdownMenuItem>Favorite</DropdownMenuItem>
         <DropdownMenuSeparator />
