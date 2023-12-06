@@ -6,6 +6,7 @@ import { PaginationSchema } from './schemas/pagination'
 import { WorkloadDeleteSchema } from './schemas/workload'
 import { deleteWorkload as dt } from '@/db/services/workloads'
 import { listEnvironments } from './actions/environments'
+import { deleteLens } from './actions/lenses'
 
 export const listLenses = protectedProcedure
   .input(PaginationSchema)
@@ -46,7 +47,8 @@ export const appRouter = router({
   listEnvironments,
   listLenses,
   listWorkloads,
-  deleteWorkload
+  deleteWorkload,
+  deleteLens
 })
 
 export type AppRouter = typeof appRouter

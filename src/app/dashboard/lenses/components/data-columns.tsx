@@ -4,7 +4,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Profile } from '@/db'
 import { DataTableColumnHeader } from '@/components/data-table-column-header'
-import { DataTableRowActions } from '@/components/data-table-row-actions'
+import { DataTableRowActions } from '@/app/dashboard/lenses/components/data-rows-actions'
 
 export const columns: ColumnDef<Profile>[] = [
   {
