@@ -1,15 +1,7 @@
-import {
-  Profile,
-  Workload,
-  Lens,
-  WorkloadLens,
-  WorkloadEnvironment,
-  Environment
-} from '..'
+import { Profile, Workload, WorkloadEnvironment, Environment } from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { WorkloadCreationAttributes } from '../models/workload'
 import { sequelize } from '..'
-import { Op } from 'sequelize'
 
 export async function createWorkload({
   name,
@@ -44,14 +36,11 @@ export async function createWorkload({
 export const deleteWorkload = async (id: string) =>
   await Workload.update({ deletedAt: new Date(Date.now()) }, { where: { id } })
 
-export async function getWorkload(id: string) {
-  const workload = await Workload.findOne({
+export const getWorkload = async (id: string) =>
+  await Workload.findOne({
     where: { id },
     include: [Profile, Environment]
   })
-
-  return workload
-}
 
 export type Pagination = {
   offset?: number

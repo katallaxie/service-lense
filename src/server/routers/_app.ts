@@ -7,6 +7,7 @@ import { WorkloadDeleteSchema } from './schemas/workload'
 import { deleteWorkload as dt } from '@/db/services/workloads'
 import { listEnvironments } from './actions/environments'
 import { deleteLens } from './actions/lenses'
+import { getWorkload } from './actions/workloads'
 
 export const listLenses = protectedProcedure
   .input(PaginationSchema)
@@ -44,6 +45,7 @@ export const appRouter = router({
     return opts.ctx.session
   }),
 
+  getWorkload,
   listEnvironments,
   listLenses,
   listWorkloads,
