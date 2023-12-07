@@ -10,7 +10,8 @@ import {
   NotEmpty,
   Min,
   Max,
-  BelongsToMany
+  BelongsToMany,
+  Default
 } from 'sequelize-typescript'
 import { WorkloadLens } from './workload-lens'
 import { Workload } from './workload'
@@ -19,6 +20,7 @@ export interface LensAttributes {
   id: string
   spec: object
   name: string
+  isDraft: boolean
   description: string
   createdAt: Date
   updatedAt: Date
@@ -119,6 +121,10 @@ export class Lens extends Model<LensAttributes, LensCreationAttributes> {
   @NotEmpty
   @Column(DataType.JSONB)
   spec!: Spec
+
+  @Default(true)
+  @Column
+  isDraft!: boolean
 
   @NotEmpty
   @Min(12)

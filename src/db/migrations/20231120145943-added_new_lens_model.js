@@ -19,6 +19,10 @@ module.exports = {
       spec: {
         type: Sequelize.JSONB
       },
+      isDraft: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       createdAt: {
         type: Sequelize.DATE
       },
