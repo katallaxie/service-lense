@@ -14,11 +14,11 @@ import { Separator } from '@/components/ui/separator'
 import DateFormat from '@/components/date-format'
 import { Workload } from '@/db/models/workload'
 
-export type OverviewCardProps = {
+export type LensesCardProps = {
   workload?: Workload
 }
 
-export function OverviewCard({ workload }: OverviewCardProps) {
+export function LensesCard({ workload }: LensesCardProps) {
   return (
     <Card className="my-4">
       <CardHeader className="space-y-1">

@@ -25,7 +25,6 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
-import useSWR from 'swr'
 import { useWorkload } from '@/components/data/workloads'
 
 const FormSchema = z.object({

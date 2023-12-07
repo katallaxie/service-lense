@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import DateFormat from '@/components/date-format'
-import { WorkloadAttributes } from '@/db/models/workload'
 import { Profile } from '@/db/models/profile'
 
 export type ProfileCardProps = {
@@ -26,6 +25,14 @@ export function ProfileCard({ profile }: ProfileCardProps) {
         <CardTitle className="text-2xl">Profile</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <h2 className="text-l font-semibold tracking-tight text-muted-foreground">
+              Name
+            </h2>
+            <p>{profile?.name}</p>
+          </div>
+        </div>
         <div className="flex items-center justify-between">
           <div className="space-y-1">
             <h2 className="text-l font-semibold tracking-tight text-muted-foreground">

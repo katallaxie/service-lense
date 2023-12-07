@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { Separator } from '@/components/ui/separator'
+import { PropertiesCard } from './components/properties-card'
 
 export type PageProps = {
   params: { id: string }
@@ -59,7 +60,7 @@ export default async function Page({ params }: PageProps) {
             value="properties"
             className="h-full flex-col border-none p-0 data-[state=active]:flex"
           >
-            Properties
+            {workload && <PropertiesCard workload={workload} />}
           </TabsContent>
           <TabsContent
             value="permissions"
