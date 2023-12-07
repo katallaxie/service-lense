@@ -4,20 +4,14 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card'
 import { OverviewCard } from './components/overview-card'
+import { ProfileCard } from './components/profile-card'
 import { Section } from '@/components/section'
 import { api } from '@/trpc/server-http'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import { PlusCircledIcon } from '@radix-ui/react-icons'
+import { Separator } from '@/components/ui/separator'
 
 export type PageProps = {
   params: { id: string }
@@ -59,6 +53,7 @@ export default async function Page({ params }: PageProps) {
             className="border-none p-0 outline-none"
           >
             {workload && <OverviewCard workload={workload} />}
+            {workload?.profile && <ProfileCard profile={workload.profile} />}
           </TabsContent>
           <TabsContent
             value="properties"

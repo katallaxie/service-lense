@@ -12,17 +12,18 @@ import {
 } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import DateFormat from '@/components/date-format'
-import { Workload } from '@/db/models/workload'
+import { WorkloadAttributes } from '@/db/models/workload'
+import { Profile } from '@/db/models/profile'
 
-export type OverviewCardProps = {
-  workload?: Workload
+export type ProfileCardProps = {
+  profile?: Profile
 }
 
-export function OverviewCard({ workload }: OverviewCardProps) {
+export function ProfileCard({ profile }: ProfileCardProps) {
   return (
     <Card className="my-4">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">Workflow Overview</CardTitle>
+        <CardTitle className="text-2xl">Profile</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="flex items-center justify-between">
@@ -31,12 +32,12 @@ export function OverviewCard({ workload }: OverviewCardProps) {
               Last updated
             </h2>
             <p>
-              <DateFormat date={workload?.dataValues?.updatedAt} />
+              <DateFormat date={profile?.dataValues?.updatedAt} />
             </p>
           </div>
         </div>
         <Separator />
-        <p>{workload?.description || 'No description provided.'}</p>
+        <p>{profile?.description || 'No description provided.'}</p>
       </CardContent>
       <CardFooter></CardFooter>
     </Card>
