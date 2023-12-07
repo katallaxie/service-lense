@@ -4,7 +4,20 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card'
+import { OverviewCard } from './components/overview-card'
+import { Section } from '@/components/section'
 import { api } from '@/trpc/server-http'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Button } from '@/components/ui/button'
+import { PlusCircledIcon } from '@radix-ui/react-icons'
 
 export type PageProps = {
   params: { id: string }
@@ -22,7 +35,45 @@ export default async function Page({ params }: PageProps) {
         </SubNavTitle>
         <SubNavActions></SubNavActions>
       </SubNav>
-      <section></section>
+      <Section>
+        <Tabs defaultValue="overview" className="h-full space-y-6">
+          <div className="space-between flex items-center">
+            <TabsList>
+              <TabsTrigger value="overview" className="relative">
+                Overview
+              </TabsTrigger>
+              <TabsTrigger value="properties">Properties</TabsTrigger>
+              <TabsTrigger value="permissions" disabled>
+                Permissions
+              </TabsTrigger>
+            </TabsList>
+            <div className="ml-auto mr-4">
+              <Button>
+                <PlusCircledIcon className="mr-2 h-4 w-4" />
+                Add Lens
+              </Button>
+            </div>
+          </div>
+          <TabsContent
+            value="overview"
+            className="border-none p-0 outline-none"
+          >
+            {workload && <OverviewCard workload={workload} />}
+          </TabsContent>
+          <TabsContent
+            value="properties"
+            className="h-full flex-col border-none p-0 data-[state=active]:flex"
+          >
+            Properties
+          </TabsContent>
+          <TabsContent
+            value="permissions"
+            className="h-full flex-col border-none p-0 data-[state=active]:flex"
+          >
+            Permissions
+          </TabsContent>
+        </Tabs>
+      </Section>
     </>
   )
 }
