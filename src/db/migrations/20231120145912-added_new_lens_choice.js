@@ -3,25 +3,22 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('lenses', {
+    await queryInterface.createTable('lens-pillar-choice', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         primaryKey: true
       },
+      ref: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       name: {
         type: Sequelize.STRING
       },
       description: {
         type: Sequelize.STRING
-      },
-      spec: {
-        type: Sequelize.JSONB
-      },
-      isDraft: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
       },
       createdAt: {
         type: Sequelize.DATE
@@ -33,19 +30,9 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
-
-    await queryInterface.addColumn('lenses', 'pillarId', {
-      type: Sequelize.UUID,
-      references: {
-        model: 'lens-pillars',
-        key: 'id'
-      },
-      allowNull: true,
-      onDelete: 'CASCADE'
-    })
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('lenses')
+    await queryInterface.dropTable('lens-pillar-choice')
   }
 }

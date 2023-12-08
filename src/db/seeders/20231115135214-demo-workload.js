@@ -57,9 +57,57 @@ module.exports = {
       }
     ])
 
-    await queryInterface.bulkInsert('lenses', [
+    const pillarId = crypto.randomUUID()
+    await queryInterface.bulkInsert('lens-pillar', [
+      {
+        id: pillarId,
+        name: 'Operational Excellence',
+        ref: 'ops_exec',
+        description: ''
+      }
+    ])
+
+    const pillarChoiceId = crypto.randomUUID()
+    await queryInterface.bulkInsert('lens-pillar-choice', [
+      {
+        id: pillarChoiceId,
+        name: 'Choice 1',
+        ref: 'choice_1',
+        description: ''
+      }
+    ])
+
+    const pillarQuestionId = crypto.randomUUID()
+    await queryInterface.bulkInsert('lens-pillar-question', [
+      {
+        id: pillarQuestionId,
+        name: 'Question 1',
+        ref: 'question_1',
+        description: ''
+      }
+    ])
+
+    await queryInterface.bulkInsert('lens-pillar-questions', [
       {
         id: crypto.randomUUID(),
+        questionId: pillarQuestionId,
+        pillarId: pillarId
+      }
+    ])
+
+    await queryInterface.bulkInsert('lens-pillar-question', [
+      {
+        id: crypto.randomUUID(),
+        name: 'Question 1',
+        ref: 'question_1',
+        description: ''
+      }
+    ])
+
+    const lensId = crypto.randomUUID()
+    await queryInterface.bulkInsert('lenses', [
+      {
+        id: lensId,
         name: 'Web Application Security Lens',
         description: 'This is an initial demo lens',
         isDraft: false,
@@ -71,6 +119,14 @@ module.exports = {
         description: 'This is an initial demo lens',
         isDraft: true,
         spec: '{"version":1,"name":"SAP Lens","description":"SAP Lens","pillars":[{"id":"operational_excellence","name":"Operational Excellence","description":"Operational Excellence","questions":[{"id":"question_1","name":"Question 1","description":"Question 1","choices":[{"id":"choice_1","name":"Choice 1","description":"Choice 1"}],"risks":[{"risk":"HIGH","condition":"default"}]}]}]}'
+      }
+    ])
+
+    await queryInterface.bulkInsert('lens-pillars', [
+      {
+        id: crypto.randomUUID(),
+        lensId: lensId,
+        pillarId: pillarId
       }
     ])
 

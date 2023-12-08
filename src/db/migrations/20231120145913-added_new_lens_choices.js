@@ -3,24 +3,26 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('lens-pillars', {
+    await queryInterface.createTable('lens-pillar-choices', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         primaryKey: true
       },
-      lensId: {
+      questionId: {
         type: Sequelize.UUID,
         references: {
-          model: 'lenses',
+          model: 'lens-pillar-question',
           key: 'id'
-        }
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
-      pillarId: {
+      choiceId: {
         type: Sequelize.UUID,
         references: {
-          model: 'lens-pillar',
+          model: 'lens-pillar-choice',
           key: 'id'
         },
         onDelete: 'CASCADE',
@@ -36,20 +38,9 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
-
-    await queryInterface.addColumn('lenses', 'pillarId', {
-      type: Sequelize.UUID,
-      references: {
-        model: 'lens-pillars',
-        key: 'id'
-      },
-      allowNull: true,
-      onDelete: 'CASCADE'
-    })
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('lens-pillars')
-    await queryInterface.dropTable('lenses')
+    await queryInterface.dropTable('lens-pillar-choices')
   }
 }
