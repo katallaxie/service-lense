@@ -17,7 +17,7 @@ export async function addLens({
 }) {
   const id = uuidv4()
 
-  const p = new Lens({ id, name, spec, description })
+  const p = new Lens({ id, name, spec, description, isDraft: true })
   await p.validate()
 
   const lens = await p.save()

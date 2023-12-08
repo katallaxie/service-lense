@@ -48,15 +48,6 @@ module.exports = {
       }
     ])
 
-    await queryInterface.bulkInsert('workloads', [
-      {
-        id: crypto.randomUUID(),
-        name: 'demo',
-        description: 'This is an initial demo profile',
-        profilesId: profileId
-      }
-    ])
-
     const pillarId = crypto.randomUUID()
     await queryInterface.bulkInsert('lens-pillar', [
       {

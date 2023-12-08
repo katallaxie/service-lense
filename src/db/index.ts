@@ -16,6 +16,7 @@ import { LensPillarChoice } from './models/lens-pillar-choice'
 import { LensPillarQuestion } from './models/lens-pillar-question'
 import { LensPillarQuestions } from './models/lens-pillar-questions'
 import { LensPillarRisk } from './models/lens-pillar-risk'
+import { LensPillars } from './models/lens-pillars'
 import { LensPillarRisks } from './models/lens-pillar-risks'
 import config from './config/config'
 
@@ -35,6 +36,7 @@ sequelize.addModels([
   LensPillarQuestions,
   LensPillarRisk,
   LensPillarRisks,
+  LensPillars,
   Profile,
   ProfileQuestion,
   ProfileQuestionAnswer,

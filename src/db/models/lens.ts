@@ -10,11 +10,14 @@ import {
   NotEmpty,
   Min,
   Max,
+  HasMany,
   BelongsToMany,
   Default
 } from 'sequelize-typescript'
 import { WorkloadLens } from './workload-lens'
 import { Workload } from './workload'
+import { LensPillar } from './lens-pillar'
+import { LensPillars } from './lens-pillars'
 
 export interface LensAttributes {
   id: string
@@ -134,6 +137,9 @@ export class Lens extends Model<LensAttributes, LensCreationAttributes> {
 
   @BelongsToMany(() => Workload, () => WorkloadLens)
   workloads?: Workload[]
+
+  @BelongsToMany(() => LensPillar, () => LensPillars)
+  pillars?: LensPillar[]
 
   @CreatedAt
   @Column

@@ -1,4 +1,12 @@
-import { Profile, Workload, WorkloadEnvironment, Environment } from '..'
+import {
+  Profile,
+  Workload,
+  WorkloadEnvironment,
+  Environment,
+  Lens,
+  LensPillar,
+  LensPillarQuestion
+} from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { WorkloadCreationAttributes } from '../models/workload'
 import { sequelize } from '..'
@@ -52,7 +60,7 @@ export async function findAndCountWorkloads({
   limit = 10
 }: Pagination) {
   const workloads = await Workload.findAndCountAll({
-    include: [Profile, Environment],
+    include: [Profile, Environment, { model: Lens, include: [LensPillar] }],
     order: [['name', 'DESC']],
     offset,
     limit
