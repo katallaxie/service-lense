@@ -9,7 +9,7 @@ import {
   DataType,
   ForeignKey
 } from 'sequelize-typescript'
-import { LensPillarChoices } from './lens-pillar-choices'
+import { LensPillarQuestion } from './lens-pillar-question'
 import { LensPillarRisk } from './lens-pillar-risk'
 
 export interface LensPillarRisksAttributes {
@@ -37,7 +37,7 @@ export class LensPillarRisks extends Model<
   @Column(DataType.UUIDV4)
   id!: string
 
-  @ForeignKey(() => LensPillarChoices)
+  @ForeignKey(() => LensPillarQuestion)
   @Column(DataType.UUIDV4)
   lensPillarId?: string
 
