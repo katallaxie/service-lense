@@ -13,8 +13,8 @@ import {
   AllowNull,
   BelongsToMany
 } from 'sequelize-typescript'
-import { LensPillarChoice } from './lens-pillar-choice'
-import { LensPillarChoices } from './lens-pillar-choices'
+import { LensPillarQuestion } from './lens-pillar-question'
+import { LensPillarQuestions } from './lens-pillar-questions'
 
 export interface LensPillarAttributes {
   id: string
@@ -47,8 +47,8 @@ export class LensPillar extends Model<
   @Column
   description!: string
 
-  @BelongsToMany(() => LensPillarChoice, () => LensPillarChoices)
-  choices?: LensPillarChoice[]
+  @BelongsToMany(() => LensPillarQuestion, () => LensPillarQuestions)
+  questions?: LensPillarQuestion[]
 
   @CreatedAt
   @Column

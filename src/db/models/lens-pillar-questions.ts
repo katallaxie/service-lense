@@ -9,10 +9,10 @@ import {
   DataType,
   ForeignKey
 } from 'sequelize-typescript'
-import { LensPillarChoice } from './lens-pillar-choice'
+import { LensPillar } from './lens-pillar'
 import { LensPillarQuestion } from './lens-pillar-question'
 
-export interface LensPillarChoicesAttributes {
+export interface LensPillarQuestionsAttributes {
   id: string
   name: string
   description: string
@@ -21,27 +21,27 @@ export interface LensPillarChoicesAttributes {
   deletedAt: Date
 }
 
-export type LensPillarChoicesCreationAttributes = Omit<
-  LensPillarChoicesAttributes,
+export type LensPillarQuestionsCreationAttributes = Omit<
+  LensPillarQuestionsAttributes,
   'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
-  tableName: 'lens-pillar-choices'
+  tableName: 'lens-pillar-questions'
 })
-export class LensPillarChoices extends Model<
-  LensPillarChoicesAttributes,
-  LensPillarChoicesCreationAttributes
+export class LensPillarQuestions extends Model<
+  LensPillarQuestionsAttributes,
+  LensPillarQuestionsCreationAttributes
 > {
   @PrimaryKey
   @Column(DataType.UUIDV4)
   id!: string
 
-  @ForeignKey(() => LensPillarQuestion)
+  @ForeignKey(() => LensPillar)
   @Column(DataType.UUIDV4)
   lensPillarId?: string
 
-  @ForeignKey(() => LensPillarChoice)
+  @ForeignKey(() => LensPillarQuestion)
   @Column(DataType.UUIDV4)
   lensPillarChoice?: string
 

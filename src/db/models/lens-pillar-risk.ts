@@ -13,7 +13,7 @@ import {
   NotEmpty
 } from 'sequelize-typescript'
 
-export interface LensPillarChoiceAttributes {
+export interface LensPillarRiskAttributes {
   id: number
   name: string
   createdAt: Date
@@ -21,18 +21,18 @@ export interface LensPillarChoiceAttributes {
   deletedAt: Date
 }
 
-export type LensPillarChoiceCreationAttributes = Omit<
-  LensPillarChoiceAttributes,
+export type LensPillarRiskCreationAttributes = Omit<
+  LensPillarRiskAttributes,
   'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 // This table stores all of the possible answers to a question
 @Table({
-  tableName: 'lens-pillar-choice'
+  tableName: 'lens-pillar-risk'
 })
-export class LensPillarChoice extends Model<
-  LensPillarChoiceAttributes,
-  LensPillarChoiceCreationAttributes
+export class LensPillarRisk extends Model<
+  LensPillarRiskAttributes,
+  LensPillarRiskCreationAttributes
 > {
   @PrimaryKey
   @AutoIncrement
