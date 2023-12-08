@@ -10,12 +10,21 @@ import {
   UpdatedAt,
   Min,
   Max,
-  NotEmpty
+  NotEmpty,
+  BelongsToMany
 } from 'sequelize-typescript'
+import {
+  LensPillarChoices,
+  LensPillarChoice,
+  LensPillarRisks,
+  LensPillarRisk
+} from '..'
 
 export interface LensPillarQuestionAttributes {
   id: number
+  ref: string
   name: string
+  description: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -43,7 +52,25 @@ export class LensPillarQuestion extends Model<
   @Min(3)
   @Max(256)
   @Column
+  ref!: string
+
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
   name?: string
+
+  @NotEmpty
+  @Min(12)
+  @Max(2048)
+  @Column
+  description!: string
+
+  @BelongsToMany(() => LensPillarChoice, () => LensPillarChoices)
+  choices?: LensPillarChoice[]
+
+  @BelongsToMany(() => LensPillarRisk, () => LensPillarRisks)
+  risks?: LensPillarRisk[]
 
   @CreatedAt
   @Column

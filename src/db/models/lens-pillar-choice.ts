@@ -15,7 +15,9 @@ import {
 
 export interface LensPillarChoiceAttributes {
   id: number
+  ref: string
   name: string
+  description: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -43,7 +45,19 @@ export class LensPillarChoice extends Model<
   @Min(3)
   @Max(256)
   @Column
+  ref!: string
+
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
   name?: string
+
+  @NotEmpty
+  @Min(12)
+  @Max(2048)
+  @Column
+  description!: string
 
   @CreatedAt
   @Column

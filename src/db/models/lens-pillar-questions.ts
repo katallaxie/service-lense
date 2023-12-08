@@ -14,8 +14,6 @@ import { LensPillarQuestion } from './lens-pillar-question'
 
 export interface LensPillarQuestionsAttributes {
   id: string
-  name: string
-  description: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date

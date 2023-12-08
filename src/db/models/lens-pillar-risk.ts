@@ -15,7 +15,8 @@ import {
 
 export interface LensPillarRiskAttributes {
   id: number
-  name: string
+  risk: string
+  condition: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -43,7 +44,13 @@ export class LensPillarRisk extends Model<
   @Min(3)
   @Max(256)
   @Column
-  name?: string
+  risk?: string
+
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  condition?: string
 
   @CreatedAt
   @Column

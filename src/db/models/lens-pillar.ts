@@ -10,7 +10,6 @@ import {
   NotEmpty,
   Min,
   Max,
-  AllowNull,
   BelongsToMany
 } from 'sequelize-typescript'
 import { LensPillarQuestion } from './lens-pillar-question'
@@ -18,7 +17,8 @@ import { LensPillarQuestions } from './lens-pillar-questions'
 
 export interface LensPillarAttributes {
   id: string
-  name: string // is this really needed, have to double check this.
+  ref: string
+  name: string
   description: string
   createdAt: Date
   updatedAt: Date
@@ -40,6 +40,12 @@ export class LensPillar extends Model<
   @PrimaryKey
   @Column(DataType.UUIDV4)
   id!: string
+
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  ref!: string
 
   @NotEmpty
   @Min(12)
