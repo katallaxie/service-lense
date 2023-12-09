@@ -49,6 +49,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
+    await queryInterface.removeConstraint('lenses', 'lenses_pillarId_fkey', {})
     await queryInterface.dropTable('lens-pillars')
     await queryInterface.dropTable('lenses')
   }

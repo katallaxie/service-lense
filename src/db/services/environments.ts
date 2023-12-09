@@ -11,7 +11,7 @@ export async function createEnvironment({
   name,
   description
 }: EnvironmentCreationAttributes) {
-  const w = new Environment({ id: uuidv4(), name, description })
+  const w = new Environment({ id: uuidv4(), label: '', name, description })
 
   await w.validate()
 

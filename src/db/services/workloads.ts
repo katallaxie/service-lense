@@ -60,7 +60,14 @@ export async function findAndCountWorkloads({
   limit = 10
 }: Pagination) {
   const workloads = await Workload.findAndCountAll({
-    include: [Profile, Environment, { model: Lens, include: [LensPillar] }],
+    include: [
+      Profile,
+      Environment,
+      {
+        model: Lens,
+        include: [{ model: LensPillar, include: [LensPillarQuestion] }]
+      }
+    ],
     order: [['name', 'DESC']],
     offset,
     limit

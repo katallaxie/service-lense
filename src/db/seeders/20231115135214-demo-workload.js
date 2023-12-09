@@ -78,6 +78,14 @@ module.exports = {
       }
     ])
 
+    await queryInterface.bulkInsert('lens-pillar-choices', [
+      {
+        id: crypto.randomUUID(),
+        choiceId: pillarChoiceId,
+        questionId: pillarQuestionId
+      }
+    ])
+
     await queryInterface.bulkInsert('lens-pillar-questions', [
       {
         id: crypto.randomUUID(),
@@ -121,6 +129,7 @@ module.exports = {
       }
     ])
 
+    const environmentId = crypto.randomUUID()
     await queryInterface.bulkInsert('environments', [
       {
         id: crypto.randomUUID(),
@@ -128,7 +137,7 @@ module.exports = {
         description: 'Production environment'
       },
       {
-        id: crypto.randomUUID(),
+        id: environmentId,
         name: 'staging',
         description: 'Staging environment'
       },
@@ -136,6 +145,32 @@ module.exports = {
         id: crypto.randomUUID(),
         name: 'development',
         description: 'Development environment'
+      }
+    ])
+
+    const workloadId = crypto.randomUUID()
+    await queryInterface.bulkInsert('workloads', [
+      {
+        id: workloadId,
+        name: 'SAP Workload',
+        description: 'SAP Workload',
+        profilesId: profileId
+      }
+    ])
+
+    await queryInterface.bulkInsert('workload-environment', [
+      {
+        id: crypto.randomUUID(),
+        workloadId: workloadId,
+        environmentId: environmentId
+      }
+    ])
+
+    await queryInterface.bulkInsert('workload-lens', [
+      {
+        id: crypto.randomUUID(),
+        lensId: lensId,
+        workloadId: workloadId
       }
     ])
   },

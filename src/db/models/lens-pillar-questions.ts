@@ -37,11 +37,11 @@ export class LensPillarQuestions extends Model<
 
   @ForeignKey(() => LensPillar)
   @Column(DataType.UUIDV4)
-  lensPillarId?: string
+  pillarId?: string
 
   @ForeignKey(() => LensPillarQuestion)
   @Column(DataType.UUIDV4)
-  lensPillarChoice?: string
+  questionId?: string
 
   @CreatedAt
   @Column
