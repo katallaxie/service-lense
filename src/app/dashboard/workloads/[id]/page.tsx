@@ -13,7 +13,6 @@ import { Button } from '@/components/ui/button'
 import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { PropertiesCard } from './components/properties-card'
 import { LensCard } from './components/lens-card'
-import { Separator } from '@/components/ui/separator'
 
 export type PageProps = {
   params: { id: string }
@@ -67,7 +66,12 @@ export default async function Page({ params }: PageProps) {
               {workload?.lenses &&
                 workload?.lenses.length > 0 &&
                 workload?.lenses?.map(lens => (
-                  <LensCard key={lens.id} lens={lens} className="col-span-2" />
+                  <LensCard
+                    key={lens.id}
+                    workloadId={workload.id}
+                    lens={lens}
+                    className="col-span-2"
+                  />
                 ))}
             </div>
           </TabsContent>

@@ -1,29 +1,30 @@
 'use client'
 
-import { Icons } from '@/components/icons'
-import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
+import Link from 'next/link'
 import { Separator } from '@/components/ui/separator'
 import DateFormat from '@/components/date-format'
 import { Lens } from '@/db/models/lens'
 
 export type LensCardProps = {
   lens?: Lens
+  workloadId?: string
   className?: string
 }
 
-export function LensCard({ lens, ...props }: LensCardProps) {
+export function LensCard({ workloadId, lens, ...props }: LensCardProps) {
   return (
     <Card {...props}>
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">{lens?.name}</CardTitle>
+        <Link href={`/dashboard/workloads/${workloadId}/lenses/${lens?.id}`}>
+          <CardTitle className="text-2xl">{lens?.name}</CardTitle>
+        </Link>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="flex items-center justify-between">
