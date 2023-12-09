@@ -12,17 +12,18 @@ import {
 } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import DateFormat from '@/components/date-format'
-import { Workload } from '@/db/models/workload'
+import { Lens } from '@/db/models/lens'
 
-export type LensesCardProps = {
-  workload?: Workload
+export type LensCardProps = {
+  lens?: Lens
+  className?: string
 }
 
-export function LensesCard({ workload }: LensesCardProps) {
+export function LensCard({ lens, ...props }: LensCardProps) {
   return (
-    <Card className="my-4">
+    <Card {...props}>
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">Overview</CardTitle>
+        <CardTitle className="text-2xl">{lens?.name}</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="flex items-center justify-between">
@@ -31,12 +32,12 @@ export function LensesCard({ workload }: LensesCardProps) {
               Last updated
             </h2>
             <p>
-              <DateFormat date={workload?.dataValues?.updatedAt} />
+              <DateFormat date={lens?.dataValues?.updatedAt} />
             </p>
           </div>
         </div>
         <Separator />
-        <p>{workload?.description || 'No description provided.'}</p>
+        <p>{lens?.description || 'No description provided.'}</p>
       </CardContent>
       <CardFooter></CardFooter>
     </Card>

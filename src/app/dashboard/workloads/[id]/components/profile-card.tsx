@@ -16,11 +16,12 @@ import { Profile } from '@/db/models/profile'
 
 export type ProfileCardProps = {
   profile?: Profile
+  className?: string
 }
 
-export function ProfileCard({ profile }: ProfileCardProps) {
+export function ProfileCard({ profile, ...props }: ProfileCardProps) {
   return (
-    <Card className="my-4">
+    <Card {...props}>
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Profile</CardTitle>
       </CardHeader>

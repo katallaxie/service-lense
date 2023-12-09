@@ -11,8 +11,9 @@ import { api } from '@/trpc/server-http'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
 import { PlusCircledIcon } from '@radix-ui/react-icons'
-import { Separator } from '@/components/ui/separator'
 import { PropertiesCard } from './components/properties-card'
+import { LensCard } from './components/lens-card'
+import { Separator } from '@/components/ui/separator'
 
 export type PageProps = {
   params: { id: string }
@@ -53,8 +54,22 @@ export default async function Page({ params }: PageProps) {
             value="overview"
             className="border-none p-0 outline-none"
           >
-            {workload && <OverviewCard workload={workload} />}
-            {workload?.profile && <ProfileCard profile={workload.profile} />}
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+              {workload && (
+                <OverviewCard workload={workload} className="col-span-4" />
+              )}
+              {workload?.profile && (
+                <ProfileCard
+                  profile={workload.profile}
+                  className="col-span-3"
+                />
+              )}
+              {workload?.lenses &&
+                workload?.lenses.length > 0 &&
+                workload?.lenses?.map(lens => (
+                  <LensCard key={lens.id} lens={lens} className="col-span-2" />
+                ))}
+            </div>
           </TabsContent>
           <TabsContent
             value="properties"

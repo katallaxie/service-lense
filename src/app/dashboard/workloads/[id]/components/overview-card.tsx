@@ -16,11 +16,12 @@ import { Workload } from '@/db/models/workload'
 
 export type OverviewCardProps = {
   workload?: Workload
+  className?: string
 }
 
-export function OverviewCard({ workload }: OverviewCardProps) {
+export function OverviewCard({ workload, ...props }: OverviewCardProps) {
   return (
-    <Card className="my-4">
+    <Card {...props}>
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Overview</CardTitle>
       </CardHeader>

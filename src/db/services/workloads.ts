@@ -47,7 +47,14 @@ export const deleteWorkload = async (id: string) =>
 export const getWorkload = async (id: string) =>
   await Workload.findOne({
     where: { id },
-    include: [Profile, Environment]
+    include: [
+      Profile,
+      Environment,
+      {
+        model: Lens,
+        include: [{ model: LensPillar, include: [LensPillarQuestion] }]
+      }
+    ]
   })
 
 export type Pagination = {
@@ -60,14 +67,7 @@ export async function findAndCountWorkloads({
   limit = 10
 }: Pagination) {
   const workloads = await Workload.findAndCountAll({
-    include: [
-      Profile,
-      Environment,
-      {
-        model: Lens,
-        include: [{ model: LensPillar, include: [LensPillarQuestion] }]
-      }
-    ],
+    include: [Profile, Environment],
     order: [['name', 'DESC']],
     offset,
     limit
