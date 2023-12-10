@@ -8,6 +8,7 @@ import { deleteWorkload as dt } from '@/db/services/workloads'
 import { listEnvironments } from './actions/environments'
 import { deleteLens } from './actions/lenses'
 import { getWorkload } from './actions/workloads'
+import { getLens } from './actions/lenses'
 
 export const listLenses = protectedProcedure
   .input(PaginationSchema)
@@ -50,7 +51,8 @@ export const appRouter = router({
   listLenses,
   listWorkloads,
   deleteWorkload,
-  deleteLens
+  deleteLens,
+  getLens
 })
 
 export type AppRouter = typeof appRouter

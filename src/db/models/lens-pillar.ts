@@ -48,6 +48,12 @@ export class LensPillar extends Model<
   ref!: string
 
   @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  name!: string
+
+  @NotEmpty
   @Min(12)
   @Max(2048)
   @Column
