@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { Lens, LensPillar, LensPillarQuestion } from '..'
+import { Lens, LensPillar, LensPillarChoice, LensPillarQuestion } from '..'
 
 export type Pagination = {
   offset?: number
@@ -33,6 +33,13 @@ export async function getLens(id: string) {
   return await Lens.findOne({
     where: { id },
     include: [{ model: LensPillar, include: [LensPillarQuestion] }]
+  })
+}
+
+export async function getQuestion(questionId: string) {
+  return await LensPillarQuestion.findOne({
+    include: [{ model: LensPillarChoice }],
+    where: { id: questionId }
   })
 }
 

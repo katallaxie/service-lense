@@ -4,14 +4,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
 import { Lens } from '@/db/models/lens'
 import { Button } from '@/components/ui/button'
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger
-} from '@/components/ui/collapsible'
 import {
   Accordion,
   AccordionContent,
@@ -20,11 +14,17 @@ import {
 } from '@/components/ui/accordion'
 
 export type SidebarNavProps = {
+  params: { lensId: string; id: string }
   lens?: Lens
   className?: string
 }
 
-export function SidebarNav({ className, lens, ...props }: SidebarNavProps) {
+export function SidebarNav({
+  className,
+  lens,
+  params,
+  ...props
+}: SidebarNavProps) {
   const pathname = usePathname()
 
   return (
@@ -41,8 +41,13 @@ export function SidebarNav({ className, lens, ...props }: SidebarNavProps) {
             <AccordionTrigger>{pillar.name}</AccordionTrigger>
             <AccordionContent>
               {pillar.questions?.map(question => (
-                <Link key={question.ref} href="">
-                  {question.name}
+                <Link
+                  key={question.ref}
+                  href={`/dashboard/workloads/${params.id}/lenses/${params.lensId}/question/${question.id}`}
+                >
+                  <Button variant="ghost" className="w-full justify-start">
+                    {question.name}
+                  </Button>
                 </Link>
               ))}
             </AccordionContent>

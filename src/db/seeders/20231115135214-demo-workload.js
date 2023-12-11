@@ -74,7 +74,8 @@ module.exports = {
         id: pillarQuestionId,
         name: 'Question 1',
         ref: 'question_1',
-        description: ''
+        description:
+          'Everyone needs to understand their part in enabling business success. Have shared goals in order to set priorities for resources. This will maximize the benefits of your efforts.'
       }
     ])
 

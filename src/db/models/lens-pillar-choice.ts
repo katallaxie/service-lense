@@ -8,10 +8,12 @@ import {
   Table,
   AutoIncrement,
   UpdatedAt,
+  BelongsToMany,
   Min,
   Max,
   NotEmpty
 } from 'sequelize-typescript'
+import { LensPillarQuestion, LensPillarQuestions } from '..'
 
 export interface LensPillarChoiceAttributes {
   id: number
