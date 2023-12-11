@@ -15,6 +15,7 @@ import { LensPillarChoices } from './models/lens-pillar-choices'
 import { LensPillarChoice } from './models/lens-pillar-choice'
 import { LensPillarQuestion } from './models/lens-pillar-question'
 import { LensPillarQuestions } from './models/lens-pillar-questions'
+import { WorkloadQuestionChoices } from './models/workload-question-choices'
 import { LensPillarRisk } from './models/lens-pillar-risk'
 import { LensPillars } from './models/lens-pillars'
 import { LensPillarRisks } from './models/lens-pillar-risks'
@@ -45,7 +46,8 @@ sequelize.addModels([
   Solution,
   Workload,
   WorkloadEnvironment,
-  WorkloadLens
+  WorkloadLens,
+  WorkloadQuestionChoices
 ])
 
 export {
@@ -66,7 +68,8 @@ export {
   Solution,
   Workload,
   WorkloadEnvironment,
-  WorkloadLens
+  WorkloadLens,
+  WorkloadQuestionChoices
 }
 
 export const initDB = async () => {

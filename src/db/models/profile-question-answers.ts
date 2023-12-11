@@ -14,8 +14,8 @@ import { ProfileQuestionAnswer } from './profile-question-answer'
 
 export interface ProfileQuestionAnswersAttributes {
   id: string
-  name: string
-  description: string
+  questionId?: string
+  answerId?: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date

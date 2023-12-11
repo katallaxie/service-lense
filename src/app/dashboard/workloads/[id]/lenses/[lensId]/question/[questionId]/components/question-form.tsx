@@ -69,22 +69,23 @@ function RenderCount() {
 export type QuestionFormFactoryProps = {
   className?: string
   question?: LensPillarQuestion
+  choices?: LensPillarQuestion[]
 }
 
 export function QuestionFormFactory({
   question,
+  choices,
   ...props
 }: QuestionFormFactoryProps) {
   const form = useForm<z.infer<typeof rhfActionSchema>>({
     resolver: zodResolver(rhfActionSchema),
     defaultValues: {
-      selectedChoices: []
+      selectedChoices: choices?.map(choice => choice.id)
     }
   })
 
   const mutation = useAction(rhfAction)
   async function onSubmit(form: z.infer<typeof rhfActionSchema>) {
-    console.log(form)
     await mutation.mutateAsync({ ...form })
   }
 

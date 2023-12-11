@@ -17,8 +17,10 @@ import {
 import { Profile } from './profile'
 import { Lens } from './lens'
 import { WorkloadLens } from './workload-lens'
+import { LensPillarChoice } from './lens-pillar-choice'
 import { WorkloadEnvironment } from './workload-environment'
 import { Environment } from './environment'
+import { WorkloadQuestionChoices } from './workload-question-choices'
 
 export interface WorkloadAttributes {
   id: string
@@ -71,6 +73,9 @@ export class Workload extends Model<
 
   @BelongsToMany(() => Environment, () => WorkloadEnvironment)
   environments?: Environment[]
+
+  @BelongsToMany(() => LensPillarChoice, () => WorkloadQuestionChoices)
+  choices?: LensPillarChoice[]
 
   @CreatedAt
   @Column

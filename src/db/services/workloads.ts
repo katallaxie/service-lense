@@ -5,7 +5,8 @@ import {
   Environment,
   Lens,
   LensPillar,
-  LensPillarQuestion
+  LensPillarQuestion,
+  LensPillarChoice
 } from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { WorkloadCreationAttributes } from '../models/workload'
@@ -53,6 +54,9 @@ export const getWorkload = async (id: string) =>
       {
         model: Lens,
         include: [{ model: LensPillar, include: [LensPillarQuestion] }]
+      },
+      {
+        model: LensPillarChoice
       }
     ]
   })
