@@ -13,15 +13,5 @@ export default async function Page({ params }: PageProps) {
 
   const answer = workload?.answers?.shift()
 
-  return (
-    <>
-      {answer && (
-        <div>
-          <h1>{workload?.name}</h1>
-          <p>{answer.question?.description}</p>
-          <QuestionFormFactory answer={answer} />
-        </div>
-      )}
-    </>
-  )
+  return <>{answer && <QuestionFormFactory answer={answer} />}</>
 }

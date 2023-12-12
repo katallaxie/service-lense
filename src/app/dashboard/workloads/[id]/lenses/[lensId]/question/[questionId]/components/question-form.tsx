@@ -10,6 +10,14 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import { Switch } from '@/components/ui/switch'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 import {
   Card,
   CardContent,
@@ -23,49 +31,11 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { rhfActionSchema } from './question-form.schema'
-import { useForm } from 'react-hook-form'
+import { useForm, useFormContext, useWatch } from 'react-hook-form'
 import * as z from 'zod'
 import { useAction } from '@/trpc/client'
 import { rhfAction } from './question-form.action'
-import { LensPillarQuestion } from '@/db/models/lens-pillar-question'
 import { WorkloadLensPillarAnswer } from '@/db'
-
-// const QuestionForm = createForm({
-//   action: rhfAction,
-//   schema: rhfActionSchema
-// })
-
-// function FormState() {
-//   const context = QuestionForm.useFormContext()
-//   const textValue = QuestionForm.useWatch({
-//     name: 'text'
-//   })
-
-//   return (
-//     <>
-//       <h2>FormState</h2>
-//       <ul>
-//         <li>IsSubmitting? {context.formState.isSubmitting ? 'yes' : 'no'}</li>
-//         <li>Field value: {textValue}</li>
-//       </ul>
-//     </>
-//   )
-// }
-
-function RenderCount() {
-  const renderCount = useRef(1)
-  useEffect(() => {
-    renderCount.current++
-  })
-  return (
-    <>
-      <h2>Render count</h2>
-      <ul>
-        <li>Render count: {renderCount.current}</li>
-      </ul>
-    </>
-  )
-}
 
 export type QuestionFormFactoryProps = {
   className?: string
@@ -79,7 +49,9 @@ export function QuestionFormFactory({
   const form = useForm<z.infer<typeof rhfActionSchema>>({
     resolver: zodResolver(rhfActionSchema),
     defaultValues: {
-      selectedChoices: answer?.choices?.map(choice => choice.id)
+      selectedChoices: answer?.choices?.map(choice => choice.id),
+      doesNotApply: answer?.doesNotApply,
+      notes: answer?.notes ?? ''
     }
   })
 
@@ -99,7 +71,9 @@ export function QuestionFormFactory({
               <FormItem>
                 <Card>
                   <CardHeader>
-                    <CardTitle>{answer?.question?.name}</CardTitle>
+                    <CardTitle className="text-2xl">
+                      {answer?.question?.name}
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     {answer?.question?.choices?.map(choice => (
@@ -107,7 +81,7 @@ export function QuestionFormFactory({
                         key={choice.id}
                         control={form.control}
                         name="selectedChoices"
-                        render={({ field }) => {
+                        render={({ field, ...rest }) => {
                           return (
                             <FormItem
                               key={choice.id}
@@ -116,6 +90,7 @@ export function QuestionFormFactory({
                               <FormControl>
                                 <Checkbox
                                   className="mr-2"
+                                  disabled={form.watch('doesNotApply')}
                                   checked={field.value?.includes(choice.id)}
                                   onCheckedChange={checked => {
                                     return checked
@@ -141,12 +116,67 @@ export function QuestionFormFactory({
                     ))}
                   </CardContent>
                   <CardFooter className="text-sm text-muted-foreground">
+                    <CardDescription>
+                      {answer?.question?.description}
+                    </CardDescription>
                     <FormMessage />
                   </CardFooter>
                 </Card>
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="doesNotApply"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                <div className="space-y-0.5">
+                  <FormLabel className="text-base">
+                    Question does not apply to this workload
+                  </FormLabel>
+                  <FormDescription>
+                    Please, provide a reason why this question does not applies.
+                  </FormDescription>
+                </div>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="doesNotApplyReason"
+            render={({ field }) => (
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={!form.watch('doesNotApply')}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a reason" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="OUT_OF_SCOPE">Out of Scope</SelectItem>
+                    <SelectItem value="PRIORITIES">
+                      Business Priorities
+                    </SelectItem>
+                    <SelectItem value="CONSTRAINTS">
+                      Architecture Constraints
+                    </SelectItem>
+                    <SelectItem value="OTHER">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="notes"
@@ -171,7 +201,9 @@ export function QuestionFormFactory({
             )}
           />
 
-          <Button type="submit">Save and exit</Button>
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            Save and exit
+          </Button>
         </form>
       </Form>
     </>

@@ -60,6 +60,9 @@ export class WorkloadLensPillarAnswer extends Model<
   @Column
   doesNotApply?: boolean
 
+  @Column
+  doesNotApplyReason?: string
+
   @CreatedAt
   @Column
   createdAt?: Date
