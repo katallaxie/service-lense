@@ -46,6 +46,31 @@ export async function createWorkload({
 export const deleteWorkload = async (id: string) =>
   await Workload.update({ deletedAt: new Date(Date.now()) }, { where: { id } })
 
+export const getWorkloadAnswer = async ({
+  workloadId,
+  questionId
+}: {
+  workloadId: string
+  questionId: string
+}) =>
+  await Workload.findOne({
+    where: { id: workloadId },
+    include: [
+      {
+        model: Lens,
+        include: [{ model: LensPillar }]
+      },
+      {
+        model: WorkloadLensPillarAnswer,
+        where: { questionId },
+        include: [
+          { model: LensPillarChoice },
+          { model: LensPillarQuestion, include: [LensPillarChoice] }
+        ]
+      }
+    ]
+  })
+
 export const getWorkload = async (id: string) =>
   await Workload.findOne({
     where: { id },

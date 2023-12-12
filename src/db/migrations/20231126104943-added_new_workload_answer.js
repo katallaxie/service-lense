@@ -10,6 +10,13 @@ module.exports = {
         allowNull: false,
         primaryKey: true
       },
+      notes: {
+        type: Sequelize.STRING
+      },
+      doesNotApply: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
       createdAt: {
         type: Sequelize.DATE
       },

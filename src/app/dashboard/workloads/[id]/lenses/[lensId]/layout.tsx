@@ -33,7 +33,6 @@ export type LayoutProps = {
 }
 
 export default async function Layout({ params, children }: LayoutProps) {
-  const workload = await api.getWorkload.query(params?.id)
   const lens = await api.getLens.query(params?.lensId)
 
   return (

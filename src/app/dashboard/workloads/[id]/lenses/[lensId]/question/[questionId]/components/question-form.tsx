@@ -28,6 +28,7 @@ import * as z from 'zod'
 import { useAction } from '@/trpc/client'
 import { rhfAction } from './question-form.action'
 import { LensPillarQuestion } from '@/db/models/lens-pillar-question'
+import { WorkloadLensPillarAnswer } from '@/db'
 
 // const QuestionForm = createForm({
 //   action: rhfAction,
@@ -68,19 +69,17 @@ function RenderCount() {
 
 export type QuestionFormFactoryProps = {
   className?: string
-  question?: LensPillarQuestion
-  choices?: LensPillarQuestion[]
+  answer?: WorkloadLensPillarAnswer
 }
 
 export function QuestionFormFactory({
-  question,
-  choices,
+  answer,
   ...props
 }: QuestionFormFactoryProps) {
   const form = useForm<z.infer<typeof rhfActionSchema>>({
     resolver: zodResolver(rhfActionSchema),
     defaultValues: {
-      selectedChoices: choices?.map(choice => choice.id)
+      selectedChoices: answer?.choices?.map(choice => choice.id)
     }
   })
 
@@ -100,10 +99,10 @@ export function QuestionFormFactory({
               <FormItem>
                 <Card>
                   <CardHeader>
-                    <CardTitle>{question?.name}</CardTitle>
+                    <CardTitle>{answer?.question?.name}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    {question?.choices?.map(choice => (
+                    {answer?.question?.choices?.map(choice => (
                       <FormField
                         key={choice.id}
                         control={form.control}

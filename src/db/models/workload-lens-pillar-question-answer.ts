@@ -8,18 +8,20 @@ import {
   PrimaryKey,
   DataType,
   ForeignKey,
-  BelongsToMany
+  BelongsToMany,
+  BelongsTo,
+  Default
 } from 'sequelize-typescript'
 import { LensPillarChoice } from './lens-pillar-choice'
-import { Workload } from './workload'
-import { WorkloadLensPillarAnswers } from './workload-lens-pillar-question-answers'
-import { LensPillarQuestion } from '..'
+import { LensPillarQuestion } from './lens-pillar-question'
 import { WorkloadLensPillarAnswerChoices } from './workload-lens-pillar-question-answer-choices'
 
 export interface WorkloadLensPillarAnswerAttributes {
   id: string
   questionId: string
   choices: LensPillarChoice[]
+  doesNotApply: boolean
+  notes: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -45,8 +47,18 @@ export class WorkloadLensPillarAnswer extends Model<
   @Column(DataType.UUIDV4)
   questionId?: string
 
+  @BelongsTo(() => LensPillarQuestion, 'questionId')
+  question?: LensPillarQuestion
+
   @BelongsToMany(() => LensPillarChoice, () => WorkloadLensPillarAnswerChoices)
-  answers?: LensPillarChoice[]
+  choices?: LensPillarChoice[]
+
+  @Column
+  notes?: string
+
+  @Default(false)
+  @Column
+  doesNotApply?: boolean
 
   @CreatedAt
   @Column
