@@ -78,6 +78,26 @@ module.exports = {
       }
     ])
 
+    const pillarChoiceId3 = crypto.randomUUID()
+    await queryInterface.bulkInsert('lens-pillar-choice', [
+      {
+        id: pillarChoiceId3,
+        name: 'Choice 3',
+        ref: 'choice_3',
+        description: ''
+      }
+    ])
+
+    const pillarChoiceId4 = crypto.randomUUID()
+    await queryInterface.bulkInsert('lens-pillar-choice', [
+      {
+        id: pillarChoiceId4,
+        name: 'Choice 4',
+        ref: 'choice_4',
+        description: ''
+      }
+    ])
+
     const pillarQuestionId = crypto.randomUUID()
     await queryInterface.bulkInsert('lens-pillar-question', [
       {
@@ -94,13 +114,20 @@ module.exports = {
         id: crypto.randomUUID(),
         choiceId: pillarChoiceId1,
         questionId: pillarQuestionId
-      }
-    ])
-
-    await queryInterface.bulkInsert('lens-pillar-choices', [
+      },
       {
         id: crypto.randomUUID(),
         choiceId: pillarChoiceId2,
+        questionId: pillarQuestionId
+      },
+      {
+        id: crypto.randomUUID(),
+        choiceId: pillarChoiceId3,
+        questionId: pillarQuestionId
+      },
+      {
+        id: crypto.randomUUID(),
+        choiceId: pillarChoiceId4,
         questionId: pillarQuestionId
       }
     ])

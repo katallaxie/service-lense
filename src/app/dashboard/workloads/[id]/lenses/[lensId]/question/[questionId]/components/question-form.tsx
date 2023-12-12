@@ -111,10 +111,11 @@ export function QuestionFormFactory({
                           return (
                             <FormItem
                               key={choice.id}
-                              className="flex flex-row items-start space-x-3 space-y-0"
+                              className="flex flex-row items-start space-y-0 my-4"
                             >
                               <FormControl>
                                 <Checkbox
+                                  className="mr-2"
                                   checked={field.value?.includes(choice.id)}
                                   onCheckedChange={checked => {
                                     return checked
