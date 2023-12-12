@@ -71,6 +71,31 @@ export const getWorkloadAnswer = async ({
     ]
   })
 
+export const updateWorkloadAnswer = async ({
+  answerId,
+  doesNotApply,
+  doesNotApplyReason
+}: {
+  answerId: string
+  doesNotApply: boolean
+  doesNotApplyReason: string
+}) =>
+  await sequelize.transaction(async transaction => {
+    const answer = await WorkloadLensPillarAnswer.findOne({
+      where: { id: answerId },
+      transaction
+    })
+
+    if (!answer) {
+      throw Error('Answer not found')
+    }
+
+    answer.doesNotApply = doesNotApply
+    answer.doesNotApplyReason = doesNotApplyReason
+
+    await answer?.save({ transaction })
+  })
+
 export const getWorkload = async (id: string) =>
   await Workload.findOne({
     where: { id },

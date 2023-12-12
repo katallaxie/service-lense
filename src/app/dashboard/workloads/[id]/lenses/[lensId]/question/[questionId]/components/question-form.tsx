@@ -31,7 +31,7 @@ import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { rhfActionSchema } from './question-form.schema'
-import { useForm, useFormContext, useWatch } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { useAction } from '@/trpc/client'
 import { rhfAction } from './question-form.action'
@@ -49,8 +49,10 @@ export function QuestionFormFactory({
   const form = useForm<z.infer<typeof rhfActionSchema>>({
     resolver: zodResolver(rhfActionSchema),
     defaultValues: {
+      answerId: answer?.id,
       selectedChoices: answer?.choices?.map(choice => choice.id),
       doesNotApply: answer?.doesNotApply,
+      doesNotApplyReason: answer?.doesNotApplyReason,
       notes: answer?.notes ?? ''
     }
   })

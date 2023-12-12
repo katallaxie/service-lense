@@ -2,6 +2,7 @@
 
 import { createAction, protectedProcedure } from '@/server/trpc'
 import { rhfActionSchema } from './question-form.schema'
+import { updateWorkloadAnswer } from '@/db/services/workloads'
 
 /**
  * Either inline procedures using trpc's flexible
@@ -11,10 +12,11 @@ import { rhfActionSchema } from './question-form.schema'
  */
 export const rhfAction = createAction(
   protectedProcedure.input(rhfActionSchema).mutation(async opts => {
-    console.log('testMutation called', opts)
-    return {
-      text: `Hello ${opts.input.text}`,
-      date: new Date()
-    }
+    await updateWorkloadAnswer({
+      answerId: opts.input.answerId,
+      doesNotApply: opts.input.doesNotApply ?? false,
+      doesNotApplyReason: opts.input.doesNotApplyReason ?? ''
+    })
+    return {}
   })
 )
