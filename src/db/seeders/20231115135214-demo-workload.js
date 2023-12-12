@@ -185,11 +185,32 @@ module.exports = {
       }
     ])
 
-    await queryInterface.bulkInsert('workload-question-choices', [
+    const workloadAnswerId = crypto.randomUUID()
+    await queryInterface.bulkInsert('workload-lens-pillar-answer', [
+      {
+        id: workloadAnswerId,
+        questionId: pillarQuestionId
+      }
+    ])
+
+    await queryInterface.bulkInsert('workload-lens-pillar-answer-choices', [
       {
         id: crypto.randomUUID(),
-        workloadId: workloadId,
+        answerId: workloadAnswerId,
         choiceId: pillarChoiceId1
+      },
+      {
+        id: crypto.randomUUID(),
+        answerId: workloadAnswerId,
+        choiceId: pillarChoiceId2
+      }
+    ])
+
+    await queryInterface.bulkInsert('workload-lens-pillar-answers', [
+      {
+        id: crypto.randomUUID(),
+        answerId: workloadAnswerId,
+        workloadId: workloadId
       }
     ])
 

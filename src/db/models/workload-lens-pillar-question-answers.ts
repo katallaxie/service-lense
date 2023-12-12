@@ -9,10 +9,10 @@ import {
   DataType,
   ForeignKey
 } from 'sequelize-typescript'
-import { LensPillarChoice } from './lens-pillar-choice'
 import { Workload } from './workload'
+import { WorkloadLensPillarAnswer } from './workload-lens-pillar-question-answer'
 
-export interface WorkloadQuestionChoicesAttributes {
+export interface WorkloadLensPillarAnswersAttributes {
   id: string
   workloadId: string
   questionId: string
@@ -21,25 +21,25 @@ export interface WorkloadQuestionChoicesAttributes {
   deletedAt: Date
 }
 
-export type WorkloadQuestionChoicesCreationAttributes = Omit<
-  WorkloadQuestionChoicesAttributes,
+export type WorkloadLensPillarAnswersCreationAttributes = Omit<
+  WorkloadLensPillarAnswersAttributes,
   'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
-  tableName: 'workload-question-choices'
+  tableName: 'workload-lens-pillar-answers'
 })
-export class WorkloadQuestionChoices extends Model<
-  WorkloadQuestionChoicesAttributes,
-  WorkloadQuestionChoicesCreationAttributes
+export class WorkloadLensPillarAnswers extends Model<
+  WorkloadLensPillarAnswersAttributes,
+  WorkloadLensPillarAnswersCreationAttributes
 > {
   @PrimaryKey
   @Column(DataType.UUIDV4)
   id!: string
 
-  @ForeignKey(() => LensPillarChoice)
+  @ForeignKey(() => WorkloadLensPillarAnswer)
   @Column(DataType.UUIDV4)
-  choiceId?: string
+  answerId?: string
 
   @ForeignKey(() => Workload)
   @Column(DataType.UUIDV4)

@@ -11,6 +11,7 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 import type { WorkloadCreationAttributes } from '../models/workload'
 import { sequelize } from '..'
+import { WorkloadLensPillarAnswer } from '../models/workload-lens-pillar-question-answer'
 
 export async function createWorkload({
   name,
@@ -56,7 +57,8 @@ export const getWorkload = async (id: string) =>
         include: [{ model: LensPillar, include: [LensPillarQuestion] }]
       },
       {
-        model: LensPillarChoice
+        model: WorkloadLensPillarAnswer,
+        include: [{ model: LensPillarChoice }]
       }
     ]
   })

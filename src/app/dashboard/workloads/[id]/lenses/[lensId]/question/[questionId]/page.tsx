@@ -8,14 +8,13 @@ export type PageProps = {
 export default async function Page({ params }: PageProps) {
   const question = await api.getLensQuestion.query(params?.questionId)
   const workload = await api.getWorkload.query(params?.id)
+  console.log(workload!.answers![0])
 
   return (
     <>
       <h1>{question?.name}</h1>
       <p>{question?.description}</p>
-      {question && (
-        <QuestionFormFactory question={question} choices={workload?.choices} />
-      )}
+      {question && <QuestionFormFactory question={question} choices={[]} />}
     </>
   )
 }
