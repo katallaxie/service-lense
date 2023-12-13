@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/card'
 import { Section } from '@/components/section'
 import { api } from '@/trpc/server-http'
+import { CommentForm } from './components/comment-form'
 
 export type PageProps = {
   params: { id: string }
@@ -42,6 +43,7 @@ export default async function Page({ params }: PageProps) {
             </CardContent>
           </Card>
         ))}
+        <CommentForm solutionId={params.id} />
       </Section>
     </>
   )
