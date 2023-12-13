@@ -9,6 +9,7 @@ import { listEnvironments } from './actions/environments'
 import { deleteLens } from './actions/lenses'
 import { getWorkload, getWorkloadAnswer } from './actions/workloads'
 import { getLens, getLensQuestion } from './actions/lenses'
+import { listSolutions } from './actions/solutions'
 
 export const listLenses = protectedProcedure
   .input(PaginationSchema)
@@ -54,7 +55,8 @@ export const appRouter = router({
   deleteLens,
   getLensQuestion,
   getLens,
-  getWorkloadAnswer
+  getWorkloadAnswer,
+  listSolutions
 })
 
 export type AppRouter = typeof appRouter

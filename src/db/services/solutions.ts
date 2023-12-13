@@ -1,6 +1,8 @@
-import { Solution } from '..'
+import { Solution, Workload } from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { SolutionCreationAttributes } from '../models/solution'
+import { FindAndCountSolutionsSchema } from '../schemas/solutions'
+import * as z from 'zod'
 
 export async function addSolution({
   name,
@@ -15,6 +17,10 @@ export async function addSolution({
 
   return solution.dataValues
 }
+
+export const findAndCountSolutions = async (
+  opts: z.infer<typeof FindAndCountSolutionsSchema>
+) => await Solution.findAndCountAll({ offset: opts.offset, limit: opts.limit })
 
 export async function deleteSolution(id: string) {
   return await Solution.destroy({ where: { id } })

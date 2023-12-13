@@ -1,3 +1,5 @@
+import { Table } from './components/table'
+import AddSolutionDialog from './components/add-dialog'
 import {
   SubNav,
   SubNavTitle,
@@ -5,17 +7,29 @@ import {
   SubNavSubtitle
 } from '@/components/sub-nav'
 
-export default function Lenses() {
+export type PageProps = {
+  children?: React.ReactNode
+}
+
+import { DataTableProvider } from '@/components/data-table-context'
+
+export default function Page({ children }: PageProps) {
   return (
     <>
       <SubNav>
         <SubNavTitle>
           Solutions
-          <SubNavSubtitle>A repository of created solutions</SubNavSubtitle>
+          <SubNavSubtitle>Design, discuss, review, and build.</SubNavSubtitle>
         </SubNavTitle>
-        <SubNavActions></SubNavActions>
+        <SubNavActions>
+          <AddSolutionDialog />
+        </SubNavActions>
       </SubNav>
-      <section>Solutions</section>
+      <section>
+        <DataTableProvider>
+          <Table />
+        </DataTableProvider>
+      </section>
     </>
   )
 }
