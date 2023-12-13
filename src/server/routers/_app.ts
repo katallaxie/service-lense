@@ -1,27 +1,15 @@
 import { z } from 'zod'
-import { publicProcedure, protectedProcedure, router } from '../trpc'
-import { findAndCountLenses } from '@/db/services/lenses'
-import { findAndCountWorkloads } from '@/db/services/workloads'
-import { PaginationSchema } from './schemas/pagination'
-import { WorkloadDeleteSchema } from './schemas/workload'
-import { deleteWorkload as dt } from '@/db/services/workloads'
+import { publicProcedure, router } from '../trpc'
 import { listEnvironments } from './actions/environments'
-import { deleteLens } from './actions/lenses'
-import { getWorkload, getWorkloadAnswer } from './actions/workloads'
+import { deleteLens, listLenses } from './actions/lenses'
+import {
+  getWorkload,
+  getWorkloadAnswer,
+  listWorkloads,
+  deleteWorkload
+} from './actions/workloads'
 import { getLens, getLensQuestion } from './actions/lenses'
-import { listSolutions } from './actions/solutions'
-
-export const listLenses = protectedProcedure
-  .input(PaginationSchema)
-  .query(async opts => await findAndCountLenses({ ...opts.input }))
-
-export const listWorkloads = protectedProcedure
-  .input(PaginationSchema)
-  .query(async opts => await findAndCountWorkloads({ ...opts.input }))
-
-export const deleteWorkload = protectedProcedure
-  .input(WorkloadDeleteSchema)
-  .query(async opts => await dt(opts.input))
+import { listSolutions, addSolution } from './actions/solutions'
 
 export const appRouter = router({
   greeting: publicProcedure
@@ -56,7 +44,8 @@ export const appRouter = router({
   getLensQuestion,
   getLens,
   getWorkloadAnswer,
-  listSolutions
+  listSolutions,
+  addSolution
 })
 
 export type AppRouter = typeof appRouter

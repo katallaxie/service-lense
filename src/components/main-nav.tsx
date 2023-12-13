@@ -9,12 +9,12 @@ const nav = [
     link: '/dashboard'
   },
   {
-    name: 'Solutions',
-    link: '/dashboard/solutions'
-  },
-  {
     name: 'Workloads',
     link: '/dashboard/workloads'
+  },
+  {
+    name: 'Solutions',
+    link: '/dashboard/solutions'
   },
   {
     name: 'Lenses',

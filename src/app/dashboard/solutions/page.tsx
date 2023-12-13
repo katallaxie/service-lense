@@ -1,5 +1,5 @@
 import { Table } from './components/table'
-import AddSolutionDialog from './components/add-dialog'
+import AddSolutionDialog from './components/add-solution'
 import {
   SubNav,
   SubNavTitle,

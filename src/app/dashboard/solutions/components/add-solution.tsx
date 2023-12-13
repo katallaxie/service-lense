@@ -11,11 +11,11 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
-import { useRef, use } from 'react'
-import { FancyMultiSelect } from '@/components/fancy-multi-select'
-
-import { api } from '@/trpc/client'
+import { useRef } from 'react'
+import { useAction } from '@/trpc/client'
+import { rhfAction } from './add-solution.action'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { rhfActionSchema } from './add-solution.schema'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import {
@@ -27,42 +27,22 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
-import { Profile } from '@/db/models/profile'
 import { Textarea } from '@/components/ui/textarea'
-import useSWR from 'swr'
-
-const FormSchema = z.object({
-  name: z.string().min(3, {}).default(''),
-  description: z
-    .string()
-    .min(10, {
-      message: 'Description must be at least 30 characters.'
-    })
-    .max(2024, {
-      message: 'Description must be less than 2024 characters.'
-    })
-    .default(''),
-  tags: z.array(z.string()).default([])
-})
 
 export default function AddSolutionDialog() {
   const { toast } = useToast()
   const closeDialog = useRef<HTMLButtonElement>(null)
   const dialogClose = () => closeDialog.current && closeDialog.current.click()
 
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema)
+  const form = useForm<z.infer<typeof rhfActionSchema>>({
+    resolver: zodResolver(rhfActionSchema)
   })
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {}
+  const mutation = useAction(rhfAction)
+  async function onSubmit(form: z.infer<typeof rhfActionSchema>) {
+    await mutation.mutateAsync({ ...form })
+    dialogClose()
+  }
 
   return (
     <Dialog>

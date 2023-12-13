@@ -1,11 +1,15 @@
 import { protectedProcedure } from '../../trpc'
 import {
   WorkloadGetSchema,
-  WorkloadGetQuestionSchema
+  WorkloadGetQuestionSchema,
+  WorkloadListSchema,
+  WorkloadDeleteSchema
 } from '../schemas/workload'
 import {
   getWorkload as gw,
-  getWorkloadAnswer as gwa
+  getWorkloadAnswer as gwa,
+  findAndCountWorkloads,
+  deleteWorkload as dt
 } from '@/db/services/workloads'
 
 export const getWorkload = protectedProcedure
@@ -15,3 +19,11 @@ export const getWorkload = protectedProcedure
 export const getWorkloadAnswer = protectedProcedure
   .input(WorkloadGetQuestionSchema)
   .query(async opts => gwa(opts.input))
+
+export const listWorkloads = protectedProcedure
+  .input(WorkloadListSchema)
+  .query(async opts => await findAndCountWorkloads({ ...opts.input }))
+
+export const deleteWorkload = protectedProcedure
+  .input(WorkloadDeleteSchema)
+  .query(async opts => await dt(opts.input))
