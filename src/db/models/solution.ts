@@ -9,13 +9,16 @@ import {
   DataType,
   NotEmpty,
   Min,
-  Max
+  Max,
+  HasMany
 } from 'sequelize-typescript'
+import { SolutionComment } from './solution-comments'
 
 export interface SolutionAttributes {
   id: string
   name: string
-  description: string
+  description?: string
+  comments?: SolutionComment[]
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -35,19 +38,22 @@ export class Solution extends Model<
 > {
   @PrimaryKey
   @Column(DataType.UUIDV4)
-  id!: string
+  id?: string
 
   @NotEmpty
   @Min(3)
   @Max(256)
   @Column
-  name!: string
+  name?: string
+
+  @HasMany(() => SolutionComment, 'solutionId')
+  comments?: SolutionComment[]
 
   @NotEmpty
   @Min(12)
   @Max(2048)
   @Column
-  description!: string
+  description?: string
 
   @CreatedAt
   @Column

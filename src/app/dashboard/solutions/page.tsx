@@ -6,12 +6,11 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
+import { DataTableProvider } from '@/components/data-table-context'
 
 export type PageProps = {
   children?: React.ReactNode
 }
-
-import { DataTableProvider } from '@/components/data-table-context'
 
 export default function Page({ children }: PageProps) {
   return (

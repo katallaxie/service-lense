@@ -248,6 +248,21 @@ module.exports = {
         workloadId: workloadId
       }
     ])
+
+    const solutionId = crypto.randomUUID()
+    await queryInterface.bulkInsert('solutions', [
+      {
+        id: solutionId,
+        name: 'New Workflow'
+      }
+    ])
+
+    await queryInterface.bulkInsert('solutions-comments', [
+      {
+        body: 'This is a new comment',
+        solutionId
+      }
+    ])
   },
 
   async down(queryInterface, Sequelize) {

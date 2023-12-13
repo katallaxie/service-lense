@@ -9,7 +9,7 @@ import {
   deleteWorkload
 } from './actions/workloads'
 import { getLens, getLensQuestion } from './actions/lenses'
-import { listSolutions, addSolution } from './actions/solutions'
+import { listSolutions, addSolution, getSolution } from './actions/solutions'
 
 export const appRouter = router({
   greeting: publicProcedure
@@ -35,17 +35,18 @@ export const appRouter = router({
     return opts.ctx.session
   }),
 
+  addSolution,
+  deleteLens,
+  deleteWorkload,
+  getLens,
+  getLensQuestion,
+  getSolution,
   getWorkload,
+  getWorkloadAnswer,
   listEnvironments,
   listLenses,
-  listWorkloads,
-  deleteWorkload,
-  deleteLens,
-  getLensQuestion,
-  getLens,
-  getWorkloadAnswer,
   listSolutions,
-  addSolution
+  listWorkloads
 })
 
 export type AppRouter = typeof appRouter

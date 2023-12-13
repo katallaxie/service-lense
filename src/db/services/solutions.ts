@@ -1,6 +1,7 @@
-import { Solution, Workload } from '..'
+import { Solution, SolutionComment } from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { SolutionCreationAttributes } from '../models/solution'
+import { SolutionsGetSchema } from '../schemas/solutions'
 import { FindAndCountSolutionsSchema } from '../schemas/solutions'
 import * as z from 'zod'
 
@@ -26,6 +27,5 @@ export async function deleteSolution(id: string) {
   return await Solution.destroy({ where: { id } })
 }
 
-export async function getSolution(id: string) {
-  return await Solution.findOne({ where: { id } })
-}
+export const getSolution = async (opts: z.infer<typeof SolutionsGetSchema>) =>
+  await Solution.findOne({ where: { id: opts }, include: [SolutionComment] })

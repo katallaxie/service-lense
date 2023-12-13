@@ -1,12 +1,11 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 
 import { Solution } from '@/db'
 import { DataTableColumnHeader } from '@/components/data-table-column-header'
-import { DataTableRowActions } from '@/app/dashboard/workloads/components/data-rows-actions'
+import { DataTableRowActions } from '@/app/dashboard/solutions/components/data-rows-actions'
 
 export const columns: ColumnDef<Solution>[] = [
   {

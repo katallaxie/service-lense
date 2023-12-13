@@ -3,6 +3,7 @@ import { Lens } from './models/lens'
 import { Profile } from './models/profile'
 import { Sequelize } from 'sequelize-typescript'
 import { Solution } from './models/solution'
+import { SolutionComment } from './models/solution-comments'
 import { Workload } from './models/workload'
 import { WorkloadLens } from './models/workload-lens'
 import { ProfileQuestion } from './models/profile-question'
@@ -51,7 +52,8 @@ sequelize.addModels([
   WorkloadLens,
   WorkloadLensPillarAnswers,
   WorkloadLensPillarAnswerChoices,
-  WorkloadLensPillarAnswer
+  WorkloadLensPillarAnswer,
+  SolutionComment
 ])
 
 export {
@@ -75,7 +77,8 @@ export {
   WorkloadLens,
   WorkloadLensPillarAnswers,
   WorkloadLensPillarAnswerChoices,
-  WorkloadLensPillarAnswer
+  WorkloadLensPillarAnswer,
+  SolutionComment
 }
 
 export const initDB = async () => {
