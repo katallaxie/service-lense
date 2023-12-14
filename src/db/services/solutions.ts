@@ -7,20 +7,25 @@ import {
   SolutionsGetSchema
 } from '../schemas/solutions'
 import { FindAndCountSolutionsSchema } from '../schemas/solutions'
-import * as z from 'zod'
+import { z } from 'zod'
 
 export async function addSolution({
-  name,
+  id = uuidv4(),
+  title,
+  body,
   description
 }: SolutionCreationAttributes) {
-  const id = uuidv4()
-
-  const s = new Solution({ id, name, description })
+  const s = await Solution.create({
+    id,
+    title,
+    body,
+    description
+  })
   await s.validate()
 
   const solution = await s.save()
 
-  return solution.dataValues
+  return solution
 }
 
 export const findAndCountSolutions = async (

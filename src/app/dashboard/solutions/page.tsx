@@ -1,5 +1,5 @@
 import { Table } from './components/table'
-import AddSolutionDialog from './components/add-solution'
+import { AddSolution } from './components/add-solution'
 import {
   SubNav,
   SubNavTitle,
@@ -21,7 +21,7 @@ export default function Page({ children }: PageProps) {
           <SubNavSubtitle>Design, discuss, review, and build.</SubNavSubtitle>
         </SubNavTitle>
         <SubNavActions>
-          <AddSolutionDialog />
+          <AddSolution />
         </SubNavActions>
       </SubNav>
       <section>

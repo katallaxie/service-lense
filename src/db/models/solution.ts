@@ -16,7 +16,8 @@ import { SolutionComment } from './solution-comments'
 
 export interface SolutionAttributes {
   id: string
-  name: string
+  title: string
+  body: string
   description?: string
   comments?: SolutionComment[]
   createdAt: Date
@@ -44,7 +45,11 @@ export class Solution extends Model<
   @Min(3)
   @Max(256)
   @Column
-  name?: string
+  title?: string
+
+  @NotEmpty
+  @Column
+  body?: string
 
   @HasMany(() => SolutionComment, 'solutionId')
   comments?: SolutionComment[]

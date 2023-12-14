@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 export const rhfActionSchema = z.object({
-  solutionId: z.string().uuid().readonly(),
+  title: z.string().min(1).max(256).default(''),
+  description: z.string().optional(),
   body: z.string().min(1).default('')
 })

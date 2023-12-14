@@ -253,7 +253,8 @@ module.exports = {
     await queryInterface.bulkInsert('solutions', [
       {
         id: solutionId,
-        name: 'New Workflow'
+        title: 'Example Solution',
+        body: 'Example Solution'
       }
     ])
 

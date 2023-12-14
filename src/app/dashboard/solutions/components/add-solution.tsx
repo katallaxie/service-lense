@@ -1,117 +1,51 @@
 'use client'
 
+import { DotsHorizontalIcon } from '@radix-ui/react-icons'
+import { z } from 'zod'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog'
-import { Input } from '@/components/ui/input'
-import { useToast } from '@/components/ui/use-toast'
-import { useRef } from 'react'
 import { useAction } from '@/trpc/client'
-import { rhfAction } from './add-solution.action'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { rhfActionSchema } from './add-solution.schema'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { SolutionComment } from '@/db/models/solution-comments'
+import { useRouter } from 'next/navigation'
 
-export default function AddSolutionDialog() {
-  const { toast } = useToast()
-  const closeDialog = useRef<HTMLButtonElement>(null)
-  const dialogClose = () => closeDialog.current && closeDialog.current.click()
+interface CommentActionsProps {
+  comment?: SolutionComment
+}
 
-  const form = useForm<z.infer<typeof rhfActionSchema>>({
-    resolver: zodResolver(rhfActionSchema)
-  })
-
-  const mutation = useAction(rhfAction)
-  async function onSubmit(form: z.infer<typeof rhfActionSchema>) {
-    await mutation.mutateAsync({ ...form })
-    dialogClose()
-  }
+export function AddSolution({ comment }: CommentActionsProps) {
+  const router = useRouter()
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button ref={closeDialog} variant="outline">
-          Add Solution
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
+        >
+          <DotsHorizontalIcon className="h-4 w-4" />
+          <span className="sr-only">Create new solution</span>
         </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>New Solution</DialogTitle>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="grid gap-4 py-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        disabled={form.formState.isSubmitting}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>The name of the solution</FormDescription>
-                    <FormMessage />
-                  </div>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        disabled={form.formState.isSubmitting}
-                        placeholder="Tell us a bit about the solution."
-                        className="resize-none"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      This creates a new solution. Solutions contain ADRs and
-                      other important information.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <DialogFooter>
-              <Button
-                type="submit"
-                disabled={
-                  form.formState.isSubmitting || !form.formState.isValid
-                }
-              >
-                Create
-              </Button>
-            </DialogFooter>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-[160px]">
+        <DropdownMenuItem
+          onClick={() =>
+            router.push(`/dashboard/solutions/new?template=_blank`)
+          }
+        >
+          Blank
+          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

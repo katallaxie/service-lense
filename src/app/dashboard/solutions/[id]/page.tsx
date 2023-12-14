@@ -21,7 +21,7 @@ export default async function Page({ params }: PageProps) {
     <>
       <SubNav>
         <SubNavTitle>
-          {solution?.name}
+          {solution?.title}
           <SubNavSubtitle>Manage and review workflows</SubNavSubtitle>
         </SubNavTitle>
         <SubNavActions></SubNavActions>
