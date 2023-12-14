@@ -24,7 +24,7 @@ export interface SolutionCommentAttributes {
 
 export type SolutionCommentCreationAttributes = Omit<
   SolutionCommentAttributes,
-  'createdAt' | 'updatedAt' | 'deletedAt'
+  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
@@ -36,8 +36,8 @@ export class SolutionComment extends Model<
 > {
   @PrimaryKey
   @AutoIncrement
-  @Column
-  id?: number
+  @Column(DataType.BIGINT)
+  id?: string
 
   @NotEmpty
   @Column

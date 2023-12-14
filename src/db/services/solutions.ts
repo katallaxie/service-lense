@@ -1,7 +1,11 @@
 import { Solution, SolutionComment } from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { SolutionCreationAttributes } from '../models/solution'
-import { SolutionsGetSchema } from '../schemas/solutions'
+import {
+  SolutionCommentAddSchema,
+  SolutionCommentDeleteSchema,
+  SolutionsGetSchema
+} from '../schemas/solutions'
 import { FindAndCountSolutionsSchema } from '../schemas/solutions'
 import * as z from 'zod'
 
@@ -29,3 +33,11 @@ export async function deleteSolution(id: string) {
 
 export const getSolution = async (opts: z.infer<typeof SolutionsGetSchema>) =>
   await Solution.findOne({ where: { id: opts }, include: [SolutionComment] })
+
+export const addSolutionComment = async (
+  opts: z.infer<typeof SolutionCommentAddSchema>
+) => (await (await SolutionComment.create({ ...opts })).save()).dataValues
+
+export const deleteSolutionComment = async (
+  opts: z.infer<typeof SolutionCommentDeleteSchema>
+) => SolutionComment.destroy({ where: { id: opts } })

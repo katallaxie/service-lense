@@ -6,3 +6,8 @@ export const FindAndCountSolutionsSchema = z.object({
 })
 
 export const SolutionsGetSchema = z.string().uuid()
+export const SolutionCommentAddSchema = z.object({
+  solutionId: z.string().uuid().readonly(),
+  body: z.string().min(1)
+})
+export const SolutionCommentDeleteSchema = z.string()

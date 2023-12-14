@@ -3,12 +3,14 @@ import { v4 as uuidv4 } from 'uuid'
 import {
   findAndCountSolutions,
   addSolution as as,
-  getSolution as gs
+  getSolution as gs,
+  deleteSolutionComment as scd
 } from '@/db/services/solutions'
 import {
   SolutionListSchema,
   SolutionAddSchema,
-  SolutionGetSchema
+  SolutionGetSchema,
+  SolutionCommentDeleteSchema
 } from '../schemas/solution'
 
 export const listSolutions = protectedProcedure
@@ -21,4 +23,13 @@ export const addSolution = protectedProcedure
 
 export const getSolution = protectedProcedure
   .input(SolutionGetSchema)
-  .query(async opts => gs(opts.input))
+  .query(async opts => {
+    const s = await gs(opts.input)
+    console.log(s?.comments)
+
+    return s
+  })
+
+export const deleteSolutionComment = protectedProcedure
+  .input(SolutionCommentDeleteSchema)
+  .query(async opts => scd(opts.input))

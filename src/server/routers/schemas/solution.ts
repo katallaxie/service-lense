@@ -7,3 +7,4 @@ export const SolutionAddSchema = z.object({
   description: z.string().min(10).max(2048)
 })
 export const SolutionGetSchema = z.string().uuid()
+export const SolutionCommentDeleteSchema = z.string()

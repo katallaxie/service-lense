@@ -4,17 +4,11 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Section } from '@/components/section'
 import { api } from '@/trpc/server-http'
 import { CommentForm } from './components/comment-form'
+import { CommentActions } from './components/comment-actions'
 
 export type PageProps = {
   params: { id: string }
@@ -35,8 +29,9 @@ export default async function Page({ params }: PageProps) {
       <Section>
         {solution?.comments?.map(comment => (
           <Card key={comment.id}>
-            <CardHeader>
-              <CardTitle>{`Commented on ${comment.createdAt}`}</CardTitle>
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="w-9/12">{`Commented on ${comment.createdAt}`}</CardTitle>
+              <CommentActions comment={comment} />
             </CardHeader>
             <CardContent>
               <p>{comment.body}</p>
