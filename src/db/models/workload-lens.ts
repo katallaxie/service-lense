@@ -16,6 +16,7 @@ import {
 } from 'sequelize-typescript'
 import { Workload } from './workload'
 import { Lens } from './lens'
+import { WorkloadLensPillarAnswer } from '..'
 
 export interface WorkloadLensAttributes {
   id: number
@@ -49,6 +50,9 @@ export class WorkloadLens extends Model<
   @ForeignKey(() => Lens)
   @Column(DataType.UUIDV4)
   lensId?: string
+
+  @HasMany(() => WorkloadLensPillarAnswer, 'workloadId')
+  choices?: WorkloadLensPillarAnswer[]
 
   @CreatedAt
   @Column

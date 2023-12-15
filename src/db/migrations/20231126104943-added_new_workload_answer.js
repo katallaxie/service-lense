@@ -3,12 +3,30 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('workload-lens-pillar-answers', {
+    await queryInterface.createTable('workload-lens-pillars-answers', {
       id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        type: Sequelize.BIGINT,
+        autoIncrement: true,
         allowNull: false,
         primaryKey: true
+      },
+      workloadId: {
+        type: Sequelize.UUID,
+        references: {
+          model: 'workloads',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+      },
+      questionId: {
+        type: Sequelize.BIGINT,
+        references: {
+          model: 'lenses-pillars-questions',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       notes: {
         type: Sequelize.STRING
@@ -31,53 +49,17 @@ module.exports = {
       }
     })
 
-    await queryInterface.createTable('workload-lens-pillar-answers', {
+    await queryInterface.createTable('workload-lens-pillar-choices', {
       id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-        allowNull: false,
-        primaryKey: true
-      },
-      workloadId: {
-        type: Sequelize.UUID,
-        references: {
-          model: 'workloads',
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-      },
-      answerId: {
-        type: Sequelize.UUID,
-        references: {
-          model: 'workload-lens-pillar-answer',
-          key: 'id'
-        },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
-      },
-      createdAt: {
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        type: Sequelize.DATE
-      },
-      deletedAt: {
-        type: Sequelize.DATE
-      }
-    })
-
-    await queryInterface.createTable('workload-lens-pillar-answer-choices', {
-      id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
+        type: Sequelize.BIGINT,
+        autoIncrement: true,
         allowNull: false,
         primaryKey: true
       },
       answerId: {
-        type: Sequelize.UUID,
+        type: Sequelize.BIGINT,
         references: {
-          model: 'workload-lens-pillar-answer',
+          model: 'workload-lens-pillars-answers',
           key: 'id'
         },
         onUpdate: 'CASCADE',
@@ -89,8 +71,8 @@ module.exports = {
           model: 'lenses-pillars-choices',
           key: 'id'
         },
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE'
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       },
       createdAt: {
         type: Sequelize.DATE
@@ -102,29 +84,9 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
-
-    await queryInterface.addColumn(
-      'workload-lens-pillar-answer',
-      'questionId',
-      {
-        type: Sequelize.BIGINT,
-        references: {
-          model: 'lenses-pillars-questions',
-          key: 'id'
-        },
-        allowNull: true
-      }
-    )
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('workload-lens-pillar-answer-choices')
-    await queryInterface.dropTable('workload-lens-pillar-answers')
-    await queryInterface.dropTable('workload-lens-pillar-answer')
-    await queryInterface.dropTable('workload-lens-pillar-questions')
-    await queryInterface.dropTable('lenses-pillars-risks')
-    await queryInterface.dropTable('lenses-pillars-choices')
-    await queryInterface.dropTable('lenses-pillars')
-    await queryInterface.dropTable('lenses')
+    await queryInterface.dropTable('workload-lens-pillar-choices')
   }
 }

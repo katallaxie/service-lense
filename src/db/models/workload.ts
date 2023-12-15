@@ -12,16 +12,15 @@ import {
   NotEmpty,
   PrimaryKey,
   Table,
-  UpdatedAt
+  UpdatedAt,
+  HasMany
 } from 'sequelize-typescript'
 import { Profile } from './profile'
 import { Lens } from './lens'
 import { WorkloadLens } from './workload-lens'
-import { LensPillarChoice } from './lens-pillar-choice'
 import { WorkloadEnvironment } from './workload-environment'
 import { Environment } from './environment'
-import { WorkloadLensPillarAnswer } from './workload-lens-pillar-question-answer'
-import { WorkloadLensPillarAnswers } from './workload-lens-pillar-question-answers'
+import { WorkloadLensPillarAnswer } from './workload-lens-pillar-question-answers'
 
 export interface WorkloadAttributes {
   id: string
@@ -75,10 +74,7 @@ export class Workload extends Model<
   @BelongsToMany(() => Environment, () => WorkloadEnvironment)
   environments?: Environment[]
 
-  @BelongsToMany(
-    () => WorkloadLensPillarAnswer,
-    () => WorkloadLensPillarAnswers
-  )
+  @HasMany(() => WorkloadLensPillarAnswer, 'workloadId')
   answers?: WorkloadLensPillarAnswer[]
 
   @CreatedAt

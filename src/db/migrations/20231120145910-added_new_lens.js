@@ -153,7 +153,8 @@ module.exports = {
         model: 'lenses-pillars-questions',
         key: 'id'
       },
-      allowNull: true
+      allowNull: true,
+      onDelete: 'CASCADE'
     })
 
     await queryInterface.addColumn('lenses-pillars-risks', 'questionId', {
@@ -162,7 +163,9 @@ module.exports = {
         model: 'lenses-pillars-questions',
         key: 'id'
       },
-      allowNull: true
+      allowNull: true,
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
     })
 
     await queryInterface.addColumn('lenses-pillars-questions', 'pillarId', {
@@ -171,7 +174,9 @@ module.exports = {
         model: 'lenses-pillars',
         key: 'id'
       },
-      allowNull: true
+      allowNull: true,
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
     })
 
     await queryInterface.addColumn('lenses-pillars', 'lensId', {
@@ -180,9 +185,17 @@ module.exports = {
         model: 'lenses',
         key: 'id'
       },
-      allowNull: true
+      allowNull: true,
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
     })
   },
 
-  async down(queryInterface, Sequelize) {}
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable('lenses-pillars-risks')
+    await queryInterface.dropTable('lenses-pillars-choices')
+    await queryInterface.dropTable('lenses-pillars-questions')
+    await queryInterface.dropTable('lenses-pillars')
+    await queryInterface.dropTable('lenses')
+  }
 }

@@ -7,43 +7,70 @@ import {
   Column,
   PrimaryKey,
   DataType,
-  ForeignKey
+  ForeignKey,
+  AutoIncrement,
+  Min,
+  Max,
+  Default,
+  AllowNull,
+  HasMany
 } from 'sequelize-typescript'
 import { Workload } from './workload'
-import { WorkloadLensPillarAnswer } from './workload-lens-pillar-question-answer'
+import { LensPillarQuestion } from '..'
+import { WorkloadLensPillarAnswerChoice } from './workload-lens-pillar-question-answer-choices'
 
-export interface WorkloadLensPillarAnswersAttributes {
+export interface WorkloadLensPillarAnswerAttributes {
   id: string
   workloadId: string
   questionId: string
+  notes?: string
+  doesNotApply?: boolean
+  doesNotApplyReason?: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
 }
 
-export type WorkloadLensPillarAnswersCreationAttributes = Omit<
-  WorkloadLensPillarAnswersAttributes,
+export type WorkloadLensPillarAnswerCreationAttributes = Omit<
+  WorkloadLensPillarAnswerAttributes,
   'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
-  tableName: 'workload-lens-pillar-answers'
+  tableName: 'workload-lens-pillars-answers'
 })
-export class WorkloadLensPillarAnswers extends Model<
-  WorkloadLensPillarAnswersAttributes,
-  WorkloadLensPillarAnswersCreationAttributes
+export class WorkloadLensPillarAnswer extends Model<
+  WorkloadLensPillarAnswerAttributes,
+  WorkloadLensPillarAnswerCreationAttributes
 > {
   @PrimaryKey
-  @Column(DataType.UUIDV4)
-  id!: string
+  @AutoIncrement
+  @Column(DataType.BIGINT)
+  id?: string
 
-  @ForeignKey(() => WorkloadLensPillarAnswer)
-  @Column(DataType.UUIDV4)
-  answerId?: string
+  @ForeignKey(() => LensPillarQuestion)
+  @Column(DataType.BIGINT)
+  questionId?: string
 
   @ForeignKey(() => Workload)
   @Column(DataType.UUIDV4)
   workloadId?: string
+
+  @AllowNull
+  @Min(12)
+  @Max(2048)
+  @Column
+  notes?: string
+
+  @Default(false)
+  @Column
+  doesNotApply?: boolean
+
+  @Column
+  doesNotApplyReason?: string
+
+  @HasMany(() => WorkloadLensPillarAnswerChoice, 'answerId')
+  choices?: WorkloadLensPillarAnswerChoice[]
 
   @CreatedAt
   @Column

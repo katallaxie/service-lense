@@ -42,7 +42,7 @@ export function NewSolutionForm({ ...props }: NewSolutionFormProps) {
 
   useEffect(() => {
     if (mutation.status === 'success') {
-      router.push(`/dashboard/lenses/${mutation.data?.id}`)
+      router.push(`/dashboard/lenses/${mutation.data?.}`)
     }
   })
 

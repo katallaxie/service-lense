@@ -61,6 +61,7 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable('workload-lens-pillars-answers')
     await queryInterface.dropTable('workloads')
   }
 }

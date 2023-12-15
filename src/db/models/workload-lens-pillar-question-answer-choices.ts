@@ -7,12 +7,12 @@ import {
   Column,
   PrimaryKey,
   DataType,
-  ForeignKey
+  ForeignKey,
+  AutoIncrement
 } from 'sequelize-typescript'
-import { WorkloadLensPillarAnswer } from './workload-lens-pillar-question-answer'
 import { LensPillarChoice } from '..'
 
-export interface WorkloadLensPillarAnswerChoicesAttributes {
+export interface WorkloadLensPillarAnswerChoiceAttributes {
   id: string
   answerId: string
   choiceId: string
@@ -21,28 +21,29 @@ export interface WorkloadLensPillarAnswerChoicesAttributes {
   deletedAt: Date
 }
 
-export type WorkloadLensPillarAnswerChoicesCreationAttributes = Omit<
-  WorkloadLensPillarAnswerChoicesAttributes,
+export type WorkloadLensPillarAnswerChoiceCreationAttributes = Omit<
+  WorkloadLensPillarAnswerChoiceAttributes,
   'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
-  tableName: 'workload-lens-pillar-answer-choices'
+  tableName: 'workload-lens-pillar-choices'
 })
-export class WorkloadLensPillarAnswerChoices extends Model<
-  WorkloadLensPillarAnswerChoicesAttributes,
-  WorkloadLensPillarAnswerChoicesAttributes
+export class WorkloadLensPillarAnswerChoice extends Model<
+  WorkloadLensPillarAnswerChoiceAttributes,
+  WorkloadLensPillarAnswerChoiceAttributes
 > {
   @PrimaryKey
-  @Column(DataType.UUIDV4)
-  id!: string
+  @AutoIncrement
+  @Column(DataType.BIGINT)
+  id?: string
 
-  @ForeignKey(() => WorkloadLensPillarAnswer)
-  @Column(DataType.UUIDV4)
+  @ForeignKey(() => WorkloadLensPillarAnswerChoice)
+  @Column(DataType.BIGINT)
   answerId?: string
 
   @ForeignKey(() => LensPillarChoice)
-  @Column(DataType.UUIDV4)
+  @Column(DataType.BIGINT)
   choiceId?: string
 
   @CreatedAt
