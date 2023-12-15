@@ -22,32 +22,13 @@ export async function addLens({
   return await sequelize.transaction(async transaction => {
     const s = await Spec.parseAsync(JSON.parse(spec))
 
-    try {
-      return await Lens.create(
-        {
-          id,
-          name,
-          spec: s,
-          description,
-          isDraft: true
-        },
-        { include: [{ model: LensPillar }], transaction }
-      )
-    } catch (e) {}
-
-    // try {
-    //   await l.validate()
-    // } catch (e: any) {
-    //   console.log(e)
-    //   throw new TRPCError({
-    //     code: 'UNAUTHORIZED',
-    //     message: e.message.errors
-    //   })
-    // }
-
-    // const lens = await l.save()
-
-    return {}
+    return await Lens.create({
+      id,
+      name,
+      spec: s,
+      description,
+      isDraft: true
+    })
   })
 }
 
