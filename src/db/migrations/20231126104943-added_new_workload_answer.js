@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('workload-lens-pillar-answer', {
+    await queryInterface.createTable('workload-lens-pillar-answers', {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -84,9 +84,9 @@ module.exports = {
         onDelete: 'CASCADE'
       },
       choiceId: {
-        type: Sequelize.UUID,
+        type: Sequelize.BIGINT,
         references: {
-          model: 'lens-pillar-choice',
+          model: 'lenses-pillars-choices',
           key: 'id'
         },
         onDelete: 'CASCADE',
@@ -107,9 +107,9 @@ module.exports = {
       'workload-lens-pillar-answer',
       'questionId',
       {
-        type: Sequelize.UUID,
+        type: Sequelize.BIGINT,
         references: {
-          model: 'lens-pillar-question',
+          model: 'lenses-pillars-questions',
           key: 'id'
         },
         allowNull: true
@@ -121,5 +121,10 @@ module.exports = {
     await queryInterface.dropTable('workload-lens-pillar-answer-choices')
     await queryInterface.dropTable('workload-lens-pillar-answers')
     await queryInterface.dropTable('workload-lens-pillar-answer')
+    await queryInterface.dropTable('workload-lens-pillar-questions')
+    await queryInterface.dropTable('lenses-pillars-risks')
+    await queryInterface.dropTable('lenses-pillars-choices')
+    await queryInterface.dropTable('lenses-pillars')
+    await queryInterface.dropTable('lenses')
   }
 }

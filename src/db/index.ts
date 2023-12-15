@@ -11,17 +11,14 @@ import { ProfileQuestionAnswer } from './models/profile-question-answer'
 import { ProfileQuestionAnswers } from './models/profile-question-answers'
 import { ProfileQuestions } from './models/profile-questions'
 import { WorkloadEnvironment } from './models/workload-environment'
-import { LensPillar } from './models/lens-pillar'
-import { LensPillarChoices } from './models/lens-pillar-choices'
-import { LensPillarChoice } from './models/lens-pillar-choice'
-import { LensPillarQuestion } from './models/lens-pillar-question'
-import { LensPillarQuestions } from './models/lens-pillar-questions'
+
 import { WorkloadLensPillarAnswers } from './models/workload-lens-pillar-question-answers'
 import { WorkloadLensPillarAnswerChoices } from './models/workload-lens-pillar-question-answer-choices'
 import { WorkloadLensPillarAnswer } from './models/workload-lens-pillar-question-answer'
-import { LensPillarRisk } from './models/lens-pillar-risk'
-import { LensPillars } from './models/lens-pillars'
-import { LensPillarRisks } from './models/lens-pillar-risks'
+import { LensPillar } from './models/lens-pillars'
+import { LensPillarChoice } from './models/lens-pillar-choices'
+import { LensPillarQuestion } from './models/lens-pillar-questions'
+import { LensPillarQuestionRisk } from './models/lens-pillar-risks'
 import config from './config/config'
 
 const env = process.env.NODE_ENV || 'development'
@@ -35,12 +32,8 @@ sequelize.addModels([
   Lens,
   LensPillar,
   LensPillarChoice,
-  LensPillarChoices,
   LensPillarQuestion,
-  LensPillarQuestions,
-  LensPillarRisk,
-  LensPillarRisks,
-  LensPillars,
+  LensPillarQuestionRisk,
   Profile,
   ProfileQuestion,
   ProfileQuestionAnswer,
@@ -61,11 +54,8 @@ export {
   Lens,
   LensPillar,
   LensPillarChoice,
-  LensPillarChoices,
+  LensPillarQuestionRisk,
   LensPillarQuestion,
-  LensPillarQuestions,
-  LensPillarRisk,
-  LensPillarRisks,
   Profile,
   ProfileQuestion,
   ProfileQuestionAnswer,

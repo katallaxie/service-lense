@@ -7,10 +7,13 @@ import {
   Column,
   PrimaryKey,
   DataType,
-  ForeignKey
+  ForeignKey,
+  AutoIncrement,
+  NotEmpty,
+  Min,
+  Max
 } from 'sequelize-typescript'
-import { LensPillarChoice } from './lens-pillar-choice'
-import { LensPillarQuestion } from './lens-pillar-question'
+import { LensPillarQuestion } from './lens-pillar-questions'
 
 export interface LensPillarChoicesAttributes {
   id: string
@@ -21,29 +24,44 @@ export interface LensPillarChoicesAttributes {
   deletedAt: Date
 }
 
-export type LensPillarChoicesCreationAttributes = Omit<
+export type LensPillarChoiceCreationAttributes = Omit<
   LensPillarChoicesAttributes,
   'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
-  tableName: 'lens-pillar-choices'
+  tableName: 'lenses-pillars-choices'
 })
-export class LensPillarChoices extends Model<
+export class LensPillarChoice extends Model<
   LensPillarChoicesAttributes,
-  LensPillarChoicesCreationAttributes
+  LensPillarChoiceCreationAttributes
 > {
   @PrimaryKey
-  @Column(DataType.UUIDV4)
+  @AutoIncrement
+  @Column(DataType.INTEGER)
   id!: string
 
   @ForeignKey(() => LensPillarQuestion)
   @Column(DataType.UUIDV4)
   questionId?: string
 
-  @ForeignKey(() => LensPillarChoice)
-  @Column(DataType.UUIDV4)
-  choiceId?: string
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  ref!: string
+
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  name?: string
+
+  @NotEmpty
+  @Min(12)
+  @Max(2048)
+  @Column
+  description!: string
 
   @CreatedAt
   @Column

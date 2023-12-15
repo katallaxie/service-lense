@@ -1,49 +1,61 @@
 import {
-  Table,
-  Model,
-  CreatedAt,
-  UpdatedAt,
-  DeletedAt,
   Column,
-  PrimaryKey,
+  CreatedAt,
   DataType,
+  DeletedAt,
+  Model,
+  PrimaryKey,
+  Table,
+  AutoIncrement,
+  UpdatedAt,
+  Min,
+  Max,
+  NotEmpty,
   ForeignKey
 } from 'sequelize-typescript'
-import { LensPillarQuestion } from './lens-pillar-question'
-import { LensPillarRisk } from './lens-pillar-risk'
+import { LensPillarQuestion } from './lens-pillar-questions'
 
-export interface LensPillarRisksAttributes {
-  id: string
-  name: string
-  description: string
+export interface LensPillarQuestionRiskAttributes {
+  id: number
+  risk: string
+  condition: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
 }
 
-export type LensPillarRisksCreationAttributes = Omit<
-  LensPillarRisksAttributes,
+export type LensPillarQuestionCreationAttributes = Omit<
+  LensPillarQuestionRiskAttributes,
   'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
-  tableName: 'lens-pillar-risks'
+  tableName: 'lenses-pillars-risks'
 })
-export class LensPillarRisks extends Model<
-  LensPillarRisksAttributes,
-  LensPillarRisksCreationAttributes
+export class LensPillarQuestionRisk extends Model<
+  LensPillarQuestionRiskAttributes,
+  LensPillarQuestionCreationAttributes
 > {
   @PrimaryKey
-  @Column(DataType.UUIDV4)
-  id!: string
+  @AutoIncrement
+  @Column(DataType.BIGINT)
+  id?: string
 
   @ForeignKey(() => LensPillarQuestion)
-  @Column(DataType.UUIDV4)
-  pillarId?: string
-
-  @ForeignKey(() => LensPillarRisk)
-  @Column(DataType.UUIDV4)
+  @Column
   questionId?: string
+
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  risk?: string
+
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  condition?: string
 
   @CreatedAt
   @Column

@@ -10,21 +10,22 @@ import {
   NotEmpty,
   Min,
   Max,
-  HasMany,
   BelongsToMany,
+  HasMany,
   Default
 } from 'sequelize-typescript'
 import { WorkloadLens } from './workload-lens'
 import { Workload } from './workload'
-import { LensPillar } from './lens-pillar'
-import { LensPillars } from './lens-pillars'
+import { LensPillar } from './lens-pillars'
+import type { Spec } from '../schemas/spec'
 
 export interface LensAttributes {
   id: string
   spec: object
   name: string
   isDraft: boolean
-  description: string
+  description?: string
+  pillars?: LensPillar[]
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -34,78 +35,6 @@ export type LensCreationAttributes = Omit<
   LensAttributes,
   'createdAt' | 'updatedAt' | 'deletedAt'
 >
-
-export class Spec {
-  constructor(
-    public version: string,
-    public name: string,
-    public description: string,
-    public pillars: Pillars
-  ) {}
-}
-
-type Pillars = Pillar[]
-
-class Pillar {
-  constructor(
-    public id: string,
-    public name: string,
-    public description: string,
-    public questions?: Questions,
-    public resources?: Resources
-  ) {}
-}
-
-type Questions = Question[]
-
-class Question {
-  constructor(
-    public id: string,
-    public title: string,
-    public description: string,
-    public choices: Choices,
-    public resources: Resources,
-    public risks: Risks
-  ) {}
-}
-
-type Choices = Choice[]
-
-class Choice {
-  constructor(
-    public id: string,
-    public title: string,
-    public resources: Resources,
-    public improvements: Improvements
-  ) {}
-}
-
-type Resources = Resource[]
-
-class Resource {
-  constructor(
-    public description: string,
-    public url: string
-  ) {}
-}
-
-type Risks = Risk[]
-
-class Risk {
-  constructor(
-    public risk: string,
-    public condition: string
-  ) {}
-}
-
-type Improvements = Improvement[]
-
-class Improvement {
-  constructor(
-    public description: string,
-    public url: string
-  ) {}
-}
 
 @Table({
   tableName: 'lenses'
@@ -135,10 +64,7 @@ export class Lens extends Model<LensAttributes, LensCreationAttributes> {
   @Column
   description!: string
 
-  @BelongsToMany(() => Workload, () => WorkloadLens)
-  workloads?: Workload[]
-
-  @BelongsToMany(() => LensPillar, () => LensPillars)
+  @HasMany(() => LensPillar, 'lensId')
   pillars?: LensPillar[]
 
   @CreatedAt

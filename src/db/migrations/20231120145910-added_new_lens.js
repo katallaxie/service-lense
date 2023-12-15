@@ -1,0 +1,188 @@
+'use strict'
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('lenses', {
+      id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        allowNull: false,
+        primaryKey: true
+      },
+      name: {
+        type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.STRING
+      },
+      spec: {
+        type: Sequelize.JSONB
+      },
+      isDraft: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      },
+      deletedAt: {
+        type: Sequelize.DATE
+      }
+    })
+
+    await queryInterface.createTable('lenses-pillars-questions', {
+      id: {
+        type: Sequelize.BIGINT,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+      },
+      ref: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      name: {
+        type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.STRING
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      },
+      deletedAt: {
+        type: Sequelize.DATE
+      }
+    })
+
+    await queryInterface.createTable('lenses-pillars-risks', {
+      id: {
+        type: Sequelize.BIGINT,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+      },
+      risk: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      condition: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      description: {
+        type: Sequelize.STRING
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      },
+      deletedAt: {
+        type: Sequelize.DATE
+      }
+    })
+
+    await queryInterface.createTable('lenses-pillars-choices', {
+      id: {
+        type: Sequelize.BIGINT,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+      },
+      ref: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      name: {
+        type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.STRING
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      },
+      deletedAt: {
+        type: Sequelize.DATE
+      }
+    })
+
+    await queryInterface.createTable('lenses-pillars', {
+      id: {
+        type: Sequelize.BIGINT,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+      },
+      ref: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      name: {
+        type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.STRING
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      },
+      deletedAt: {
+        type: Sequelize.DATE
+      }
+    })
+
+    await queryInterface.addColumn('lenses-pillars-choices', 'questionId', {
+      type: Sequelize.BIGINT,
+      references: {
+        model: 'lenses-pillars-questions',
+        key: 'id'
+      },
+      allowNull: true
+    })
+
+    await queryInterface.addColumn('lenses-pillars-risks', 'questionId', {
+      type: Sequelize.BIGINT,
+      references: {
+        model: 'lenses-pillars-questions',
+        key: 'id'
+      },
+      allowNull: true
+    })
+
+    await queryInterface.addColumn('lenses-pillars-questions', 'pillarId', {
+      type: Sequelize.BIGINT,
+      references: {
+        model: 'lenses-pillars',
+        key: 'id'
+      },
+      allowNull: true
+    })
+
+    await queryInterface.addColumn('lenses-pillars', 'lensId', {
+      type: Sequelize.UUID,
+      references: {
+        model: 'lenses',
+        key: 'id'
+      },
+      allowNull: true
+    })
+  },
+
+  async down(queryInterface, Sequelize) {}
+}

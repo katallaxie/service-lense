@@ -15,17 +15,12 @@ export async function addSolution({
   body,
   description
 }: SolutionCreationAttributes) {
-  const s = await Solution.create({
+  return await Solution.create({
     id,
     title,
     body,
     description
   })
-  await s.validate()
-
-  const solution = await s.save()
-
-  return solution
 }
 
 export const findAndCountSolutions = async (

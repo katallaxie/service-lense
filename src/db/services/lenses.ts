@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { Lens, LensPillar, LensPillarChoice, LensPillarQuestion } from '..'
-import { Spec } from '@/db/models/lens'
+import { Spec } from '@/db/schemas/spec'
+import { sequelize } from '..'
 
 export type Pagination = {
   offset?: number
@@ -18,14 +19,36 @@ export async function addLens({
   description: string
   spec: string
 }) {
-  const s = new Spec('1', '', 'test', [])
+  return await sequelize.transaction(async transaction => {
+    const s = await Spec.parseAsync(JSON.parse(spec))
 
-  const l = await Lens.create({ id, name, spec: s, description, isDraft: true })
-  await l.validate()
+    try {
+      return await Lens.create(
+        {
+          id,
+          name,
+          spec: s,
+          description,
+          isDraft: true
+        },
+        { include: [{ model: LensPillar }], transaction }
+      )
+    } catch (e) {}
 
-  const lens = await l.save()
+    // try {
+    //   await l.validate()
+    // } catch (e: any) {
+    //   console.log(e)
+    //   throw new TRPCError({
+    //     code: 'UNAUTHORIZED',
+    //     message: e.message.errors
+    //   })
+    // }
 
-  return { name: lens.name, id: lens.id }
+    // const lens = await l.save()
+
+    return {}
+  })
 }
 
 export async function deleteLens(id: string) {

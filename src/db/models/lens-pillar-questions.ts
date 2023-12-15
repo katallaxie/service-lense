@@ -7,41 +7,68 @@ import {
   Column,
   PrimaryKey,
   DataType,
-  ForeignKey
+  ForeignKey,
+  NotEmpty,
+  Min,
+  Max,
+  AutoIncrement,
+  HasMany
 } from 'sequelize-typescript'
-import { LensPillar } from './lens-pillar'
-import { LensPillarQuestion } from './lens-pillar-question'
+import { LensPillar } from './lens-pillars'
+import { LensPillarChoice } from './lens-pillar-choices'
+import { LensPillarQuestionRisk } from './lens-pillar-risks'
 
-export interface LensPillarQuestionsAttributes {
+export interface LensPillarQuestionAttributes {
   id: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
 }
 
-export type LensPillarQuestionsCreationAttributes = Omit<
-  LensPillarQuestionsAttributes,
+export type LensPillarQuestionCreationAttributes = Omit<
+  LensPillarQuestionAttributes,
   'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
-  tableName: 'lens-pillar-questions'
+  tableName: 'lenses-pillars-questions'
 })
-export class LensPillarQuestions extends Model<
-  LensPillarQuestionsAttributes,
-  LensPillarQuestionsCreationAttributes
+export class LensPillarQuestion extends Model<
+  LensPillarQuestionAttributes,
+  LensPillarQuestionCreationAttributes
 > {
   @PrimaryKey
-  @Column(DataType.UUIDV4)
-  id!: string
+  @AutoIncrement
+  @Column(DataType.BIGINT)
+  id?: string
 
   @ForeignKey(() => LensPillar)
   @Column(DataType.UUIDV4)
   pillarId?: string
 
-  @ForeignKey(() => LensPillarQuestion)
-  @Column(DataType.UUIDV4)
-  questionId?: string
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  ref!: string
+
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  name?: string
+
+  @HasMany(() => LensPillarQuestionRisk, 'questionId')
+  risks?: LensPillarQuestionRisk[]
+
+  @HasMany(() => LensPillarChoice, 'questionId')
+  choices?: LensPillarChoice[]
+
+  @NotEmpty
+  @Min(12)
+  @Max(2048)
+  @Column
+  description!: string
 
   @CreatedAt
   @Column
