@@ -1,4 +1,4 @@
-import AddLensDialog from './components/add-lens'
+import { AddLensButton } from './components/add-lens'
 import {
   SubNav,
   SubNavTitle,
@@ -18,7 +18,7 @@ export default function Lenses() {
           <SubNavSubtitle>Review specifications for workloads</SubNavSubtitle>
         </SubNavTitle>
         <SubNavActions>
-          <AddLensDialog />
+          <AddLensButton />
         </SubNavActions>
       </SubNav>
       <section>

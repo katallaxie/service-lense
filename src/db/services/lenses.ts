@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { Lens, LensPillar, LensPillarChoice, LensPillarQuestion } from '..'
+import { Spec } from '@/db/models/lens'
 
 export type Pagination = {
   offset?: number
@@ -7,22 +8,24 @@ export type Pagination = {
 }
 
 export async function addLens({
+  id = uuidv4(),
   name,
   description,
   spec
 }: {
+  id: string
   name: string
   description: string
-  spec: object
+  spec: string
 }) {
-  const id = uuidv4()
+  const s = new Spec('1', '', 'test', [])
 
-  const p = new Lens({ id, name, spec, description, isDraft: true })
-  await p.validate()
+  const l = await Lens.create({ id, name, spec: s, description, isDraft: true })
+  await l.validate()
 
-  const lens = await p.save()
+  const lens = await l.save()
 
-  return lens.dataValues
+  return { name: lens.name, id: lens.id }
 }
 
 export async function deleteLens(id: string) {

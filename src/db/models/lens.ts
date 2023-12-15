@@ -35,7 +35,7 @@ export type LensCreationAttributes = Omit<
   'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
-class Spec {
+export class Spec {
   constructor(
     public version: string,
     public name: string,

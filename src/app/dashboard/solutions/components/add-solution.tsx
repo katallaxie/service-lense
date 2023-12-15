@@ -1,30 +1,21 @@
-'use client'
-
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
-import { z } from 'zod'
+
 import { Button } from '@/components/ui/button'
-import { useAction } from '@/trpc/client'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { SolutionComment } from '@/db/models/solution-comments'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 interface CommentActionsProps {
   comment?: SolutionComment
 }
 
 export function AddSolution({ comment }: CommentActionsProps) {
-  const router = useRouter()
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -37,14 +28,12 @@ export function AddSolution({ comment }: CommentActionsProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem
-          onClick={() =>
-            router.push(`/dashboard/solutions/new?template=_blank`)
-          }
-        >
-          Blank
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <Link href="/dashboard/solutions/new?template=_blank">
+          <DropdownMenuItem>
+            Blank
+            <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </Link>
       </DropdownMenuContent>
     </DropdownMenu>
   )
