@@ -20,7 +20,7 @@ import { Lens } from './lens'
 import { WorkloadLens } from './workload-lens'
 import { WorkloadEnvironment } from './workload-environment'
 import { Environment } from './environment'
-import { WorkloadLensPillarAnswer } from './workload-lens-pillar-question-answers'
+import { WorkloadLensPillarAnswer } from '..'
 
 export interface WorkloadAttributes {
   id: string
@@ -74,8 +74,8 @@ export class Workload extends Model<
   @BelongsToMany(() => Environment, () => WorkloadEnvironment)
   environments?: Environment[]
 
-  @HasMany(() => WorkloadLensPillarAnswer, 'workloadId')
-  answers?: WorkloadLensPillarAnswer[]
+  @HasMany(() => WorkloadLens, 'workloadId')
+  answers?: WorkloadLens[]
 
   @CreatedAt
   @Column

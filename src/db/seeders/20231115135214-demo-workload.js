@@ -95,7 +95,7 @@ module.exports = {
       }
     ])
 
-    await queryInterface.bulkInsert('workload-environment', [
+    await queryInterface.bulkInsert('workloads-environment', [
       {
         id: crypto.randomUUID(),
         workloadId: workloadId,
@@ -103,9 +103,8 @@ module.exports = {
       }
     ])
 
-    await queryInterface.bulkInsert('workload-lens', [
+    await queryInterface.bulkInsert('workloads-lenses', [
       {
-        id: crypto.randomUUID(),
         lensId: lensId,
         workloadId: workloadId
       }

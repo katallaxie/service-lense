@@ -28,7 +28,7 @@ export type WorkloadEnvironmentCreationAttributes = Omit<
 >
 
 @Table({
-  tableName: 'workload-environment'
+  tableName: 'workloads-environment'
 })
 export class WorkloadEnvironment extends Model<
   WorkloadEnvironmentAttributes,

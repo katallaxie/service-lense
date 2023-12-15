@@ -192,10 +192,12 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('lenses-pillars-risks')
-    await queryInterface.dropTable('lenses-pillars-choices')
-    await queryInterface.dropTable('lenses-pillars-questions')
-    await queryInterface.dropTable('lenses-pillars')
-    await queryInterface.dropTable('lenses')
+    await queryInterface.dropTable('lenses-pillars-risks', { cascade: true })
+    await queryInterface.dropTable('lenses-pillars-choices', { cascade: true })
+    await queryInterface.dropTable('lenses-pillars-questions', {
+      cascade: true
+    })
+    await queryInterface.dropTable('lenses-pillars', { cascade: true })
+    await queryInterface.dropTable('lenses', { cascade: true })
   }
 }

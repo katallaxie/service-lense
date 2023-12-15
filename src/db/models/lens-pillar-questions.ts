@@ -62,7 +62,7 @@ export class LensPillarQuestion extends Model<
   risks?: LensPillarQuestionRisk[]
 
   @HasMany(() => LensPillarChoice, 'questionId')
-  choices?: LensPillarChoice[]
+  questionAnswers?: LensPillarChoice[]
 
   @NotEmpty
   @Min(12)

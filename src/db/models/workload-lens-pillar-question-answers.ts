@@ -13,16 +13,17 @@ import {
   Max,
   Default,
   AllowNull,
-  HasMany
+  HasMany,
+  BelongsToMany
 } from 'sequelize-typescript'
 import { Workload } from './workload'
-import { LensPillarQuestion } from '..'
+import { LensPillarQuestion, LensPillarChoice, WorkloadLens } from '..'
 import { WorkloadLensPillarAnswerChoice } from './workload-lens-pillar-question-answer-choices'
 
 export interface WorkloadLensPillarAnswerAttributes {
   id: string
-  workloadId: string
-  questionId: string
+  work: string
+  workloadLensId: string
   notes?: string
   doesNotApply?: boolean
   doesNotApplyReason?: string
@@ -37,7 +38,7 @@ export type WorkloadLensPillarAnswerCreationAttributes = Omit<
 >
 
 @Table({
-  tableName: 'workload-lens-pillars-answers'
+  tableName: 'workloads-lenses-answers'
 })
 export class WorkloadLensPillarAnswer extends Model<
   WorkloadLensPillarAnswerAttributes,
@@ -48,13 +49,9 @@ export class WorkloadLensPillarAnswer extends Model<
   @Column(DataType.BIGINT)
   id?: string
 
-  @ForeignKey(() => LensPillarQuestion)
-  @Column(DataType.BIGINT)
-  questionId?: string
-
-  @ForeignKey(() => Workload)
-  @Column(DataType.UUIDV4)
-  workloadId?: string
+  @ForeignKey(() => WorkloadLens)
+  @Column(DataType.INTEGER)
+  workloadLensId?: string
 
   @AllowNull
   @Min(12)
@@ -69,8 +66,12 @@ export class WorkloadLensPillarAnswer extends Model<
   @Column
   doesNotApplyReason?: string
 
-  @HasMany(() => WorkloadLensPillarAnswerChoice, 'answerId')
-  choices?: WorkloadLensPillarAnswerChoice[]
+  // @BelongsToMany(
+  //   () => LensPillarChoice,
+  //   () => WorkloadLensPillarAnswerChoice,
+  //   'choiceId'
+  // )
+  // choices?: LensPillarChoice[]
 
   @CreatedAt
   @Column

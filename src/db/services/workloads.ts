@@ -6,12 +6,13 @@ import {
   Lens,
   LensPillar,
   LensPillarQuestion,
-  LensPillarChoice
+  LensPillarChoice,
+  WorkloadLens,
+  WorkloadLensPillarAnswer
 } from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { WorkloadCreationAttributes } from '../models/workload'
 import { sequelize } from '..'
-import { WorkloadLensPillarAnswer } from '../models/workload-lens-pillar-question-answer'
 
 export async function createWorkload({
   name,
@@ -62,11 +63,7 @@ export const getWorkloadAnswer = async ({
       },
       {
         model: WorkloadLensPillarAnswer,
-        where: { questionId },
-        include: [
-          { model: LensPillarChoice },
-          { model: LensPillarQuestion, include: [LensPillarChoice] }
-        ]
+        where: { questionId }
       }
     ]
   })
@@ -99,18 +96,7 @@ export const updateWorkloadAnswer = async ({
 export const getWorkload = async (id: string) =>
   await Workload.findOne({
     where: { id },
-    include: [
-      Profile,
-      Environment,
-      {
-        model: Lens,
-        include: [{ model: LensPillar, include: [LensPillarQuestion] }]
-      },
-      {
-        model: WorkloadLensPillarAnswer,
-        include: [{ model: LensPillarChoice }]
-      }
-    ]
+    include: [Profile, Environment, Lens, WorkloadLens]
   })
 
 export type Pagination = {

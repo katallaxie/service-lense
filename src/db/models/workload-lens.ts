@@ -33,7 +33,7 @@ export type WorkloadLensCreationAttributes = Omit<
 >
 
 @Table({
-  tableName: 'workload-lens'
+  tableName: 'workloads-lenses'
 })
 export class WorkloadLens extends Model<
   WorkloadLensAttributes,
@@ -51,8 +51,8 @@ export class WorkloadLens extends Model<
   @Column(DataType.UUIDV4)
   lensId?: string
 
-  @HasMany(() => WorkloadLensPillarAnswer, 'workloadId')
-  choices?: WorkloadLensPillarAnswer[]
+  @HasMany(() => WorkloadLensPillarAnswer, 'workloadLensId')
+  answers?: WorkloadLensPillarAnswer[]
 
   @CreatedAt
   @Column

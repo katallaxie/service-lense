@@ -10,7 +10,7 @@ import {
   ForeignKey,
   AutoIncrement
 } from 'sequelize-typescript'
-import { LensPillarChoice } from '..'
+import { LensPillarChoice, WorkloadLensPillarAnswer } from '..'
 
 export interface WorkloadLensPillarAnswerChoiceAttributes {
   id: string
@@ -38,7 +38,7 @@ export class WorkloadLensPillarAnswerChoice extends Model<
   @Column(DataType.BIGINT)
   id?: string
 
-  @ForeignKey(() => WorkloadLensPillarAnswerChoice)
+  @ForeignKey(() => WorkloadLensPillarAnswer)
   @Column(DataType.BIGINT)
   answerId?: string
 
