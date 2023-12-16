@@ -16,7 +16,7 @@ import {
 import { LensPillarQuestion } from './lens-pillar-questions'
 
 export interface LensPillarQuestionRiskAttributes {
-  id: number
+  id: bigint
   lensId: string
   risk: string
   condition: string
@@ -39,8 +39,8 @@ export class LensPillarQuestionRisk extends Model<
 > {
   @PrimaryKey
   @AutoIncrement
-  @Column(DataType.BIGINT)
-  id?: string
+  @Column
+  id!: bigint
 
   @ForeignKey(() => LensPillarQuestion)
   @Column

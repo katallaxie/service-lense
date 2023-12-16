@@ -1,4 +1,9 @@
-import { SubNav, SubNavTitle, SubNavSubtitle } from '@/components/sub-nav'
+import {
+  SubNav,
+  SubNavTitle,
+  SubNavSubtitle,
+  SubNavActions
+} from '@/components/sub-nav'
 import { Section } from '@/components/section'
 import { api } from '@/trpc/server-http'
 import {
@@ -11,6 +16,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import DateFormat from '@/components/date-format'
+import { ActionsDropdown } from './components/actions-dropdown'
 
 export type PageProps = {
   params: { id: string }
@@ -26,6 +32,9 @@ export default async function Page({ params }: PageProps) {
           {lens?.name}
           <SubNavSubtitle>{lens?.description}</SubNavSubtitle>
         </SubNavTitle>
+        <SubNavActions>
+          <ActionsDropdown lens={lens} />
+        </SubNavActions>
       </SubNav>
       <Section>
         <Tabs defaultValue="overview" className="h-full space-y-6">

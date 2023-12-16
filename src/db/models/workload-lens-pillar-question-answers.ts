@@ -47,7 +47,7 @@ export class WorkloadLensPillarAnswer extends Model<
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)
-  id?: string
+  id!: bigint
 
   @ForeignKey(() => WorkloadLens)
   @Column(DataType.INTEGER)

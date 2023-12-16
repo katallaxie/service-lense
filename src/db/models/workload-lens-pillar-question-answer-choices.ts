@@ -13,9 +13,9 @@ import {
 import { LensPillarChoice, WorkloadLensPillarAnswer } from '..'
 
 export interface WorkloadLensPillarAnswerChoiceAttributes {
-  id: string
-  answerId: string
-  choiceId: string
+  id: bigint
+  answerId: bigint
+  choiceId: bigint
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -35,16 +35,16 @@ export class WorkloadLensPillarAnswerChoice extends Model<
 > {
   @PrimaryKey
   @AutoIncrement
-  @Column(DataType.BIGINT)
-  id?: string
+  @Column
+  id!: bigint
 
   @ForeignKey(() => WorkloadLensPillarAnswer)
-  @Column(DataType.BIGINT)
-  answerId?: string
+  @Column
+  answerId?: bigint
 
   @ForeignKey(() => LensPillarChoice)
-  @Column(DataType.BIGINT)
-  choiceId?: string
+  @Column
+  choiceId?: bigint
 
   @CreatedAt
   @Column

@@ -37,7 +37,7 @@ export class SolutionComment extends Model<
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)
-  id?: string
+  id!: bigint
 
   @NotEmpty
   @Column

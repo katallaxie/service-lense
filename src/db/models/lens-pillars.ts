@@ -18,7 +18,7 @@ import { Lens } from './lens'
 import { LensPillarQuestion } from './lens-pillar-questions'
 
 export interface LensPillarAttributes {
-  id: string
+  id: bigint
   name: string
   ref: string
   description: string
@@ -42,12 +42,12 @@ export class LensPillar extends Model<
 > {
   @PrimaryKey
   @AutoIncrement
-  @Column(DataType.BIGINT)
-  id?: string
+  @Column
+  id!: bigint
 
   @ForeignKey(() => Lens)
   @Column(DataType.UUIDV4)
-  lensId?: string
+  lensId!: string
 
   @NotEmpty
   @Min(3)

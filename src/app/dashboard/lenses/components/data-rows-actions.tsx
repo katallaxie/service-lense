@@ -2,9 +2,7 @@
 
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { Row } from '@tanstack/react-table'
-
 import { Button } from '@/components/ui/button'
-import { api } from '@/trpc/client'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,17 +14,22 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import Link from "next/link"
+import { useAction } from '@/trpc/client'
+import { rhfActionDeleteLens } from '../actions/lens.action'
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
 }
 
-const deleteLens = async (id: string) => await api.deleteLens.query(id)
-
 export function DataTableRowActions<TData>({
   row
 }: DataTableRowActionsProps<TData>) {
   const id = row.getValue('id') as string
+  const mutation = useAction(rhfActionDeleteLens)
+  const deleteLens = async (lensId: string) => {
+    await mutation.mutate(lensId)
+  }
 
   return (
     <DropdownMenu>
@@ -40,7 +43,9 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>View</DropdownMenuItem>
+        <Link href={`/dashboard/lenses/${id}`} passHref>
+          <DropdownMenuItem>View</DropdownMenuItem>
+        </Link>
         <DropdownMenuItem>Make a copy</DropdownMenuItem>
         <DropdownMenuItem>Favorite</DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -57,7 +62,7 @@ export function DataTableRowActions<TData>({
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => deleteLens(id)}>
+        <DropdownMenuItem onClick={() =>  deleteLens(id)}>
           Delete
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>

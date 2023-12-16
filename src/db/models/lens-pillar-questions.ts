@@ -19,12 +19,13 @@ import { LensPillarChoice } from './lens-pillar-choices'
 import { LensPillarQuestionRisk } from './lens-pillar-risks'
 
 export interface LensPillarQuestionAttributes {
-  id: string
+  id: bigint
   ref: string
   name: string
+  pillarId: bigint
   description: string
-  risks: LensPillarQuestionRisk[]
-  questionAnswers: LensPillarChoice[]
+  risks?: LensPillarQuestionRisk[]
+  questionAnswers?: LensPillarChoice[]
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -44,12 +45,12 @@ export class LensPillarQuestion extends Model<
 > {
   @PrimaryKey
   @AutoIncrement
-  @Column(DataType.BIGINT)
-  id?: string
+  @Column
+  id!: bigint
 
   @ForeignKey(() => LensPillar)
-  @Column(DataType.UUIDV4)
-  pillarId?: string
+  @Column
+  pillarId!: bigint
 
   @NotEmpty
   @Min(3)

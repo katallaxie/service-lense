@@ -7,12 +7,25 @@ import {
   LensPillarQuestionRisk
 } from '..'
 import { Spec } from '@/db/schemas/spec'
+import { LensesGetSchema, LensesDeleteSchema } from '../schemas/lenses'
 import { sequelize } from '..'
+import { z } from 'zod'
+import { LensDeleteSchema } from '@/server/routers/schemas/lens'
 
 export type Pagination = {
   offset?: number
   limit?: number
 }
+
+export const getLens = async (opts: z.infer<typeof LensesGetSchema>) =>
+  await Lens.findOne({
+    where: { id: opts }
+  })
+
+export const deleteLens = async (opts: z.infer<typeof LensDeleteSchema>) =>
+  await Lens.destroy({
+    where: { id: opts }
+  })
 
 export async function addLens({
   id = uuidv4(),
@@ -53,18 +66,27 @@ export async function addLens({
       { transaction }
     )
 
+    const questions = await LensPillarQuestion.bulkCreate(
+      pillars.flatMap((pillar, idx) => [
+        ...s.pillars[idx].questions.map(question => {
+          return {
+            pillarId: pillar.id,
+            ref: question.id,
+            name: question.title,
+            description: question.description
+          }
+        })
+      ]),
+      { transaction }
+    )
+
+    // const questions = await LensPillarQuestion.bulkCreate(
+    //   pillars.forEach(pillar => pillar.questions?.map(question => ({
+    //     name: question.
+    //   })))
+    // )
+
     return { ...lens.dataValues }
-  })
-}
-
-export async function deleteLens(id: string) {
-  return await Lens.destroy({ where: { id } })
-}
-
-export async function getLens(id: string) {
-  return await Lens.findOne({
-    where: { id },
-    include: [{ model: LensPillar, include: [LensPillarQuestion] }]
   })
 }
 
