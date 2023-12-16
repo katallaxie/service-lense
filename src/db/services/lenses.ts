@@ -19,7 +19,8 @@ export type Pagination = {
 
 export const getLens = async (opts: z.infer<typeof LensesGetSchema>) =>
   await Lens.findOne({
-    where: { id: opts }
+    where: { id: opts },
+    include: [{model: LensPillar, include: [{model: LensPillarQuestion}]}]
   })
 
 export const deleteLens = async (opts: z.infer<typeof LensDeleteSchema>) =>

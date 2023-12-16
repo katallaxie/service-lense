@@ -6,13 +6,15 @@ import {
 } from '@/components/sub-nav'
 import { Section } from '@/components/section'
 import { api } from '@/trpc/server-http'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card'
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import DateFormat from '@/components/date-format'
@@ -62,6 +64,16 @@ export default async function Page({ params }: PageProps) {
                   <div className="flex items-center justify-between">
                     <div className="space-y-1">
                       <h2 className="text-l font-semibold tracking-tight text-muted-foreground">
+                        Number of Pillars
+                      </h2>
+                      <p>{lens?.pillars?.length}</p>
+                    </div>
+                  </div>
+                </CardContent>
+                <CardContent className="grid gap-4">
+                  <div className="flex items-center justify-between">
+                    <div className="space-y-1">
+                      <h2 className="text-l font-semibold tracking-tight text-muted-foreground">
                         Last updated
                       </h2>
                       <p>
@@ -71,6 +83,35 @@ export default async function Page({ params }: PageProps) {
                   </div>
                   <Separator />
                   <p>{lens?.description || 'No description provided.'}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="space-y-1">
+                  <CardTitle className="text-2xl">Pillars</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Questions</TableHead>
+                        <TableHead>High Risk</TableHead>
+                        <TableHead>Medium Risk</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {lens?.pillars?.map(pillar => (
+                        <TableRow key={pillar.id}>
+                          <TableCell className="font-medium">
+                            {pillar.name}
+                          </TableCell>
+                          <TableCell>{pillar.questions?.length}</TableCell>
+                          <TableCell></TableCell>
+                          <TableCell className="text-right"></TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 </CardContent>
               </Card>
             </div>
