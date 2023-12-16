@@ -17,6 +17,7 @@ import { LensPillarQuestion } from './lens-pillar-questions'
 
 export interface LensPillarQuestionRiskAttributes {
   id: number
+  lensId: string
   risk: string
   condition: string
   createdAt: Date
@@ -26,7 +27,7 @@ export interface LensPillarQuestionRiskAttributes {
 
 export type LensPillarQuestionCreationAttributes = Omit<
   LensPillarQuestionRiskAttributes,
-  'createdAt' | 'updatedAt' | 'deletedAt'
+  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({

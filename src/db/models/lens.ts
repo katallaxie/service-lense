@@ -14,8 +14,6 @@ import {
   HasMany,
   Default
 } from 'sequelize-typescript'
-import { WorkloadLens } from './workload-lens'
-import { Workload } from './workload'
 import { LensPillar } from './lens-pillars'
 import type { Spec } from '../schemas/spec'
 

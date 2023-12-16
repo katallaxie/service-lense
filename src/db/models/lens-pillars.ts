@@ -22,6 +22,7 @@ export interface LensPillarAttributes {
   name: string
   ref: string
   description: string
+  questions: LensPillarQuestion[]
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -29,7 +30,7 @@ export interface LensPillarAttributes {
 
 export type LensPillarCreationAttributes = Omit<
   LensPillarAttributes,
-  'createdAt' | 'updatedAt' | 'deletedAt'
+  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({

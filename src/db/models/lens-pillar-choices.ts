@@ -17,8 +17,8 @@ import { LensPillarQuestion } from './lens-pillar-questions'
 
 export interface LensPillarChoicesAttributes {
   id: string
+  ref: string
   name: string
-  description: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -26,7 +26,7 @@ export interface LensPillarChoicesAttributes {
 
 export type LensPillarChoiceCreationAttributes = Omit<
   LensPillarChoicesAttributes,
-  'createdAt' | 'updatedAt' | 'deletedAt'
+  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
@@ -56,12 +56,6 @@ export class LensPillarChoice extends Model<
   @Max(256)
   @Column
   name?: string
-
-  @NotEmpty
-  @Min(12)
-  @Max(2048)
-  @Column
-  description!: string
 
   @CreatedAt
   @Column

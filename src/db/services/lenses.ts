@@ -1,5 +1,11 @@
 import { v4 as uuidv4 } from 'uuid'
-import { Lens, LensPillar, LensPillarChoice, LensPillarQuestion } from '..'
+import {
+  Lens,
+  LensPillar,
+  LensPillarChoice,
+  LensPillarQuestion,
+  LensPillarQuestionRisk
+} from '..'
 import { Spec } from '@/db/schemas/spec'
 import { sequelize } from '..'
 
@@ -22,13 +28,32 @@ export async function addLens({
   return await sequelize.transaction(async transaction => {
     const s = await Spec.parseAsync(JSON.parse(spec))
 
-    return await Lens.create({
-      id,
-      name,
-      spec: s,
-      description,
-      isDraft: true
-    })
+    const lens = await Lens.create(
+      {
+        id,
+        name,
+        spec: s,
+        isDraft: true
+      },
+      {
+        transaction
+      }
+    )
+
+    const pillars = await LensPillar.bulkCreate(
+      [
+        ...s.pillars.map(pillar => ({
+          lensId: lens.id,
+          name: pillar.name,
+          ref: pillar.id,
+          description: pillar.description,
+          questions: []
+        }))
+      ],
+      { transaction }
+    )
+
+    return { ...lens.dataValues }
   })
 }
 
