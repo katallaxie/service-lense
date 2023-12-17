@@ -76,6 +76,12 @@ export default async function Page({ params }: PageProps) {
                       </h2>
                       <p>{lens?.pillars?.length}</p>
                     </div>
+                    <div className="space-y-1">
+                      <h2 className="text-l font-semibold tracking-tight text-muted-foreground">
+                        Status
+                      </h2>
+                      <p>{lens?.isDraft ? 'DRAFT' : 'PUBLISHED'}</p>
+                    </div>
                   </div>
                 </CardContent>
                 <CardContent className="grid gap-4">

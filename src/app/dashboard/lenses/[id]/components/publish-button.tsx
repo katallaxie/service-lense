@@ -1,34 +1,22 @@
 'use client'
 
-import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { useRouter } from 'next/navigation'
-import { Lens } from '@/db/models/lens'
 import { useAction } from '@/trpc/client'
-import { rhfActionDeleteLens } from '@/app/dashboard/lenses/actions/lens.action'
+import { rhfActionPushlishLens } from '@/app/dashboard/lenses/actions/lens.action'
 
 interface PublishButtonProps {
-  lensId?: string
+  lensId: string
 }
 
 export function PublishButton({ lensId }: PublishButtonProps) {
-  //   const mutation = useAction(rhfActionDeleteLens)
-  //   const router = useRouter()
-  //   const handleOnClickDelete = async () => {
-  //     await mutation.mutate(lens?.id ?? '')
-  //     router.replace('/dashboard/lenses')
-  //   }
+  const mutation = useAction(rhfActionPushlishLens)
+  const handleOnClickPublish = async () => await mutation.mutateAsync(lensId)
 
   return (
-    <form>
-      <Button variant="outline">Publish</Button>
+    <form action={rhfActionPushlishLens} onSubmit={handleOnClickPublish}>
+      <Button variant="outline" type="submit">
+        Publish
+      </Button>
     </form>
   )
 }

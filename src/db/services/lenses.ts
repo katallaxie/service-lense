@@ -7,10 +7,13 @@ import {
   LensPillarQuestionRisk
 } from '..'
 import { Spec } from '@/db/schemas/spec'
-import { LensesGetSchema, LensesDeleteSchema } from '../schemas/lenses'
+import {
+  LensesGetSchema,
+  LensesDeleteSchema,
+  LensesPublishSchema
+} from '../schemas/lenses'
 import { sequelize } from '..'
 import { z } from 'zod'
-import { LensDeleteSchema } from '@/server/routers/schemas/lens'
 
 export type Pagination = {
   offset?: number
@@ -23,10 +26,13 @@ export const getLens = async (opts: z.infer<typeof LensesGetSchema>) =>
     include: [{ model: LensPillar, include: [{ model: LensPillarQuestion }] }]
   })
 
-export const deleteLens = async (opts: z.infer<typeof LensDeleteSchema>) =>
+export const deleteLens = async (opts: z.infer<typeof LensesDeleteSchema>) =>
   await Lens.destroy({
     where: { id: opts }
   })
+
+export const publishLens = async (opts: z.infer<typeof LensesPublishSchema>) =>
+  await Lens.update({ isDraft: false }, { where: { id: opts } })
 
 export async function createLens({
   id = uuidv4(),
