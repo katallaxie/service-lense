@@ -1,6 +1,5 @@
 import { z } from 'zod'
 import { publicProcedure, router } from '../trpc'
-import { listEnvironments } from './actions/environments'
 import { deleteLens, listLenses } from './actions/lenses'
 import {
   getWorkload,
@@ -9,6 +8,8 @@ import {
   deleteWorkload
 } from './actions/workloads'
 import { getLens, getLensQuestion } from './actions/lenses'
+import { listProfiles } from './actions/profiles'
+import { listEnvironments } from './actions/environments'
 import { listSolutions, addSolution, getSolution } from './actions/solutions'
 
 export const appRouter = router({
@@ -46,7 +47,8 @@ export const appRouter = router({
   listEnvironments,
   listLenses,
   listSolutions,
-  listWorkloads
+  listWorkloads,
+  listProfiles
 })
 
 export type AppRouter = typeof appRouter

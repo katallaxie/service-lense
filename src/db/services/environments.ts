@@ -1,6 +1,8 @@
 import { Environment } from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { EnvironmentCreationAttributes } from '../models/environment'
+import { FindAndCountEnvironmentsSchema } from '../schemas/environments'
+import { z } from 'zod'
 
 export type Pagination = {
   offset?: number
@@ -23,13 +25,10 @@ export async function createEnvironment({
 export const deleteEnvironment = async (id: string) =>
   await Environment.destroy({ where: { id } })
 
-export const findCountEnvironments = async ({
-  offset = 0,
-  limit = 10
-}: Pagination) =>
+export const findAndCountEnvironments = async (
+  opts: z.infer<typeof FindAndCountEnvironmentsSchema>
+) =>
   await Environment.findAndCountAll({
-    include: [],
     order: [['name', 'DESC']],
-    offset,
-    limit
+    ...opts
   })

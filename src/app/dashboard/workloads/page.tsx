@@ -1,5 +1,5 @@
 import { Table } from './components/table'
-import { AddWorkloadDialog } from './components/add-dialog'
+import { AddWorkloadButton } from './components/add-button'
 import {
   SubNav,
   SubNavTitle,
@@ -22,7 +22,7 @@ export default function Page({ children }: PageProps) {
           <SubNavSubtitle>Manage and review workflows</SubNavSubtitle>
         </SubNavTitle>
         <SubNavActions>
-          <AddWorkloadDialog />
+          <AddWorkloadButton />
         </SubNavActions>
       </SubNav>
       <section>

@@ -15,7 +15,7 @@ import { Environment } from '..'
 
 export interface WorkloadEnvironmentAttributes {
   id: number
-  environmentId: string
+  environmentId: number
   workloadId: string
   createdAt: Date
   updatedAt: Date
@@ -36,16 +36,16 @@ export class WorkloadEnvironment extends Model<
 > {
   @PrimaryKey
   @AutoIncrement
-  @Column(DataType.INTEGER)
-  id!: string
+  @Column
+  id!: number
 
   @ForeignKey(() => Workload)
   @Column(DataType.UUIDV4)
   workloadId?: string
 
   @ForeignKey(() => Environment)
-  @Column(DataType.UUIDV4)
-  environmentId?: string
+  @Column
+  environmentId?: number
 
   @CreatedAt
   @Column

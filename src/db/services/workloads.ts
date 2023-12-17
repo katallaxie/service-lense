@@ -17,18 +17,19 @@ import { sequelize } from '..'
 export async function createWorkload({
   name,
   description,
-  environments,
   profilesId,
   environmentsIds
-}: WorkloadCreationAttributes & { environmentsIds: string[] }) {
+}: WorkloadCreationAttributes & { environmentsIds: number[] }) {
   return await sequelize.transaction(async transaction => {
     const id = uuidv4()
+
+    console.log(profilesId)
+
     const workload = await Workload.create(
       {
         id,
         profilesId,
         name,
-        environments,
         description
       },
       { transaction }

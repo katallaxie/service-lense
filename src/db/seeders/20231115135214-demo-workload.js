@@ -68,20 +68,16 @@ module.exports = {
       }
     ])
 
-    const environmentId = crypto.randomUUID()
     await queryInterface.bulkInsert('environments', [
       {
-        id: crypto.randomUUID(),
         name: 'production',
         description: 'Production environment'
       },
       {
-        id: environmentId,
         name: 'staging',
         description: 'Staging environment'
       },
       {
-        id: crypto.randomUUID(),
         name: 'development',
         description: 'Development environment'
       }
@@ -99,9 +95,8 @@ module.exports = {
 
     await queryInterface.bulkInsert('workloads-environment', [
       {
-        id: crypto.randomUUID(),
         workloadId: workloadId,
-        environmentId: environmentId
+        environmentId: 1
       }
     ])
 

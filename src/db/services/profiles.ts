@@ -1,5 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import { Profile, ProfileQuestion, ProfileQuestionAnswer } from '..'
+import { FindAndCountProfilesSchema } from '../schemas/profiles'
+import { z } from 'zod'
 
 export type Pagination = {
   offset?: number
@@ -31,19 +33,14 @@ export async function getProfile(id: string) {
   return await Profile.findOne({ where: { id } })
 }
 
-export async function findAndCountProfiles({
-  offset = 0,
-  limit = 10
-}: Pagination) {
-  const profiles = await Profile.findAndCountAll({
+export const findAndCountProfiles = async (
+  opts: z.infer<typeof FindAndCountProfilesSchema>
+) =>
+  await Profile.findAndCountAll({
     order: [['name', 'DESC']],
     include: {
       model: ProfileQuestion,
       include: [ProfileQuestionAnswer]
     },
-    offset,
-    limit
+    ...opts
   })
-
-  return profiles
-}

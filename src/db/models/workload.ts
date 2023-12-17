@@ -20,13 +20,14 @@ import { Lens } from './lens'
 import { WorkloadLens } from './workload-lens'
 import { WorkloadEnvironment } from './workload-environment'
 import { Environment } from './environment'
-import { WorkloadLensPillarAnswer } from '..'
 
 export interface WorkloadAttributes {
   id: string
   name: string
-  description: string
-  environments: Environment[]
+  description?: string
+  environments?: Environment[]
+  answers?: WorkloadLens[]
+  lenses?: Lens[]
   profilesId: string
   createdAt: Date
   updatedAt: Date
@@ -59,11 +60,11 @@ export class Workload extends Model<
   @Min(12)
   @Max(2048)
   @Column
-  description!: string
+  description?: string
 
   @ForeignKey(() => Profile)
   @Column
-  profilesId?: string
+  profilesId?: number
 
   @BelongsTo(() => Profile)
   profile?: Profile
