@@ -10,7 +10,6 @@ import {
   NotEmpty,
   Min,
   Max,
-  BelongsToMany,
   HasMany,
   Default
 } from 'sequelize-typescript'
@@ -19,6 +18,7 @@ import type { Spec } from '../schemas/spec'
 
 export interface LensAttributes {
   id: string
+  version: number
   spec: object
   name: string
   isDraft: boolean
@@ -49,6 +49,10 @@ export class Lens extends Model<LensAttributes, LensCreationAttributes> {
   name!: string
 
   @NotEmpty
+  @Column
+  version!: string
+
+  @NotEmpty
   @Column(DataType.JSONB)
   spec!: Spec
 
@@ -60,7 +64,7 @@ export class Lens extends Model<LensAttributes, LensCreationAttributes> {
   @Min(12)
   @Max(2048)
   @Column
-  description!: string
+  description?: string
 
   @HasMany(() => LensPillar, 'lensId')
   pillars?: LensPillar[]

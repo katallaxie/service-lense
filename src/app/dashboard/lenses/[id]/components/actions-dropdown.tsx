@@ -23,7 +23,7 @@ export function ActionsDropdown({ lens }: ActionsDropdownProps) {
   const router = useRouter()
   const handleOnClickDelete = async () => {
     await mutation.mutate(lens?.id ?? '')
-    router.replace("/dashboard/lenses")
+    router.replace('/dashboard/lenses')
   }
 
   return (

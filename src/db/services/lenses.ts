@@ -20,7 +20,7 @@ export type Pagination = {
 export const getLens = async (opts: z.infer<typeof LensesGetSchema>) =>
   await Lens.findOne({
     where: { id: opts },
-    include: [{model: LensPillar, include: [{model: LensPillarQuestion}]}]
+    include: [{ model: LensPillar, include: [{ model: LensPillarQuestion }] }]
   })
 
 export const deleteLens = async (opts: z.infer<typeof LensDeleteSchema>) =>
@@ -28,7 +28,7 @@ export const deleteLens = async (opts: z.infer<typeof LensDeleteSchema>) =>
     where: { id: opts }
   })
 
-export async function addLens({
+export async function createLens({
   id = uuidv4(),
   name,
   description,
@@ -46,6 +46,8 @@ export async function addLens({
       {
         id,
         name,
+        version: s.version,
+        description,
         spec: s,
         isDraft: true
       },
@@ -79,6 +81,19 @@ export async function addLens({
         })
       ]),
       { transaction }
+    )
+
+    const choices = await LensPillarChoice.bulkCreate(
+      pillars.flatMap((pillar, a) => [
+        ...questions.flatMap((question, b) => [
+          ...s.pillars[a].questions[b].choices.map(choice => {
+            return {
+              ref: choice.id,
+              name: choice.title
+            }
+          })
+        ])
+      ])
     )
 
     // const questions = await LensPillarQuestion.bulkCreate(

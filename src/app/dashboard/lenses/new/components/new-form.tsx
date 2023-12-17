@@ -9,6 +9,7 @@ import {
   FormMessage,
   FormField
 } from '@/components/ui/form'
+import { Textarea } from '@/components/ui/textarea'
 import { useEffect } from 'react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -87,7 +88,7 @@ export function NewSolutionForm({ ...props }: NewSolutionFormProps) {
                   />
                 </FormControl>
                 <FormDescription>
-                  The business context for a workload.
+                  This must follow the Lens Format Specification (max. 3MB).
                 </FormDescription>
                 <FormMessage />
               </div>
@@ -97,23 +98,24 @@ export function NewSolutionForm({ ...props }: NewSolutionFormProps) {
             control={form.control}
             name="description"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <h1>Description</h1>
-                </FormLabel>
+              <div className="grid w-full">
                 <FormControl>
-                  <Input {...field} />
+                  <Textarea
+                    {...field}
+                    className="w-full"
+                    placeholder="Add a description ..."
+                  />
                 </FormControl>
-                <FormDescription>Give it a good description.</FormDescription>
+                <FormDescription>A desciption for your lens.</FormDescription>
                 <FormMessage />
-              </FormItem>
+              </div>
             )}
           />
           <Button
             type="submit"
             disabled={form.formState.isSubmitting || !form.formState.isValid}
           >
-            New Solution
+            Submit new Lens
           </Button>
         </form>
       </Form>

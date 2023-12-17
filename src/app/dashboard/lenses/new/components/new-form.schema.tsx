@@ -27,10 +27,11 @@ export const rhfActionSchema = z.object({
   description: z
     .string()
     .min(10, {
-      message: 'Description must be at least 30 characters.'
+      message: 'Description must be at least 10 characters.'
     })
     .max(2024, {
       message: 'Description must be less than 2024 characters.'
     })
+    .optional()
     .default('')
 })

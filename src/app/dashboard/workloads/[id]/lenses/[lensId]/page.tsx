@@ -35,6 +35,12 @@ export default async function Page({ params }: PageProps) {
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <h2 className="text-l font-semibold tracking-tight text-muted-foreground">
+                Version
+              </h2>
+              <p>{lens?.dataValues?.version}</p>
+            </div>
+            <div className="space-y-1">
+              <h2 className="text-l font-semibold tracking-tight text-muted-foreground">
                 Last updated
               </h2>
               <p>

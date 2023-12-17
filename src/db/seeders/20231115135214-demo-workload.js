@@ -53,6 +53,7 @@ module.exports = {
       {
         id: lensId,
         name: 'Web Application Security Lens',
+        version: 1,
         description: 'This is an initial demo lens',
         isDraft: false,
         spec: '{"version":1,"name":"SAP Lens","description":"SAP Lens","pillars":[{"id":"operational_excellence","name":"Operational Excellence","description":"Operational Excellence","questions":[{"id":"question_1","name":"Question 1","description":"Question 1","choices":[{"id":"choice_1","name":"Choice 1","description":"Choice 1"}],"risks":[{"risk":"HIGH","condition":"default"}]}]}]}'
@@ -60,6 +61,7 @@ module.exports = {
       {
         id: crypto.randomUUID(),
         name: 'SAP Workload',
+        version: 1,
         description: 'This is an initial demo lens',
         isDraft: true,
         spec: '{"version":1,"name":"SAP Lens","description":"SAP Lens","pillars":[{"id":"operational_excellence","name":"Operational Excellence","description":"Operational Excellence","questions":[{"id":"question_1","name":"Question 1","description":"Question 1","choices":[{"id":"choice_1","name":"Choice 1","description":"Choice 1"}],"risks":[{"risk":"HIGH","condition":"default"}]}]}]}'

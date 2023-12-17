@@ -19,6 +19,7 @@ import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import DateFormat from '@/components/date-format'
 import { ActionsDropdown } from './components/actions-dropdown'
+import { PublishButton } from './components/publish-button'
 
 export type PageProps = {
   params: { id: string }
@@ -35,6 +36,7 @@ export default async function Page({ params }: PageProps) {
           <SubNavSubtitle>{lens?.description}</SubNavSubtitle>
         </SubNavTitle>
         <SubNavActions>
+          {lens?.isDraft && <PublishButton lensId={lens.id} />}
           <ActionsDropdown lens={lens} />
         </SubNavActions>
       </SubNav>
@@ -61,7 +63,13 @@ export default async function Page({ params }: PageProps) {
                   <CardTitle className="text-2xl">Overview</CardTitle>
                 </CardHeader>
                 <CardContent className="grid gap-4">
-                  <div className="flex items-center justify-between">
+                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    <div className="space-y-1">
+                      <h2 className="text-l font-semibold tracking-tight text-muted-foreground">
+                        Version
+                      </h2>
+                      <p>{lens?.version}</p>
+                    </div>
                     <div className="space-y-1">
                       <h2 className="text-l font-semibold tracking-tight text-muted-foreground">
                         Number of Pillars

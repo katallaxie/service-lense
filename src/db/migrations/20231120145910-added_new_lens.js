@@ -16,12 +16,15 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
+      version: {
+        type: Sequelize.INTEGER
+      },
       spec: {
         type: Sequelize.JSONB
       },
       isDraft: {
         type: Sequelize.BOOLEAN,
-        defaultValue: false
+        defaultValue: true
       },
       createdAt: {
         type: Sequelize.DATE
