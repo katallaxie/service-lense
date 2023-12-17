@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { PropertiesCard } from './components/properties-card'
 import { LensCard } from './components/lens-card'
+import { MoreButton } from './components/more-button'
 
 export type PageProps = {
   params: { id: string }
@@ -28,27 +29,21 @@ export default async function Page({ params }: PageProps) {
           {workload?.name}
           <SubNavSubtitle>Manage and review workflows</SubNavSubtitle>
         </SubNavTitle>
-        <SubNavActions></SubNavActions>
+        <SubNavActions>
+          <MoreButton />
+        </SubNavActions>
       </SubNav>
       <Section>
         <Tabs defaultValue="overview" className="h-full space-y-6">
-          <div className="space-between flex items-center">
-            <TabsList>
-              <TabsTrigger value="overview" className="relative">
-                Overview
-              </TabsTrigger>
-              <TabsTrigger value="properties">Properties</TabsTrigger>
-              <TabsTrigger value="permissions" disabled>
-                Permissions
-              </TabsTrigger>
-            </TabsList>
-            <div className="ml-auto mr-4">
-              <Button>
-                <PlusCircledIcon className="mr-2 h-4 w-4" />
-                Add Lens
-              </Button>
-            </div>
-          </div>
+          <TabsList>
+            <TabsTrigger value="overview" className="relative">
+              Overview
+            </TabsTrigger>
+            <TabsTrigger value="properties">Properties</TabsTrigger>
+            <TabsTrigger value="permissions" disabled>
+              Permissions
+            </TabsTrigger>
+          </TabsList>
           <TabsContent
             value="overview"
             className="border-none p-0 outline-none"

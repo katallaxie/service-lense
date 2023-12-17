@@ -1,4 +1,5 @@
 import {
+  AutoIncrement,
   BelongsTo,
   Column,
   CreatedAt,
@@ -29,7 +30,7 @@ export interface WorkloadLensAttributes {
 
 export type WorkloadLensCreationAttributes = Omit<
   WorkloadLensAttributes,
-  'createdAt' | 'updatedAt' | 'deletedAt'
+  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
@@ -40,8 +41,9 @@ export class WorkloadLens extends Model<
   WorkloadLensCreationAttributes
 > {
   @PrimaryKey
-  @Column(DataType.INTEGER)
-  id!: string
+  @AutoIncrement
+  @Column(DataType.BIGINT)
+  id!: bigint
 
   @ForeignKey(() => Workload)
   @Column(DataType.UUIDV4)

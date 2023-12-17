@@ -115,7 +115,7 @@ export function NewSolutionForm({ ...props }: NewSolutionFormProps) {
             type="submit"
             disabled={form.formState.isSubmitting || !form.formState.isValid}
           >
-            Submit new Lens
+            New Lens
           </Button>
         </form>
       </Form>

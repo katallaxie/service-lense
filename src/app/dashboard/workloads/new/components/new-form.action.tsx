@@ -14,7 +14,8 @@ export const rhfAction = createAction(
         name: opts.input.name,
         description: opts.input.description,
         environmentsIds: opts.input.environmentsIds,
-        profilesId: opts.input.profilesId
+        profilesId: opts.input.profilesId,
+        lensesIds: opts.input.lensesIds
       })
   )
 )

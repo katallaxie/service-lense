@@ -1,4 +1,4 @@
-import { AddLensButton } from './components/add-lens'
+import { AddLensButton } from './components/add-button'
 import {
   SubNav,
   SubNavTitle,

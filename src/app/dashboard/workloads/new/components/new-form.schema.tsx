@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 export const rhfActionSchema = z.object({
   name: z.string().min(3, {}).default(''),
+  lensesIds: z.array(z.string().uuid()).min(1).default([]),
   environmentsIds: z.array(z.number()).min(1).default([]),
   description: z
     .string()
@@ -12,6 +13,6 @@ export const rhfActionSchema = z.object({
       message: 'Description must be less than 2024 characters.'
     })
     .default(''),
-  profilesId: z.string().default(''),
+  profilesId: z.string().uuid().default(''),
   tags: z.array(z.string()).default([])
 })

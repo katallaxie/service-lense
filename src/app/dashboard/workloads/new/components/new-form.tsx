@@ -39,6 +39,7 @@ export type NewProfilesFormProps = {
 export function NewProfilesForm({ ...props }: NewProfilesFormProps) {
   const profiles = use(api.listProfiles.query({}))
   const environments = use(api.listEnvironments.query({}))
+  const lenses = use(api.listLenses.query({}))
 
   const form = useForm<z.infer<typeof rhfActionSchema>>({
     resolver: zodResolver(rhfActionSchema),
@@ -129,6 +130,27 @@ export function NewProfilesForm({ ...props }: NewProfilesFormProps) {
                   </SelectContent>
                 </Select>
                 <FormDescription>Select matching profile.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="lensesIds"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Lenses</FormLabel>
+                <FormControl>
+                  <FancyMultiSelect
+                    placeholder="Select lenses ..."
+                    onValueChange={field.onChange}
+                    dataValues={lenses?.rows.map(lens => ({
+                      value: lens.id,
+                      label: lens.name
+                    }))}
+                  />
+                </FormControl>
+                <FormDescription>Select the matching lenses.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
