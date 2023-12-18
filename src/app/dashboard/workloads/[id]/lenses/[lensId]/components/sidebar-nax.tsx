@@ -7,11 +7,12 @@ import { cn } from '@/lib/utils'
 import { Lens } from '@/db/models/lens'
 import { Button } from '@/components/ui/button'
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger
-} from '@/components/ui/accordion'
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card'
 
 export type SidebarNavProps = {
   params: { lensId: string; id: string }
@@ -35,25 +36,25 @@ export function SidebarNav({
       )}
       {...props}
     >
-      <Accordion type="single" collapsible className="w-full">
-        {lens?.pillars?.map(pillar => (
-          <AccordionItem key={pillar.ref} value={pillar.ref}>
-            <AccordionTrigger>{pillar.name}</AccordionTrigger>
-            <AccordionContent>
-              {pillar.questions?.map(question => (
-                <Link
-                  key={question.ref}
-                  href={`/dashboard/workloads/${params.id}/lenses/${params.lensId}/question/${question.id}`}
-                >
-                  <Button variant="ghost" className="w-full justify-start">
-                    {question.name}
-                  </Button>
-                </Link>
-              ))}
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
+      {lens?.pillars?.map((pillar, idx) => (
+        <Card key={idx}>
+          <CardHeader>
+            <CardTitle>{pillar.name}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {pillar.questions?.map(question => (
+              <Link
+                key={question.ref}
+                href={`/dashboard/workloads/${params.id}/lenses/${params.lensId}/question/${question.id}`}
+              >
+                <Button variant="outline" className="w-full justify-start">
+                  {question.name}
+                </Button>
+              </Link>
+            ))}
+          </CardContent>
+        </Card>
+      ))}
 
       {/* {items.map(item => (
         <Link
