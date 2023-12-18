@@ -12,3 +12,8 @@ export const WorkloadAddSchema = z.object({
   name: z.string().min(3).max(256),
   description: z.string().min(10).max(2048)
 })
+export const WorkloadGetLensQuestionSchema = z.object({
+  workloadId: z.string().uuid(),
+  lensId: z.string().uuid(),
+  questionId: z.string()
+})

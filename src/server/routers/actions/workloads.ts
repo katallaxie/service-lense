@@ -3,13 +3,15 @@ import {
   WorkloadGetSchema,
   WorkloadGetQuestionSchema,
   WorkloadListSchema,
-  WorkloadDeleteSchema
+  WorkloadDeleteSchema,
+  WorkloadGetLensQuestionSchema
 } from '../schemas/workload'
 import {
   getWorkload as gw,
   getWorkloadAnswer as gwa,
   findAndCountWorkloads,
-  deleteWorkload as dt
+  deleteWorkload as dt,
+  getWorkloadLensQuestion
 } from '@/db/services/workloads'
 
 export const getWorkload = protectedProcedure
@@ -27,3 +29,7 @@ export const listWorkloads = protectedProcedure
 export const deleteWorkload = protectedProcedure
   .input(WorkloadDeleteSchema)
   .query(async opts => await dt(opts.input))
+
+export const findWorkloadLensQuestion = protectedProcedure
+  .input(WorkloadGetLensQuestionSchema)
+  .query(async opts => await getWorkloadLensQuestion(opts.input))

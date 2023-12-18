@@ -53,6 +53,9 @@ export class WorkloadLens extends Model<
   @Column(DataType.UUIDV4)
   lensId?: string
 
+  @BelongsTo(() => Lens, 'lensId')
+  lens?: Lens
+
   @HasMany(() => WorkloadLensPillarAnswer, 'workloadLensId')
   answers?: WorkloadLensPillarAnswer[]
 

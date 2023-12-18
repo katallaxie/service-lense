@@ -66,12 +66,8 @@ export class WorkloadLensPillarAnswer extends Model<
   @Column
   doesNotApplyReason?: string
 
-  // @BelongsToMany(
-  //   () => LensPillarChoice,
-  //   () => WorkloadLensPillarAnswerChoice,
-  //   'choiceId'
-  // )
-  // choices?: LensPillarChoice[]
+  @BelongsToMany(() => LensPillarChoice, () => WorkloadLensPillarAnswerChoice)
+  lensChoices?: LensPillarChoice[]
 
   @CreatedAt
   @Column

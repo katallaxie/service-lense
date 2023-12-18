@@ -6,12 +6,20 @@ export type PageProps = {
 }
 
 export default async function Page({ params }: PageProps) {
-  const workload = await api.getWorkloadAnswer.query({
+  const workloadLens = await api.findWorkloadLensQuestion.query({
+    lensId: params.lensId,
     workloadId: params.id,
     questionId: params.questionId
   })
 
-  const answer = workload?.answers?.shift()
+  // const workload = await api.getWorkloadAnswer.query({
+  //   workloadId: params.id,
+  //   questionId: params.questionId
+  // })
 
-  return <>{answer && <QuestionFormFactory answer={answer} />}</>
+  // const answer = workload?.answers?.shift()
+
+  return <>{JSON.stringify(workloadLens)}</>
+
+  // return <>{answer && <QuestionFormFactory answer={answer} />}</>
 }

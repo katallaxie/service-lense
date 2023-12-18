@@ -8,11 +8,14 @@ import {
   LensPillarQuestion,
   LensPillarChoice,
   WorkloadLens,
-  WorkloadLensPillarAnswer
+  WorkloadLensPillarAnswer,
+  WorkloadLensPillarAnswerChoice
 } from '..'
 import { v4 as uuidv4 } from 'uuid'
+import { z } from 'zod'
 import type { WorkloadCreationAttributes } from '../models/workload'
 import { sequelize } from '..'
+import { WorkloadLensQuestionSchema } from '../schemas/workload'
 
 export async function createWorkload({
   name,
@@ -70,11 +73,40 @@ export const getWorkloadAnswer = async ({
     include: [
       {
         model: Lens,
-        include: [{ model: LensPillar }]
+        include: [
+          {
+            model: LensPillar,
+            include: [{ model: LensPillarQuestion, where: { id: questionId } }]
+          }
+        ]
+      }
+    ]
+  })
+
+export const getWorkloadLensQuestion = async (
+  opts: z.infer<typeof WorkloadLensQuestionSchema>
+) =>
+  await WorkloadLens.findOne({
+    where: { workloadId: opts.workloadId, lensId: opts.lensId },
+    include: [
+      {
+        model: Lens,
+        include: [
+          {
+            model: LensPillar,
+            include: [
+              {
+                model: LensPillarQuestion,
+                where: { id: '1' },
+                include: [{ model: LensPillarChoice }]
+              }
+            ]
+          }
+        ]
       },
       {
         model: WorkloadLensPillarAnswer,
-        where: { questionId }
+        include: [{ model: LensPillarChoice }]
       }
     ]
   })

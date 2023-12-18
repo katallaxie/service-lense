@@ -7,3 +7,7 @@ function getBaseUrl() {
 export function getUrl() {
   return getBaseUrl() + '/api/trpc'
 }
+
+BigInt.prototype.toJSON = function () {
+  return String(this)
+}

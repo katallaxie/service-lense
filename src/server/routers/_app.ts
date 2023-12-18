@@ -5,7 +5,8 @@ import {
   getWorkload,
   getWorkloadAnswer,
   listWorkloads,
-  deleteWorkload
+  deleteWorkload,
+  findWorkloadLensQuestion
 } from './actions/workloads'
 import { getLens, getLensQuestion } from './actions/lenses'
 import { listProfiles } from './actions/profiles'
@@ -48,7 +49,8 @@ export const appRouter = router({
   listLenses,
   listSolutions,
   listWorkloads,
-  listProfiles
+  listProfiles,
+  findWorkloadLensQuestion
 })
 
 export type AppRouter = typeof appRouter
