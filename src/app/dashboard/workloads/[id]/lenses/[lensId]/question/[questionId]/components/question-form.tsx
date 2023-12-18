@@ -35,25 +35,27 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { useAction } from '@/trpc/client'
 import { rhfAction } from './question-form.action'
-import { WorkloadLensPillarAnswer } from '@/db'
+import { WorkloadLensesAnswer, LensPillarQuestion } from '@/db'
 
 export type QuestionFormFactoryProps = {
   className?: string
-  answer?: WorkloadLensPillarAnswer
+  question?: LensPillarQuestion
+  answer?: WorkloadLensesAnswer
 }
 
 export function QuestionFormFactory({
   answer,
+  question,
   ...props
 }: QuestionFormFactoryProps) {
   const form = useForm<z.infer<typeof rhfActionSchema>>({
     resolver: zodResolver(rhfActionSchema),
     defaultValues: {
-      answerId: answer?.id,
-      selectedChoices: answer?.choices?.map(choice => choice.id),
-      doesNotApply: answer?.doesNotApply,
-      doesNotApplyReason: answer?.doesNotApplyReason,
-      notes: answer?.notes ?? ''
+      // answerId: answer?.id,
+      // selectedChoices: answer?.choices?.map(choice => choice.id),
+      // doesNotApply: answer?.doesNotApply,
+      // doesNotApplyReason: answer?.doesNotApplyReason,
+      // notes: answer?.notes ?? ''
     }
   })
 
@@ -77,12 +79,10 @@ export function QuestionFormFactory({
               <FormItem>
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-2xl">
-                      {answer?.question?.name}
-                    </CardTitle>
+                    <CardTitle className="text-2xl">{question?.name}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    {answer?.question?.choices?.map(choice => (
+                    {question?.questionAnswers?.map(choice => (
                       <FormField
                         key={choice.id}
                         control={form.control}
@@ -122,9 +122,7 @@ export function QuestionFormFactory({
                     ))}
                   </CardContent>
                   <CardFooter className="text-sm text-muted-foreground">
-                    <CardDescription>
-                      {answer?.question?.description}
-                    </CardDescription>
+                    <CardDescription>{question?.description}</CardDescription>
                     <FormMessage />
                   </CardFooter>
                 </Card>

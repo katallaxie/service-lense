@@ -42,8 +42,8 @@ export class LensPillarChoice extends Model<
   id!: string
 
   @ForeignKey(() => LensPillarQuestion)
-  @Column(DataType.UUIDV4)
-  questionId?: string
+  @Column
+  questionId?: bigint
 
   @NotEmpty
   @Min(3)

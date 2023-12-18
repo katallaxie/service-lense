@@ -7,7 +7,10 @@ import {
 } from '../schemas/lens'
 import { deleteLens as dl } from '@/db/services/lenses'
 import { getLens as gl } from '@/db/services/lenses'
-import { getQuestion as gq, findAndCountLenses } from '@/db/services/lenses'
+import {
+  findOneLensPillarQuestion,
+  findAndCountLenses
+} from '@/db/services/lenses'
 
 export const deleteLens = protectedProcedure
   .input(LensDeleteSchema)
@@ -19,7 +22,7 @@ export const getLens = protectedProcedure
 
 export const getLensQuestion = protectedProcedure
   .input(LensGetQuestionSchema)
-  .query(async opts => await gq(opts.input))
+  .query(async opts => await findOneLensPillarQuestion(opts.input))
 
 export const listLenses = protectedProcedure
   .input(LensListSchema)

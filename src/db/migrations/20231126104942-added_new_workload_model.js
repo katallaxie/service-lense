@@ -79,16 +79,16 @@ module.exports = {
         allowNull: false,
         primaryKey: true
       },
-      workloadLensId: {
-        type: Sequelize.BIGINT,
+      workloadId: {
+        type: Sequelize.UUID,
         references: {
-          model: 'workloads-lenses',
+          model: 'workloads',
           key: 'id'
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE'
       },
-      questionId: {
+      lensPillarQuestionId: {
         type: Sequelize.BIGINT,
         references: {
           model: 'lenses-pillars-questions',
@@ -118,7 +118,7 @@ module.exports = {
       }
     })
 
-    await queryInterface.createTable('workloads-answers-choices', {
+    await queryInterface.createTable('workloads-lenses-answers-choices', {
       id: {
         type: Sequelize.BIGINT,
         autoIncrement: true,
@@ -186,8 +186,8 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('workload-lens-choices')
-    await queryInterface.dropTable('workload-lens-answers')
+    await queryInterface.dropTable('workloads-lenses-answers-choices')
+    await queryInterface.dropTable('workloads-lenses-answers')
     await queryInterface.dropTable('workloads-environment')
     await queryInterface.dropTable('workloads-lenses', { cascade: true })
     await queryInterface.dropTable('workloads')

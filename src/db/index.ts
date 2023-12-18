@@ -12,8 +12,8 @@ import { ProfileQuestionAnswers } from './models/profile-question-answers'
 import { ProfileQuestions } from './models/profile-questions'
 import { WorkloadEnvironment } from './models/workload-environment'
 
-import { WorkloadLensPillarAnswer } from './models/workload-lens-pillar-question-answers'
-import { WorkloadLensPillarAnswerChoice } from './models/workload-lens-pillar-question-answer-choices'
+import { WorkloadLensesAnswer } from './models/workload-lenses-answers'
+import { WorkloadLensesAnswerChoice } from './models/workload-lenses-answers-choices'
 import { LensPillar } from './models/lens-pillars'
 import { LensPillarChoice } from './models/lens-pillar-choices'
 import { LensPillarQuestion } from './models/lens-pillar-questions'
@@ -42,9 +42,8 @@ sequelize.addModels([
   Workload,
   WorkloadEnvironment,
   WorkloadLens,
-  WorkloadLensPillarAnswerChoice,
-  WorkloadLensPillarAnswer,
-  WorkloadLensPillarAnswer,
+  WorkloadLensesAnswer,
+  WorkloadLensesAnswerChoice,
   SolutionComment
 ])
 
@@ -64,8 +63,8 @@ export {
   Workload,
   WorkloadEnvironment,
   WorkloadLens,
-  WorkloadLensPillarAnswer,
-  WorkloadLensPillarAnswerChoice,
+  WorkloadLensesAnswer,
+  WorkloadLensesAnswerChoice,
   SolutionComment
 }
 

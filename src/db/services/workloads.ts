@@ -8,14 +8,21 @@ import {
   LensPillarQuestion,
   LensPillarChoice,
   WorkloadLens,
-  WorkloadLensPillarAnswer,
-  WorkloadLensPillarAnswerChoice
+  WorkloadLensesAnswer,
+  WorkloadLensesAnswerChoice
 } from '..'
 import { v4 as uuidv4 } from 'uuid'
 import { z } from 'zod'
 import type { WorkloadCreationAttributes } from '../models/workload'
 import { sequelize } from '..'
-import { WorkloadLensQuestionSchema } from '../schemas/workload'
+import {
+  WorkloadLensQuestionSchema,
+  WorkloadGetLensAnswer
+} from '../schemas/workload'
+
+export const findWorkloadLensAnswer = async (
+  opts: z.infer<typeof WorkloadGetLensAnswer>
+) => await WorkloadLensesAnswer.findOne({ where: { ...opts } })
 
 export async function createWorkload({
   name,
@@ -61,33 +68,11 @@ export async function createWorkload({
 export const deleteWorkload = async (id: string) =>
   await Workload.update({ deletedAt: new Date(Date.now()) }, { where: { id } })
 
-export const getWorkloadAnswer = async ({
-  workloadId,
-  questionId
-}: {
-  workloadId: string
-  questionId: string
-}) =>
-  await Workload.findOne({
-    where: { id: workloadId },
-    include: [
-      {
-        model: Lens,
-        include: [
-          {
-            model: LensPillar,
-            include: [{ model: LensPillarQuestion, where: { id: questionId } }]
-          }
-        ]
-      }
-    ]
-  })
-
 export const getWorkloadLensQuestion = async (
   opts: z.infer<typeof WorkloadLensQuestionSchema>
 ) =>
-  await WorkloadLens.findOne({
-    where: { workloadId: opts.workloadId, lensId: opts.lensId },
+  await Workload.findOne({
+    where: { id: opts.workloadId },
     include: [
       {
         model: Lens,
@@ -97,16 +82,11 @@ export const getWorkloadLensQuestion = async (
             include: [
               {
                 model: LensPillarQuestion,
-                where: { id: '1' },
-                include: [{ model: LensPillarChoice }]
+                where: { id: '1' }
               }
             ]
           }
         ]
-      },
-      {
-        model: WorkloadLensPillarAnswer,
-        include: [{ model: LensPillarChoice }]
       }
     ]
   })
@@ -121,19 +101,16 @@ export const updateWorkloadAnswer = async ({
   doesNotApplyReason: string
 }) =>
   await sequelize.transaction(async transaction => {
-    const answer = await WorkloadLensPillarAnswer.findOne({
-      where: { id: answerId },
-      transaction
-    })
-
-    if (!answer) {
-      throw Error('Answer not found')
-    }
-
-    answer.doesNotApply = doesNotApply
-    answer.doesNotApplyReason = doesNotApplyReason
-
-    await answer?.save({ transaction })
+    // const answer = await WorkloadLensPillarAnswer.findOne({
+    //   where: { id: answerId },
+    //   transaction
+    // })
+    // if (!answer) {
+    //   throw Error('Answer not found')
+    // }
+    // answer.doesNotApply = doesNotApply
+    // answer.doesNotApplyReason = doesNotApplyReason
+    // await answer?.save({ transaction })
   })
 
 export const getWorkload = async (id: string) =>

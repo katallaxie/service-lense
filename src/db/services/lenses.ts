@@ -1,16 +1,11 @@
 import { v4 as uuidv4 } from 'uuid'
-import {
-  Lens,
-  LensPillar,
-  LensPillarChoice,
-  LensPillarQuestion,
-  LensPillarQuestionRisk
-} from '..'
+import { Lens, LensPillar, LensPillarChoice, LensPillarQuestion } from '..'
 import { Spec } from '@/db/schemas/spec'
 import {
   LensesGetSchema,
   LensesDeleteSchema,
-  LensesPublishSchema
+  LensesPublishSchema,
+  LensesGetQuestionSchema
 } from '../schemas/lenses'
 import { sequelize } from '..'
 import { z } from 'zod'
@@ -94,12 +89,14 @@ export async function createLens({
         ...questions.flatMap((question, b) => [
           ...s.pillars[a].questions[b].choices.map(choice => {
             return {
+              questionId: question.id,
               ref: choice.id,
               name: choice.title
             }
           })
         ])
-      ])
+      ]),
+      { transaction }
     )
 
     // const questions = await LensPillarQuestion.bulkCreate(
@@ -112,12 +109,13 @@ export async function createLens({
   })
 }
 
-export async function getQuestion(questionId: string) {
-  return await LensPillarQuestion.findOne({
+export const findOneLensPillarQuestion = async (
+  opts: z.infer<typeof LensesGetQuestionSchema>
+) =>
+  await LensPillarQuestion.findOne({
     include: [{ model: LensPillarChoice }],
-    where: { id: questionId }
+    where: { id: opts }
   })
-}
 
 export async function findAndCountLenses({
   offset = 0,

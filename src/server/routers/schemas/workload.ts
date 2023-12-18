@@ -17,3 +17,7 @@ export const WorkloadGetLensQuestionSchema = z.object({
   lensId: z.string().uuid(),
   questionId: z.string()
 })
+export const WorkloadGetAnswerSchema = z.object({
+  workloadId: z.string().uuid(),
+  lensPillarQuestionId: z.string()
+})

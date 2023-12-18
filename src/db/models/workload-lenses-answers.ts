@@ -18,9 +18,9 @@ import {
 } from 'sequelize-typescript'
 import { Workload } from './workload'
 import { LensPillarQuestion, LensPillarChoice, WorkloadLens } from '..'
-import { WorkloadLensPillarAnswerChoice } from './workload-lens-pillar-question-answer-choices'
+import { WorkloadLensesAnswerChoice } from './workload-lenses-answers-choices'
 
-export interface WorkloadLensPillarAnswerAttributes {
+export interface WorkloadLensesAnswerAttributes {
   id: string
   work: string
   workloadLensId: string
@@ -32,26 +32,30 @@ export interface WorkloadLensPillarAnswerAttributes {
   deletedAt: Date
 }
 
-export type WorkloadLensPillarAnswerCreationAttributes = Omit<
-  WorkloadLensPillarAnswerAttributes,
+export type WorkloadLensesAnswerCreationAttributes = Omit<
+  WorkloadLensesAnswerAttributes,
   'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
   tableName: 'workloads-lenses-answers'
 })
-export class WorkloadLensPillarAnswer extends Model<
-  WorkloadLensPillarAnswerAttributes,
-  WorkloadLensPillarAnswerCreationAttributes
+export class WorkloadLensesAnswer extends Model<
+  WorkloadLensesAnswerAttributes,
+  WorkloadLensesAnswerCreationAttributes
 > {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)
   id!: bigint
 
-  @ForeignKey(() => WorkloadLens)
-  @Column(DataType.INTEGER)
-  workloadLensId?: string
+  @ForeignKey(() => Workload)
+  @Column(DataType.UUID)
+  workloadId?: string
+
+  @ForeignKey(() => LensPillarQuestion)
+  @Column
+  lensPillarQuestionId?: bigint
 
   @AllowNull
   @Min(12)
@@ -66,8 +70,8 @@ export class WorkloadLensPillarAnswer extends Model<
   @Column
   doesNotApplyReason?: string
 
-  @BelongsToMany(() => LensPillarChoice, () => WorkloadLensPillarAnswerChoice)
-  lensChoices?: LensPillarChoice[]
+  // @BelongsToMany(() => LensPillarChoice, () => WorkloadLensPillarAnswerChoice)
+  // lensChoices?: LensPillarChoice[]
 
   @CreatedAt
   @Column

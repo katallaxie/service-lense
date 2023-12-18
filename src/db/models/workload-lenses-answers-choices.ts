@@ -6,13 +6,12 @@ import {
   DeletedAt,
   Column,
   PrimaryKey,
-  DataType,
   ForeignKey,
   AutoIncrement
 } from 'sequelize-typescript'
-import { LensPillarChoice, WorkloadLensPillarAnswer } from '..'
+import { LensPillarChoice, WorkloadLensesAnswer } from '..'
 
-export interface WorkloadLensPillarAnswerChoiceAttributes {
+export interface WorkloadLensesAnswerChoiceAttributes {
   id: bigint
   answerId: bigint
   choiceId: bigint
@@ -21,24 +20,24 @@ export interface WorkloadLensPillarAnswerChoiceAttributes {
   deletedAt: Date
 }
 
-export type WorkloadLensPillarAnswerChoiceCreationAttributes = Omit<
-  WorkloadLensPillarAnswerChoiceAttributes,
+export type WorkloadLensesAnswerChoiceCreationAttributes = Omit<
+  WorkloadLensesAnswerChoiceAttributes,
   'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
-  tableName: 'workload-lens-pillar-choices'
+  tableName: 'workload-lenses-answers-choices'
 })
-export class WorkloadLensPillarAnswerChoice extends Model<
-  WorkloadLensPillarAnswerChoiceAttributes,
-  WorkloadLensPillarAnswerChoiceAttributes
+export class WorkloadLensesAnswerChoice extends Model<
+  WorkloadLensesAnswerChoiceAttributes,
+  WorkloadLensesAnswerChoiceAttributes
 > {
   @PrimaryKey
   @AutoIncrement
   @Column
   id!: bigint
 
-  @ForeignKey(() => WorkloadLensPillarAnswer)
+  @ForeignKey(() => WorkloadLensesAnswer)
   @Column
   answerId?: bigint
 
