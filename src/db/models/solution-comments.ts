@@ -9,13 +9,16 @@ import {
   DataType,
   NotEmpty,
   ForeignKey,
-  AutoIncrement
+  AutoIncrement,
+  BelongsTo
 } from 'sequelize-typescript'
+import { User } from './users'
 import { Solution } from '..'
 
 export interface SolutionCommentAttributes {
   id: number
   body: string
+  userId: string
   solutionId: string
   createdAt: Date
   updatedAt: Date
@@ -46,6 +49,13 @@ export class SolutionComment extends Model<
   @ForeignKey(() => Solution)
   @Column(DataType.UUIDV4)
   solutionId?: string
+
+  @ForeignKey(() => User)
+  @Column(DataType.INTEGER)
+  userId?: string
+
+  @BelongsTo(() => User, 'userId')
+  user?: User
 
   @CreatedAt
   @Column

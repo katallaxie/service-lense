@@ -4,7 +4,15 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  CardDescription
+} from '@/components/ui/card'
+import DateFormat from '@/components/date-format'
 import { Section } from '@/components/section'
 import { api } from '@/trpc/server-http'
 import { CommentForm } from './components/comment-form'
@@ -12,6 +20,8 @@ import { CommentActions } from './components/comment-actions'
 import { remark } from 'remark'
 import html from 'remark-html'
 import Markdown from 'react-markdown'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
 
 export type PageProps = {
   params: { id: string }
@@ -36,8 +46,18 @@ export default async function Page({ params }: PageProps) {
       </SubNav>
       <Section>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle className="w-9/12">{`Created at ${solution?.createdAt}`}</CardTitle>
+          <CardHeader>
+            <CardTitle className="flex flex-row items-center justify-between">
+              <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage
+                    src={solution?.user?.image}
+                    alt={solution?.user?.name}
+                  />
+                  <AvatarFallback>{}</AvatarFallback>
+                </Avatar>
+              </Button>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <Markdown
@@ -74,19 +94,45 @@ export default async function Page({ params }: PageProps) {
               {solution?.body}
             </Markdown>
           </CardContent>
+          <CardFooter>
+            <CardDescription>
+              <DateFormat date={solution?.dataValues?.updatedAt}>
+                Updated on
+              </DateFormat>
+            </CardDescription>
+          </CardFooter>
         </Card>
 
         {solution?.comments?.map(comment => (
           <Card key={comment.id} className="my-6">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="w-9/12">{`Commented on ${comment.createdAt}`}</CardTitle>
-              <CommentActions comment={comment} />
+            <CardHeader>
+              <CardTitle className="flex flex-row items-center justify-between">
+                <Button
+                  variant="ghost"
+                  className="relative h-8 w-8 rounded-full"
+                >
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage
+                      src={comment.user?.image}
+                      alt={comment.user?.name}
+                    />
+                    <AvatarFallback>{}</AvatarFallback>
+                  </Avatar>
+                </Button>
+                <CommentActions comment={comment} />
+              </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p>{comment.body}</p>
-            </CardContent>
+            <CardContent>{comment.body}</CardContent>
+            <CardFooter>
+              <CardDescription>
+                <DateFormat date={comment?.dataValues?.updatedAt}>
+                  Commented on
+                </DateFormat>
+              </CardDescription>
+            </CardFooter>
           </Card>
         ))}
+
         <CommentForm solutionId={params.id} />
       </Section>
     </>

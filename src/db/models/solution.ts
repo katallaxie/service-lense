@@ -10,14 +10,19 @@ import {
   NotEmpty,
   Min,
   Max,
-  HasMany
+  HasMany,
+  ForeignKey,
+  BelongsTo
 } from 'sequelize-typescript'
 import { SolutionComment } from './solution-comments'
+import { User } from './users'
 
 export interface SolutionAttributes {
   id: string
   title: string
   body: string
+  user?: User
+  userId?: string
   description?: string
   comments?: SolutionComment[]
   createdAt: Date
@@ -53,6 +58,13 @@ export class Solution extends Model<
 
   @HasMany(() => SolutionComment, 'solutionId')
   comments?: SolutionComment[]
+
+  @ForeignKey(() => User)
+  @Column
+  userId?: string
+
+  @BelongsTo(() => User, 'userId')
+  user?: User
 
   @NotEmpty
   @Min(12)

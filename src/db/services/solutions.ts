@@ -1,4 +1,4 @@
-import { Solution, SolutionComment, SolutionTemplate } from '..'
+import { Solution, SolutionComment, SolutionTemplate, User } from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { SolutionCreationAttributes } from '../models/solution'
 import {
@@ -15,6 +15,7 @@ import { z } from 'zod'
 
 export async function addSolution({
   id = uuidv4(),
+  userId,
   title,
   body,
   description
@@ -23,7 +24,8 @@ export async function addSolution({
     id,
     title,
     body,
-    description
+    description,
+    userId
   })
 }
 
@@ -36,7 +38,13 @@ export async function deleteSolution(id: string) {
 }
 
 export const getSolution = async (opts: z.infer<typeof SolutionsGetSchema>) =>
-  await Solution.findOne({ where: { id: opts }, include: [SolutionComment] })
+  await Solution.findOne({
+    where: { id: opts },
+    include: [
+      { model: User },
+      { model: SolutionComment, include: [{ model: User }] }
+    ]
+  })
 
 export const addSolutionComment = async (
   opts: z.infer<typeof SolutionCommentAddSchema>

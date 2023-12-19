@@ -41,7 +41,7 @@ export function CommentForm({ solutionId, ...props }: CommentFormProps) {
         <form
           action={rhfAction}
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-8"
+          className="py-4"
         >
           <FormField
             control={form.control}

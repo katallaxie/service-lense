@@ -18,9 +18,11 @@ import { LensPillar } from './models/lens-pillars'
 import { LensPillarChoice } from './models/lens-pillar-choices'
 import { LensPillarQuestion } from './models/lens-pillar-questions'
 import { LensPillarQuestionRisk } from './models/lens-pillar-risks'
+import { User } from './models/users'
 import config from './config/config'
 
 const env = process.env.NODE_ENV || 'development'
+const isProduction = env === 'production'
 
 export const sequelize = new Sequelize({
   ...config[env]
@@ -45,7 +47,8 @@ sequelize.addModels([
   WorkloadLensesAnswer,
   WorkloadLensesAnswerChoice,
   SolutionComment,
-  SolutionTemplate
+  SolutionTemplate,
+  User
 ])
 
 export {
@@ -67,10 +70,11 @@ export {
   WorkloadLensesAnswer,
   WorkloadLensesAnswerChoice,
   SolutionComment,
-  SolutionTemplate
+  SolutionTemplate,
+  User
 }
 
 export const initDB = async () => {
   await sequelize.authenticate()
-  await sequelize.sync({ alter: true })
+  !isProduction && (await sequelize.sync({ alter: true }))
 }
