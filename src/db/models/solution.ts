@@ -48,7 +48,7 @@ export class Solution extends Model<
   title?: string
 
   @NotEmpty
-  @Column
+  @Column(DataType.TEXT)
   body?: string
 
   @HasMany(() => SolutionComment, 'solutionId')

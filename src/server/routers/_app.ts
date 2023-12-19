@@ -12,7 +12,13 @@ import { getProfile } from './actions/profiles'
 import { getLens, getLensQuestion } from './actions/lenses'
 import { listProfiles } from './actions/profiles'
 import { listEnvironments } from './actions/environments'
-import { listSolutions, addSolution, getSolution } from './actions/solutions'
+import {
+  listSolutions,
+  addSolution,
+  getSolution,
+  findSolutionTemplates,
+  getSolutionTemplate
+} from './actions/solutions'
 
 export const appRouter = router({
   greeting: publicProcedure
@@ -52,7 +58,9 @@ export const appRouter = router({
   listWorkloads,
   listProfiles,
   getProfile,
-  findWorkloadLensQuestion
+  findWorkloadLensQuestion,
+  findSolutionTemplates,
+  getSolutionTemplate
 })
 
 export type AppRouter = typeof appRouter

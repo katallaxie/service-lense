@@ -4,13 +4,17 @@ import {
   findAndCountSolutions,
   addSolution as as,
   getSolution as gs,
-  deleteSolutionComment as scd
+  deleteSolutionComment as scd,
+  findAndCountSolutionTemplates,
+  findOneSolutionTemplate
 } from '@/db/services/solutions'
 import {
   SolutionListSchema,
   SolutionAddSchema,
   SolutionGetSchema,
-  SolutionCommentDeleteSchema
+  SolutionCommentDeleteSchema,
+  SolutionTemplateListSchema,
+  SolutionTemplateGetSchema
 } from '../schemas/solution'
 
 export const listSolutions = protectedProcedure
@@ -33,3 +37,11 @@ export const getSolution = protectedProcedure
 export const deleteSolutionComment = protectedProcedure
   .input(SolutionCommentDeleteSchema)
   .query(async opts => scd(opts.input))
+
+export const findSolutionTemplates = protectedProcedure
+  .input(SolutionTemplateListSchema)
+  .query(async opts => findAndCountSolutionTemplates(opts.input))
+
+export const getSolutionTemplate = protectedProcedure
+  .input(SolutionTemplateGetSchema)
+  .query(async opts => findOneSolutionTemplate(opts.input))

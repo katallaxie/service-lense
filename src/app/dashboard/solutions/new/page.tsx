@@ -6,13 +6,17 @@ import {
 } from '@/components/sub-nav'
 import { Section } from '@/components/section'
 import { NewSolutionForm } from './components/new-form'
+import { api } from '@/trpc/server-invoker'
+import { SolutionTemplate } from '@/db/models/solution-templates'
 
 export type PageProps = {
   children?: React.ReactNode
   searchParams: { template: string }
 }
 
-export default function Page({ searchParams, children }: PageProps) {
+export default async function Page({ searchParams, children }: PageProps) {
+  const template = await api.getSolutionTemplate.query(searchParams.template)
+
   return (
     <>
       <SubNav>
@@ -22,7 +26,7 @@ export default function Page({ searchParams, children }: PageProps) {
         </SubNavTitle>
       </SubNav>
       <Section>
-        <NewSolutionForm />
+        <NewSolutionForm template={template ?? new SolutionTemplate()} />
       </Section>
     </>
   )

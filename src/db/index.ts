@@ -11,7 +11,7 @@ import { ProfileQuestionAnswer } from './models/profile-question-answer'
 import { ProfileQuestionAnswers } from './models/profile-question-answers'
 import { ProfileQuestions } from './models/profile-questions'
 import { WorkloadEnvironment } from './models/workload-environment'
-
+import { SolutionTemplate } from './models/solution-templates'
 import { WorkloadLensesAnswer } from './models/workload-lenses-answers'
 import { WorkloadLensesAnswerChoice } from './models/workload-lenses-answers-choices'
 import { LensPillar } from './models/lens-pillars'
@@ -44,7 +44,8 @@ sequelize.addModels([
   WorkloadLens,
   WorkloadLensesAnswer,
   WorkloadLensesAnswerChoice,
-  SolutionComment
+  SolutionComment,
+  SolutionTemplate
 ])
 
 export {
@@ -65,7 +66,8 @@ export {
   WorkloadLens,
   WorkloadLensesAnswer,
   WorkloadLensesAnswerChoice,
-  SolutionComment
+  SolutionComment,
+  SolutionTemplate
 }
 
 export const initDB = async () => {

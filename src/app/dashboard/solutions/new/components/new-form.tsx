@@ -20,14 +20,20 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { useAction } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
+import { SolutionTemplate } from '@/db/models/solution-templates'
 
 export type NewSolutionFormProps = {
   className?: string
+  template?: SolutionTemplate
 }
 
-export function NewSolutionForm({ ...props }: NewSolutionFormProps) {
+export function NewSolutionForm({ template, ...props }: NewSolutionFormProps) {
   const form = useForm<z.infer<typeof rhfActionSchema>>({
-    resolver: zodResolver(rhfActionSchema)
+    resolver: zodResolver(rhfActionSchema),
+    defaultValues: {
+      title: template?.title,
+      body: template?.body
+    }
   })
   const router = useRouter()
 
@@ -71,14 +77,12 @@ export function NewSolutionForm({ ...props }: NewSolutionFormProps) {
             name="body"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  <h1>Description</h1>
-                </FormLabel>
                 <FormControl>
                   <Textarea
+                    className="block w-full"
+                    placeholder="Describe your solution ..."
+                    rows={25}
                     {...field}
-                    className="w-full"
-                    placeholder="Add your description here ..."
                   />
                 </FormControl>
                 <FormDescription>

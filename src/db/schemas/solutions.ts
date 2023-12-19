@@ -1,3 +1,4 @@
+import { PaginationSchema } from '@/server/routers/schemas/pagination'
 import { z } from 'zod'
 
 export const FindAndCountSolutionsSchema = z.object({
@@ -11,3 +12,5 @@ export const SolutionCommentAddSchema = z.object({
   body: z.string().min(1)
 })
 export const SolutionCommentDeleteSchema = z.string()
+export const FindAndCountSolutionTemplates = PaginationSchema
+export const FindOneSolutionTemplate = z.string()

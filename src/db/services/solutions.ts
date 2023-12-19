@@ -1,4 +1,4 @@
-import { Solution, SolutionComment } from '..'
+import { Solution, SolutionComment, SolutionTemplate } from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { SolutionCreationAttributes } from '../models/solution'
 import {
@@ -6,7 +6,11 @@ import {
   SolutionCommentDeleteSchema,
   SolutionsGetSchema
 } from '../schemas/solutions'
-import { FindAndCountSolutionsSchema } from '../schemas/solutions'
+import type {
+  FindAndCountSolutionsSchema,
+  FindAndCountSolutionTemplates,
+  FindOneSolutionTemplate
+} from '../schemas/solutions'
 import { z } from 'zod'
 
 export async function addSolution({
@@ -41,3 +45,18 @@ export const addSolutionComment = async (
 export const deleteSolutionComment = async (
   opts: z.infer<typeof SolutionCommentDeleteSchema>
 ) => SolutionComment.destroy({ where: { id: opts } })
+
+export const findAndCountSolutionTemplates = async (
+  opts: z.infer<typeof FindAndCountSolutionTemplates>
+) =>
+  await SolutionTemplate.findAndCountAll({
+    offset: opts.offset,
+    limit: opts.limit
+  })
+
+export const findOneSolutionTemplate = async (
+  opts: z.infer<typeof FindOneSolutionTemplate>
+) =>
+  await SolutionTemplate.findOne({
+    where: { id: opts }
+  })

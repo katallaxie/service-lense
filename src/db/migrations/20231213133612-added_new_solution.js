@@ -17,7 +17,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       body: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       createdAt: {
         type: Sequelize.DATE
@@ -38,7 +38,7 @@ module.exports = {
         primaryKey: true
       },
       body: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       createdAt: {
         type: Sequelize.DATE
@@ -59,10 +59,38 @@ module.exports = {
       },
       allowNull: true
     })
+
+    await queryInterface.createTable('solutions-templates', {
+      id: {
+        type: Sequelize.BIGINT,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+      },
+      title: {
+        type: Sequelize.STRING
+      },
+      body: {
+        type: Sequelize.TEXT
+      },
+      description: {
+        type: Sequelize.STRING
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      },
+      deletedAt: {
+        type: Sequelize.DATE
+      }
+    })
   },
 
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('solutions-comments')
+    await queryInterface.dropTable('solutions-templates')
     await queryInterface.dropTable('solutions')
   }
 }

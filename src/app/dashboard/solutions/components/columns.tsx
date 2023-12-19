@@ -2,10 +2,12 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
-
+import Link from 'next/link'
 import { Solution } from '@/db'
 import { DataTableColumnHeader } from '@/components/data-table-column-header'
 import { DataTableRowActions } from '@/app/dashboard/solutions/components/data-rows-actions'
+import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 export const columns: ColumnDef<Solution>[] = [
   {
@@ -39,20 +41,30 @@ export const columns: ColumnDef<Solution>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'name',
+    accessorKey: 'title',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
+      <DataTableColumnHeader column={column} title="Title" />
     ),
     cell: ({ row }) => {
       //   const label = labels.find(label => label.value === row.original.)
-
       return (
-        <div className="flex space-x-2">
-          {/* {label && <Badge variant="outline">{label.label}</Badge>} */}
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('name')}
-          </span>
-        </div>
+        <Link
+          href={`/dashboard/solutions/${row.getValue('id')}`}
+          className={cn(
+            buttonVariants({ variant: 'ghost' }),
+            'hover:bg-transparent hover:underline',
+            'px-0',
+            'justify-start'
+          )}
+          passHref
+        >
+          <div className="flex space-x-2">
+            {/* {label && <Badge variant="outline">{label.label}</Badge>} */}
+            <span className="max-w-[500px] truncate font-medium">
+              {row.getValue('title')}
+            </span>
+          </div>
+        </Link>
       )
     }
   },

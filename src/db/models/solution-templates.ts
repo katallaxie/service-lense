@@ -8,31 +8,32 @@ import {
   PrimaryKey,
   DataType,
   NotEmpty,
-  ForeignKey,
-  AutoIncrement
+  AutoIncrement,
+  Min,
+  Max
 } from 'sequelize-typescript'
-import { Solution } from '..'
 
-export interface SolutionCommentAttributes {
+export interface SolutionTemplateAttributes {
   id: number
+  title: string
   body: string
-  solutionId: string
+  description: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
 }
 
-export type SolutionCommentCreationAttributes = Omit<
-  SolutionCommentAttributes,
+export type SolutionTemplateCreationAttributes = Omit<
+  SolutionTemplateAttributes,
   'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
-  tableName: 'solutions-comments'
+  tableName: 'solutions-templates'
 })
-export class SolutionComment extends Model<
-  SolutionCommentAttributes,
-  SolutionCommentCreationAttributes
+export class SolutionTemplate extends Model<
+  SolutionTemplateAttributes,
+  SolutionTemplateCreationAttributes
 > {
   @PrimaryKey
   @AutoIncrement
@@ -40,12 +41,20 @@ export class SolutionComment extends Model<
   id!: bigint
 
   @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  title?: string
+
+  @NotEmpty
   @Column(DataType.TEXT)
   body?: string
 
-  @ForeignKey(() => Solution)
-  @Column(DataType.UUIDV4)
-  solutionId?: string
+  @NotEmpty
+  @Min(12)
+  @Max(2048)
+  @Column
+  description!: string
 
   @CreatedAt
   @Column
