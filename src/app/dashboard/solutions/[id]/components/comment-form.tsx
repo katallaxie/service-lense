@@ -32,7 +32,7 @@ export function CommentForm({ solutionId, ...props }: CommentFormProps) {
   const mutation = useAction(rhfAction)
   async function onSubmit(data: z.infer<typeof rhfActionSchema>) {
     await mutation.mutateAsync({ ...data })
-    form.reset()
+    form.reset({ body: '', solutionId })
   }
 
   return (

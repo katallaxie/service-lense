@@ -12,7 +12,6 @@ import { CommentActions } from './components/comment-actions'
 import { remark } from 'remark'
 import html from 'remark-html'
 import Markdown from 'react-markdown'
-import { emit } from 'process'
 
 export type PageProps = {
   params: { id: string }

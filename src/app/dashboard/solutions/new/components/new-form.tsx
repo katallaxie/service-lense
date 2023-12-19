@@ -21,6 +21,10 @@ import * as z from 'zod'
 import { useAction } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
 import { SolutionTemplate } from '@/db/models/solution-templates'
+import Markdown from 'react-markdown'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { cn } from '@/lib/utils'
+import { buttonVariants } from '@/components/ui/button'
 
 export type NewSolutionFormProps = {
   className?: string
@@ -72,26 +76,72 @@ export function NewSolutionForm({ template, ...props }: NewSolutionFormProps) {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="body"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Textarea
-                    className="block w-full"
-                    placeholder="Describe your solution ..."
-                    rows={25}
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  This describes your solution in more detail.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <Tabs defaultValue="edit" className="w-full">
+            <TabsList>
+              <TabsTrigger value="edit">Edit</TabsTrigger>
+              <TabsTrigger value="preview">Preview</TabsTrigger>
+            </TabsList>
+            <TabsContent value="edit">
+              <FormField
+                control={form.control}
+                name="body"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Textarea
+                        className="block w-full"
+                        placeholder="Describe your solution ..."
+                        rows={25}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      This describes your solution in more detail.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </TabsContent>
+            <TabsContent value="preview">
+              <div className="border rounded p-4">
+                <Markdown
+                  components={{
+                    h1(props) {
+                      const { node, ...rest } = props
+                      return (
+                        <h1
+                          className="scroll-m-20 text-4xl font-extrabold tracking-tight mt-6 lg:text-5x"
+                          {...rest}
+                        />
+                      )
+                    },
+                    h2(props) {
+                      const { node, ...rest } = props
+                      return (
+                        <h1
+                          className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight mt-6 first:mt-0"
+                          {...rest}
+                        />
+                      )
+                    },
+                    p(props) {
+                      const { node, ...rest } = props
+                      return (
+                        <p
+                          className="leading-7 [&:not(:first-child)]:mt-6"
+                          {...rest}
+                        />
+                      )
+                    }
+                  }}
+                >
+                  {form.watch('body')}
+                </Markdown>
+              </div>
+            </TabsContent>
+          </Tabs>
+
           <Button
             type="submit"
             disabled={form.formState.isSubmitting || !form.formState.isValid}
