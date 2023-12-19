@@ -3,8 +3,11 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-
+import Link from 'next/link'
+import { cn } from '@/lib/utils'
+import { buttonVariants } from '@/components/ui/button'
 import { Workload } from '@/db'
+import type { Profile } from '@/db/models/profile'
 import { DataTableColumnHeader } from '@/components/data-table-column-header'
 import { DataTableRowActions } from '@/app/dashboard/workloads/components/data-rows-actions'
 
@@ -46,14 +49,24 @@ export const columns: ColumnDef<Workload>[] = [
     ),
     cell: ({ row }) => {
       //   const label = labels.find(label => label.value === row.original.)
-
       return (
-        <div className="flex space-x-2">
-          {/* {label && <Badge variant="outline">{label.label}</Badge>} */}
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('name')}
-          </span>
-        </div>
+        <Link
+          href={`/dashboard/workloads/${row.getValue('id')}`}
+          className={cn(
+            buttonVariants({ variant: 'ghost' }),
+            'hover:bg-transparent hover:underline',
+            'px-0',
+            'justify-start'
+          )}
+          passHref
+        >
+          <div className="flex space-x-2">
+            {/* {label && <Badge variant="outline">{label.label}</Badge>} */}
+            <span className="max-w-[500px] truncate font-medium">
+              {row.getValue('name')}
+            </span>
+          </div>
+        </Link>
       )
     }
   },
@@ -64,14 +77,26 @@ export const columns: ColumnDef<Workload>[] = [
     ),
     cell: ({ row }) => {
       //   const label = labels.find(label => label.value === row.original.)
+      const profile: Profile = row.getValue('profile')
 
       return (
-        <div className="flex space-x-2">
-          {/* {label && <Badge variant="outline">{label.label}</Badge>} */}
-          <span className="max-w-[500px] truncate font-medium">
-            {row.original?.profile?.name}
-          </span>
-        </div>
+        <Link
+          href={`/dashboard/profiles/${profile.id}`}
+          className={cn(
+            buttonVariants({ variant: 'ghost' }),
+            'hover:bg-transparent hover:underline',
+            'px-0',
+            'justify-start'
+          )}
+          passHref
+        >
+          <div className="flex space-x-2">
+            {/* {label && <Badge variant="outline">{label.label}</Badge>} */}
+            <span className="max-w-[500px] truncate font-medium">
+              {row.original?.profile?.name}
+            </span>
+          </div>
+        </Link>
       )
     }
   },
