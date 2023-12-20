@@ -16,6 +16,10 @@ const sidebarNavItems = [
     href: '/dashboard/settings'
   },
   {
+    title: 'Templates',
+    href: '/dashboard/settings/templates'
+  },
+  {
     title: 'Environments',
     href: '/dashboard/settings/environments'
   },
