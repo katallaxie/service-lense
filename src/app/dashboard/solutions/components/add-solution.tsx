@@ -20,10 +20,7 @@ export function AddSolution({ templates }: CommentActionsProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant={'outline'}
-          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-        >
+        <Button variant={'outline'}>
           <PlusIcon className="h-4 w-4" />
           <span className="sr-only">Create new solution</span>
         </Button>

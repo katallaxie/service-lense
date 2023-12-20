@@ -96,9 +96,7 @@ export default async function Page({ params }: PageProps) {
           </CardContent>
           <CardFooter>
             <CardDescription>
-              <DateFormat date={solution?.dataValues?.updatedAt}>
-                Updated on
-              </DateFormat>
+              Updated on <DateFormat date={solution?.dataValues?.updatedAt} />
             </CardDescription>
           </CardFooter>
         </Card>
@@ -125,9 +123,8 @@ export default async function Page({ params }: PageProps) {
             <CardContent>{comment.body}</CardContent>
             <CardFooter>
               <CardDescription>
-                <DateFormat date={comment?.dataValues?.updatedAt}>
-                  Commented on
-                </DateFormat>
+                Commented on
+                <DateFormat date={comment?.dataValues?.updatedAt} />
               </CardDescription>
             </CardFooter>
           </Card>

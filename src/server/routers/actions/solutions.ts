@@ -6,7 +6,8 @@ import {
   getSolution as gs,
   deleteSolutionComment as scd,
   findAndCountSolutionTemplates,
-  findOneSolutionTemplate
+  findOneSolutionTemplate,
+  countSolutions
 } from '@/db/services/solutions'
 import {
   SolutionListSchema,
@@ -45,3 +46,7 @@ export const findSolutionTemplates = protectedProcedure
 export const getSolutionTemplate = protectedProcedure
   .input(SolutionTemplateGetSchema)
   .query(async opts => findOneSolutionTemplate(opts.input))
+
+export const totalSolutions = protectedProcedure.query(
+  async _ => await countSolutions()
+)

@@ -6,19 +6,21 @@ const defaultFormat: Intl.DateTimeFormatOptions = {
 }
 
 export type DateFormatProps = {
-  children?: React.ReactNode
   date?: Date
   placeholder?: string
   format?: Intl.DateTimeFormatOptions
 }
 
 export default function DateFormat({
-  children,
   date = new Date(Date.now()),
   placeholder = '-',
   format = defaultFormat
 }: DateFormatProps) {
-  const f = date.toLocaleDateString('en-US', format)
+  const formattedDate = date.toLocaleDateString('en-US', format)
 
-  return <>{`${children} ${f ?? placeholder}`}</>
+  return (
+    <>
+      <p>{formattedDate ?? placeholder}</p>
+    </>
+  )
 }

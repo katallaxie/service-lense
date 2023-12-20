@@ -6,7 +6,8 @@ import {
   getWorkloadAnswer,
   listWorkloads,
   deleteWorkload,
-  findWorkloadLensQuestion
+  findWorkloadLensQuestion,
+  totalWorkloads
 } from './actions/workloads'
 import { getProfile } from './actions/profiles'
 import { getLens, getLensQuestion } from './actions/lenses'
@@ -17,7 +18,8 @@ import {
   addSolution,
   getSolution,
   findSolutionTemplates,
-  getSolutionTemplate
+  getSolutionTemplate,
+  totalSolutions
 } from './actions/solutions'
 
 export const appRouter = router({
@@ -60,7 +62,9 @@ export const appRouter = router({
   getProfile,
   findWorkloadLensQuestion,
   findSolutionTemplates,
-  getSolutionTemplate
+  getSolutionTemplate,
+  totalWorkloads,
+  totalSolutions
 })
 
 export type AppRouter = typeof appRouter

@@ -24,6 +24,8 @@ export const findWorkloadLensAnswer = async (
   opts: z.infer<typeof WorkloadGetLensAnswer>
 ) => await WorkloadLensesAnswer.findOne({ where: { ...opts } })
 
+export const countWorkloads = async () => await Workload.count()
+
 export async function createWorkload({
   name,
   description,

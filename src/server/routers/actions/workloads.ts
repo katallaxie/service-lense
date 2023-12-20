@@ -12,7 +12,8 @@ import {
   findWorkloadLensAnswer,
   findAndCountWorkloads,
   deleteWorkload as dt,
-  getWorkloadLensQuestion
+  getWorkloadLensQuestion,
+  countWorkloads
 } from '@/db/services/workloads'
 
 export const getWorkload = protectedProcedure
@@ -34,3 +35,7 @@ export const deleteWorkload = protectedProcedure
 export const findWorkloadLensQuestion = protectedProcedure
   .input(WorkloadGetLensQuestionSchema)
   .query(async opts => await getWorkloadLensQuestion(opts.input))
+
+export const totalWorkloads = protectedProcedure.query(
+  async _ => await countWorkloads()
+)

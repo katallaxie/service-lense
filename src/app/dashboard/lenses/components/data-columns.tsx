@@ -2,11 +2,14 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Profile } from '@/db'
+import { Lens } from '@/db'
 import { DataTableColumnHeader } from '@/components/data-table-column-header'
 import { DataTableRowActions } from '@/app/dashboard/lenses/components/data-rows-actions'
+import { buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import Link from 'next/link'
 
-export const columns: ColumnDef<Profile>[] = [
+export const columns: ColumnDef<Lens>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -43,15 +46,23 @@ export const columns: ColumnDef<Profile>[] = [
       <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
-      //   const label = labels.find(label => label.value === row.original.)
-
       return (
-        <div className="flex space-x-2">
-          {/* {label && <Badge variant="outline">{label.label}</Badge>} */}
-          <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('name')}
-          </span>
-        </div>
+        <Link
+          href={`/dashboard/lenses/${row.getValue('id')}`}
+          className={cn(
+            buttonVariants({ variant: 'ghost' }),
+            'hover:bg-transparent hover:underline',
+            'px-0',
+            'justify-start'
+          )}
+          passHref
+        >
+          <div className="flex space-x-2">
+            <span className="max-w-[500px] truncate font-medium">
+              {row.getValue('name')}
+            </span>
+          </div>
+        </Link>
       )
     }
   },

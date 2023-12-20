@@ -13,6 +13,8 @@ import type {
 } from '../schemas/solutions'
 import { z } from 'zod'
 
+export const countSolutions = async () => await Solution.count()
+
 export async function addSolution({
   id = uuidv4(),
   userId,
