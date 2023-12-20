@@ -15,3 +15,4 @@ export const SolutionCommentAddSchema = z.object({
 export const SolutionCommentDeleteSchema = z.string()
 export const FindAndCountSolutionTemplates = PaginationSchema
 export const FindOneSolutionTemplate = z.string()
+export const DestroySolutionSchema = z.string()

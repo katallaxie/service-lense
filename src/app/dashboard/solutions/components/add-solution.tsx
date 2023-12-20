@@ -6,9 +6,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuShortcut,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
+  DropdownMenuLabel
 } from '@/components/ui/dropdown-menu'
-import { SolutionComment } from '@/db/models/solution-comments'
 import Link from 'next/link'
 import type { SolutionTemplate } from '@/db/models/solution-templates'
 
@@ -26,6 +26,7 @@ export function AddSolution({ templates }: CommentActionsProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
+        <DropdownMenuLabel>Templates</DropdownMenuLabel>
         <Link href="/dashboard/solutions/new?template=_blank">
           <DropdownMenuItem>Blank</DropdownMenuItem>
         </Link>

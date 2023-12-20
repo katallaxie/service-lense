@@ -9,18 +9,20 @@ export type DateFormatProps = {
   date?: Date
   placeholder?: string
   format?: Intl.DateTimeFormatOptions
+  className?: string
 }
 
 export default function DateFormat({
   date = new Date(Date.now()),
   placeholder = '-',
-  format = defaultFormat
+  format = defaultFormat,
+  ...props
 }: DateFormatProps) {
   const formattedDate = date.toLocaleDateString('en-US', format)
 
   return (
     <>
-      <p>{formattedDate ?? placeholder}</p>
+      <p {...props}>{formattedDate ?? placeholder}</p>
     </>
   )
 }

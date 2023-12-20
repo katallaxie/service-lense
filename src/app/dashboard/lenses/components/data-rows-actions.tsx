@@ -14,7 +14,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import Link from "next/link"
+import Link from 'next/link'
 import { useAction } from '@/trpc/client'
 import { rhfActionDeleteLens } from '../actions/lens.action'
 
@@ -62,7 +62,7 @@ export function DataTableRowActions<TData>({
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() =>  deleteLens(id)}>
+        <DropdownMenuItem onClick={() => deleteLens(id)}>
           Delete
           <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
         </DropdownMenuItem>

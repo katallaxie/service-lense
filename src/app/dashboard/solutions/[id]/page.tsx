@@ -22,6 +22,7 @@ import html from 'remark-html'
 import Markdown from 'react-markdown'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import { ActionsMenu } from './components/actions-menu'
 
 export type PageProps = {
   params: { id: string }
@@ -42,7 +43,9 @@ export default async function Page({ params }: PageProps) {
           {solution?.title}
           <SubNavSubtitle>Manage and review workflows</SubNavSubtitle>
         </SubNavTitle>
-        <SubNavActions></SubNavActions>
+        <SubNavActions>
+          {solution && <ActionsMenu solution={solution} />}
+        </SubNavActions>
       </SubNav>
       <Section>
         <Card>

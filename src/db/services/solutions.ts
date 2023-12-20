@@ -9,7 +9,8 @@ import {
 import type {
   FindAndCountSolutionsSchema,
   FindAndCountSolutionTemplates,
-  FindOneSolutionTemplate
+  FindOneSolutionTemplate,
+  DestroySolutionSchema
 } from '../schemas/solutions'
 import { z } from 'zod'
 
@@ -35,8 +36,10 @@ export const findAndCountSolutions = async (
   opts: z.infer<typeof FindAndCountSolutionsSchema>
 ) => await Solution.findAndCountAll({ offset: opts.offset, limit: opts.limit })
 
-export async function deleteSolution(id: string) {
-  return await Solution.destroy({ where: { id } })
+export async function deleteSolution(
+  opts: z.infer<typeof DestroySolutionSchema>
+) {
+  return await Solution.destroy({ where: { id: opts } })
 }
 
 export const getSolution = async (opts: z.infer<typeof SolutionsGetSchema>) =>
