@@ -2,11 +2,11 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
-import { SolutionTemplate } from '@/db'
+import { Environment, SolutionTemplate } from '@/db'
 import { DataTableColumnHeader } from '@/components/data-table-column-header'
 import { DataTableRowActions } from '@/components/data-table-row-actions'
 
-export const columns: ColumnDef<SolutionTemplate>[] = [
+export const columns: ColumnDef<Environment>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -38,9 +38,9 @@ export const columns: ColumnDef<SolutionTemplate>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'title',
+    accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" />
+      <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
       //   const label = labels.find(label => label.value === row.original.)
@@ -49,7 +49,7 @@ export const columns: ColumnDef<SolutionTemplate>[] = [
         <div className="flex space-x-2">
           {/* {label && <Badge variant="outline">{label.label}</Badge>} */}
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('title')}
+            {row.getValue('name ')}
           </span>
         </div>
       )

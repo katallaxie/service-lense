@@ -1,6 +1,6 @@
-import { Separator } from '@/components/ui/separator'
-import { EnvironmentsForm } from '@/app/dashboard/settings/environments/environments-form'
 import { DataTableProvider } from '@/components/data-table-context'
+import { Separator } from '@/components/ui/separator'
+import EnvironmentsDataTable from './components/data-table'
 
 export default function Page() {
   return (
@@ -11,9 +11,11 @@ export default function Page() {
           Customize the environments of the service lens.
         </p>
       </div>
+      <Separator />
       <DataTableProvider>
-        <Separator />
-        <EnvironmentsForm />
+        <EnvironmentsDataTable />
+        {/* <Separator />
+        <EnvironmentsForm /> */}
       </DataTableProvider>
     </div>
   )
