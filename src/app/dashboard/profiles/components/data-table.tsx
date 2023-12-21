@@ -18,12 +18,8 @@ export default function ProfilesDataTable() {
   return useMemo(() => {
     return (
       <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-        <DataTable
-          data={data?.rows ?? []}
-          columns={columns}
-          isLoading={isLoading}
-        />
+        <DataTable data={data?.rows ?? []} columns={columns} />
       </div>
     )
-  }, [data?.rows, isLoading])
+  }, [data?.rows])
 }

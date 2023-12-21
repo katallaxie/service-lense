@@ -18,7 +18,7 @@ import { ProfileQuestion } from './profile-question'
 export interface ProfileAttributes {
   id: string
   name: string
-  description: string
+  description?: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -50,7 +50,7 @@ export class Profile extends Model<
   @Min(12)
   @Max(2048)
   @Column
-  description!: string
+  description?: string
 
   @BelongsToMany(() => ProfileQuestion, () => ProfileQuestions)
   questions?: ProfileQuestion[]

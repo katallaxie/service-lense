@@ -5,7 +5,7 @@ import {
   SubNavSubtitle
 } from '@/components/sub-nav'
 
-import AddProfileDialog from './components/add-profile'
+import { AddProfileButton } from './components/add-button'
 import { DataTableProvider } from '@/components/data-table-context'
 import DataTable from './components/data-table'
 
@@ -24,7 +24,7 @@ export default function Page({ children }: PageProps) {
           </SubNavSubtitle>
         </SubNavTitle>
         <SubNavActions>
-          <AddProfileDialog />
+          <AddProfileButton />
         </SubNavActions>
       </SubNav>
       <section>

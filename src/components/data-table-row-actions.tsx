@@ -24,7 +24,7 @@ interface DataTableRowActionsProps<TData> {
 // DataTableRowActionsProps is a type that takes a generic type TData
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
-  builder: RowBuilder<TData>
+  builder?: RowBuilder<TData>
 }
 
 // RowBuilder is a function that takes a row and returns a ReactNode

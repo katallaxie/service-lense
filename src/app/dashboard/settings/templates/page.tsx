@@ -1,5 +1,6 @@
 import { Separator } from '@/components/ui/separator'
 import { DataTableProvider } from '@/components/data-table-context'
+import ProfilesDataTable from './components/data-table'
 
 export default function Page() {
   return (
@@ -10,8 +11,9 @@ export default function Page() {
           Customize solution templates.
         </p>
       </div>
+      <Separator />
       <DataTableProvider>
-        <Separator />
+        <ProfilesDataTable />
       </DataTableProvider>
     </div>
   )
