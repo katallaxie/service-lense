@@ -1,16 +1,22 @@
-import { Solution, SolutionComment, SolutionTemplate, User } from '..'
+import {
+  Solution,
+  SolutionComment,
+  SolutionTemplate,
+  User,
+  sequelize
+} from '..'
 import { v4 as uuidv4 } from 'uuid'
 import type { SolutionCreationAttributes } from '../models/solution'
 import {
   SolutionCommentAddSchema,
   SolutionCommentDeleteSchema,
-  SolutionsGetSchema
-} from '../schemas/solutions'
-import type {
+  SolutionsGetSchema,
   FindAndCountSolutionsSchema,
   FindAndCountSolutionTemplates,
   FindOneSolutionTemplate,
-  DestroySolutionSchema
+  DestroySolutionSchema,
+  DestroySolutionTemplateSchema,
+  MakeCopySolutionTemplateSchema
 } from '../schemas/solutions'
 import { z } from 'zod'
 
@@ -67,9 +73,29 @@ export const findAndCountSolutionTemplates = async (
     limit: opts.limit
   })
 
+export const destroySolutionTemplate = async (
+  opts: z.infer<typeof DestroySolutionTemplateSchema>
+) => await SolutionTemplate.destroy({ where: { id: opts } })
+
 export const findOneSolutionTemplate = async (
   opts: z.infer<typeof FindOneSolutionTemplate>
 ) =>
   await SolutionTemplate.findOne({
     where: { id: opts }
+  })
+
+export const makeCopySolutionTemplate = async (
+  opts: z.infer<typeof MakeCopySolutionTemplateSchema>
+) =>
+  sequelize.transaction(async transaction => {
+    const tmpl = await SolutionTemplate.findOne({ where: { id: opts } })
+
+    return SolutionTemplate.create(
+      {
+        title: `${tmpl?.title} (Copy)`,
+        body: tmpl?.body,
+        description: tmpl?.description
+      },
+      { transaction }
+    )
   })

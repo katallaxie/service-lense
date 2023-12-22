@@ -16,8 +16,8 @@ import {
 export interface SolutionTemplateAttributes {
   id: number
   title: string
-  body: string
-  description: string
+  body?: string
+  description?: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -54,7 +54,7 @@ export class SolutionTemplate extends Model<
   @Min(12)
   @Max(2048)
   @Column
-  description!: string
+  description?: string
 
   @CreatedAt
   @Column

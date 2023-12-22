@@ -19,7 +19,8 @@ import {
   getSolution,
   findSolutionTemplates,
   getSolutionTemplate,
-  totalSolutions
+  totalSolutions,
+  deleteSolutionTemplate
 } from './actions/solutions'
 
 export const appRouter = router({
@@ -48,23 +49,24 @@ export const appRouter = router({
 
   addSolution,
   deleteLens,
+  deleteSolutionTemplate,
   deleteWorkload,
+  findSolutionTemplates,
+  findWorkloadLensQuestion,
   getLens,
   getLensQuestion,
+  getProfile,
   getSolution,
+  getSolutionTemplate,
   getWorkload,
   getWorkloadAnswer,
   listEnvironments,
   listLenses,
+  listProfiles,
   listSolutions,
   listWorkloads,
-  listProfiles,
-  getProfile,
-  findWorkloadLensQuestion,
-  findSolutionTemplates,
-  getSolutionTemplate,
-  totalWorkloads,
-  totalSolutions
+  totalSolutions,
+  totalWorkloads
 })
 
 export type AppRouter = typeof appRouter

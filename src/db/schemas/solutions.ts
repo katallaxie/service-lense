@@ -16,3 +16,5 @@ export const SolutionCommentDeleteSchema = z.string()
 export const FindAndCountSolutionTemplates = PaginationSchema
 export const FindOneSolutionTemplate = z.string()
 export const DestroySolutionSchema = z.string()
+export const DestroySolutionTemplateSchema = z.string()
+export const MakeCopySolutionTemplateSchema = z.string()
