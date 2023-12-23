@@ -103,6 +103,8 @@ export const updateWorkloadAnswer = async ({
   doesNotApplyReason: string
 }) =>
   await sequelize.transaction(async transaction => {
+    WorkloadLensesAnswer.upsert
+
     // const answer = await WorkloadLensPillarAnswer.findOne({
     //   where: { id: answerId },
     //   transaction

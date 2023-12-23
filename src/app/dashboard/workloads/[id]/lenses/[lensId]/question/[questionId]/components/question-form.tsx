@@ -32,7 +32,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { rhfActionSchema } from './question-form.schema'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import { z } from 'zod'
 import { useAction } from '@/trpc/client'
 import { rhfAction } from './question-form.action'
 import { WorkloadLensesAnswer, LensPillarQuestion } from '@/db'
@@ -40,22 +40,27 @@ import { WorkloadLensesAnswer, LensPillarQuestion } from '@/db'
 export type QuestionFormFactoryProps = {
   className?: string
   question?: LensPillarQuestion
-  answer?: WorkloadLensesAnswer
+  workloadId: string
+  lensPillarQuestionId: string
+  answer: WorkloadLensesAnswer | null
 }
 
 export function QuestionFormFactory({
   answer,
   question,
+  workloadId,
+  lensPillarQuestionId,
   ...props
 }: QuestionFormFactoryProps) {
   const form = useForm<z.infer<typeof rhfActionSchema>>({
     resolver: zodResolver(rhfActionSchema),
     defaultValues: {
+      workloadId,
+      lensPillarQuestionId,
       // answerId: answer?.id,
-      // selectedChoices: answer?.choices?.map(choice => choice.id),
-      // doesNotApply: answer?.doesNotApply,
-      // doesNotApplyReason: answer?.doesNotApplyReason,
-      // notes: answer?.notes ?? ''
+      selectedChoices: answer?.lensChoices?.map(choice => choice.id) ?? [],
+      doesNotApply: answer?.doesNotApply,
+      doesNotApplyReason: answer?.doesNotApplyReason
     }
   })
 
@@ -129,6 +134,7 @@ export function QuestionFormFactory({
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="doesNotApply"
@@ -141,6 +147,7 @@ export function QuestionFormFactory({
                   <FormDescription>
                     Please, provide a reason why this question does not applies.
                   </FormDescription>
+                  <FormMessage />
                 </div>
                 <FormControl>
                   <Switch
@@ -151,6 +158,7 @@ export function QuestionFormFactory({
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="doesNotApplyReason"
@@ -185,27 +193,26 @@ export function QuestionFormFactory({
             control={form.control}
             name="notes"
             render={({ field }) => (
-              <FormControl>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Notes</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <Textarea
-                      {...field}
-                      className="w-full"
-                      placeholder="Add notes here..."
-                    />
-                  </CardContent>
-                  <CardFooter className="text-sm text-muted-foreground">
-                    This is optional and will be visible to all users.
-                  </CardFooter>
-                </Card>
-              </FormControl>
+              <div className="grid w-full">
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    className="w-full"
+                    placeholder="Add some notes ..."
+                  />
+                </FormControl>
+                <FormDescription>
+                  This is optional and will be visible to all users.
+                </FormDescription>
+                <FormMessage />
+              </div>
             )}
           />
 
-          <Button type="submit" disabled={form.formState.isSubmitting}>
+          <Button
+            type="submit"
+            disabled={form.formState.isSubmitting || !form.formState.isValid}
+          >
             Save and exit
           </Button>
         </form>

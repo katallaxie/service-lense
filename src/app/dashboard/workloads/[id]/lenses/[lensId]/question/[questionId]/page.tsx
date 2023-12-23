@@ -14,19 +14,14 @@ export default async function Page({ params }: PageProps) {
     lensPillarQuestionId: params.questionId
   })
 
-  // const workload = await api.getWorkloadAnswer.query({
-  //   workloadId: params.id,
-  //   questionId: params.questionId
-  // })
-
-  // const answer = workload?.answers?.shift()
-
   return (
     <>
       {question && (
         <QuestionFormFactory
+          workloadId={params.id}
+          lensPillarQuestionId={params.questionId}
           question={question}
-          answer={answer ?? new WorkloadLensesAnswer()}
+          answer={answer}
         />
       )}
     </>

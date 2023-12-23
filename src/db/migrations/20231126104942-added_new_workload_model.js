@@ -14,7 +14,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       profilesId: {
         type: Sequelize.UUID,
@@ -72,51 +72,61 @@ module.exports = {
       }
     })
 
-    await queryInterface.createTable('workloads-lenses-answers', {
-      id: {
-        type: Sequelize.BIGINT,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
-      },
-      workloadId: {
-        type: Sequelize.UUID,
-        references: {
-          model: 'workloads',
-          key: 'id'
+    await queryInterface.createTable(
+      'workloads-lenses-answers',
+      {
+        id: {
+          type: Sequelize.BIGINT,
+          autoIncrement: true,
+          allowNull: false,
+          primaryKey: true
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-      },
-      lensPillarQuestionId: {
-        type: Sequelize.BIGINT,
-        references: {
-          model: 'lenses-pillars-questions',
-          key: 'id'
+        workloadId: {
+          type: Sequelize.UUID,
+          references: {
+            model: 'workloads',
+            key: 'id'
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        lensPillarQuestionId: {
+          type: Sequelize.BIGINT,
+          references: {
+            model: 'lenses-pillars-questions',
+            key: 'id'
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
+        },
+        notes: {
+          type: Sequelize.TEXT
+        },
+        doesNotApply: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: false
+        },
+        doesNotApplyReason: {
+          type: Sequelize.STRING
+        },
+        createdAt: {
+          type: Sequelize.DATE
+        },
+        updatedAt: {
+          type: Sequelize.DATE
+        },
+        deletedAt: {
+          type: Sequelize.DATE
+        }
       },
-      notes: {
-        type: Sequelize.STRING
-      },
-      doesNotApply: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
-      },
-      doesNotApplyReason: {
-        type: Sequelize.STRING
-      },
-      createdAt: {
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        type: Sequelize.DATE
-      },
-      deletedAt: {
-        type: Sequelize.DATE
+      {
+        uniqueKeys: {
+          Items_unique: {
+            fields: ['workloadId', 'lensPillarQuestionId']
+          }
+        }
       }
-    })
+    )
 
     await queryInterface.createTable('workloads-lenses-answers-choices', {
       id: {

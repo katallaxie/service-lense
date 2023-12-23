@@ -10,3 +10,13 @@ export const WorkloadGetLensAnswer = z.object({
   workloadId: z.string().uuid(),
   lensPillarQuestionId: z.string()
 })
+
+export const WorkloadLensAnswerAddSchema = z.object({
+  answerId: z.string(),
+  workloadId: z.string().uuid(),
+  lensPillarQuestionId: z.string(),
+  selectedChoices: z.array(z.string()).default([]),
+  doesNotApply: z.boolean().optional(),
+  doesNotApplyReason: z.string().optional(),
+  notes: z.string().optional()
+})

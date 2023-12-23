@@ -87,7 +87,6 @@ export function NewProfileForm({ ...props }: NewProfileFormProps) {
               </div>
             )}
           />
-
           <Button
             type="submit"
             disabled={form.formState.isSubmitting || !form.formState.isValid}

@@ -6,13 +6,7 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Lens } from '@/db/models/lens'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export type SidebarNavProps = {
   params: { lensId: string; id: string }
@@ -47,7 +41,10 @@ export function SidebarNav({
                 key={question.ref}
                 href={`/dashboard/workloads/${params.id}/lenses/${params.lensId}/question/${question.id}`}
               >
-                <Button variant="outline" className="w-full justify-start">
+                <Button
+                  variant="outline"
+                  className="w-full break-normal justify-start"
+                >
                   {question.name}
                 </Button>
               </Link>

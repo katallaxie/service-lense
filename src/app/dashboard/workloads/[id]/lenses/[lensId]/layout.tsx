@@ -4,7 +4,7 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
-import { SidebarNav } from './components/sidebar-nax'
+import { SidebarNav } from './components/sidebar-nav'
 import React from 'react'
 import { api } from '@/trpc/server-http'
 

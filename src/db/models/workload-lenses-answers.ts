@@ -14,7 +14,9 @@ import {
   Default,
   AllowNull,
   HasMany,
-  BelongsToMany
+  BelongsToMany,
+  Unique,
+  NotNull
 } from 'sequelize-typescript'
 import { Workload } from './workload'
 import { LensPillarQuestion, LensPillarChoice, WorkloadLens } from '..'
@@ -50,10 +52,12 @@ export class WorkloadLensesAnswer extends Model<
   id!: bigint
 
   @ForeignKey(() => Workload)
+  @Unique('workload-lens-pillar-question')
   @Column(DataType.UUID)
   workloadId?: string
 
   @ForeignKey(() => LensPillarQuestion)
+  @Unique('workload-lens-pillar-question')
   @Column
   lensPillarQuestionId?: bigint
 
@@ -70,8 +74,8 @@ export class WorkloadLensesAnswer extends Model<
   @Column
   doesNotApplyReason?: string
 
-  // @BelongsToMany(() => LensPillarChoice, () => WorkloadLensPillarAnswerChoice)
-  // lensChoices?: LensPillarChoice[]
+  @BelongsToMany(() => LensPillarChoice, () => WorkloadLensesAnswerChoice)
+  lensChoices?: LensPillarChoice[]
 
   @CreatedAt
   @Column
