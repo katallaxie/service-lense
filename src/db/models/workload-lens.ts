@@ -17,7 +17,6 @@ import {
 } from 'sequelize-typescript'
 import { Workload } from './workload'
 import { Lens } from './lens'
-import { WorkloadLensPillarAnswer } from '..'
 
 export interface WorkloadLensAttributes {
   id: number

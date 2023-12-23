@@ -128,41 +128,51 @@ module.exports = {
       }
     )
 
-    await queryInterface.createTable('workloads-lenses-answers-choices', {
-      id: {
-        type: Sequelize.BIGINT,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
-      },
-      answerId: {
-        type: Sequelize.BIGINT,
-        references: {
-          model: 'workloads-lenses-answers',
-          key: 'id'
+    await queryInterface.createTable(
+      'workloads-lenses-answers-choices',
+      {
+        id: {
+          type: Sequelize.BIGINT,
+          autoIncrement: true,
+          allowNull: false,
+          primaryKey: true
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
-      },
-      choiceId: {
-        type: Sequelize.BIGINT,
-        references: {
-          model: 'lenses-pillars-choices',
-          key: 'id'
+        answerId: {
+          type: Sequelize.BIGINT,
+          references: {
+            model: 'workloads-lenses-answers',
+            key: 'id'
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        choiceId: {
+          type: Sequelize.BIGINT,
+          references: {
+            model: 'lenses-pillars-choices',
+            key: 'id'
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
+        },
+        createdAt: {
+          type: Sequelize.DATE
+        },
+        updatedAt: {
+          type: Sequelize.DATE
+        },
+        deletedAt: {
+          type: Sequelize.DATE
+        }
       },
-      createdAt: {
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        type: Sequelize.DATE
-      },
-      deletedAt: {
-        type: Sequelize.DATE
+      {
+        uniqueKeys: {
+          Items_unique: {
+            fields: ['answerId', 'choiceId']
+          }
+        }
       }
-    })
+    )
 
     await queryInterface.createTable('workloads-environment', {
       id: {

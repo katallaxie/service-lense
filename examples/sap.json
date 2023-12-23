@@ -17,6 +17,16 @@
                 "id": "choice_1",
                 "title": "Choice 1",
                 "description": "Choice 1 is provding a good choice."
+              },
+              {
+                "id": "choice_2",
+                "title": "Choice 2",
+                "description": "Choice 2 is provding a good choice."
+              },
+              {
+                "id": "none_of_these",
+                "title": "None of these",
+                "description": "None of these"
               }
             ],
             "risks": [

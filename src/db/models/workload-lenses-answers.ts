@@ -24,9 +24,10 @@ import { WorkloadLensesAnswerChoice } from './workload-lenses-answers-choices'
 
 export interface WorkloadLensesAnswerAttributes {
   id: string
-  work: string
-  workloadLensId: string
+  workloadId: string
+  lensPillarQuestionId: string
   notes?: string
+  lensChoices?: LensPillarChoice[]
   doesNotApply?: boolean
   doesNotApplyReason?: string
   createdAt: Date
@@ -36,7 +37,7 @@ export interface WorkloadLensesAnswerAttributes {
 
 export type WorkloadLensesAnswerCreationAttributes = Omit<
   WorkloadLensesAnswerAttributes,
-  'createdAt' | 'updatedAt' | 'deletedAt'
+  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
@@ -49,7 +50,7 @@ export class WorkloadLensesAnswer extends Model<
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.BIGINT)
-  id!: bigint
+  id!: string
 
   @ForeignKey(() => Workload)
   @Unique('workload-lens-pillar-question')

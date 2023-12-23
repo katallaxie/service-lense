@@ -17,12 +17,18 @@ import type { WorkloadCreationAttributes } from '../models/workload'
 import { sequelize } from '..'
 import {
   WorkloadLensQuestionSchema,
-  WorkloadGetLensAnswer
+  WorkloadGetLensAnswer,
+  WorkloadLensAnswerAddSchema
 } from '../schemas/workload'
+import { Op } from 'sequelize'
 
 export const findWorkloadLensAnswer = async (
   opts: z.infer<typeof WorkloadGetLensAnswer>
-) => await WorkloadLensesAnswer.findOne({ where: { ...opts } })
+) =>
+  await WorkloadLensesAnswer.findOne({
+    where: { ...opts },
+    include: [LensPillarChoice]
+  })
 
 export const countWorkloads = async () => await Workload.count()
 
@@ -93,6 +99,45 @@ export const getWorkloadLensQuestion = async (
     ]
   })
 
+export const addLensAnswer = async (
+  opts: z.infer<typeof WorkloadLensAnswerAddSchema>
+) =>
+  await sequelize.transaction(async transaction => {
+    const [answer] = await WorkloadLensesAnswer.upsert(
+      {
+        ...opts
+      },
+      { transaction }
+    )
+
+    await WorkloadLensesAnswerChoice.destroy({
+      where: {
+        [Op.and]: [
+          {
+            choiceId: { [Op.notIn]: opts.selectedChoices }
+          },
+          {
+            answerId: answer.id
+          }
+        ]
+      },
+      transaction
+    })
+
+    await WorkloadLensesAnswerChoice.bulkCreate(
+      Array.from(opts.selectedChoices).map(id => ({
+        answerId: answer.id,
+        choiceId: id
+      })),
+      {
+        transaction,
+        updateOnDuplicate: ['answerId', 'choiceId', 'deletedAt', 'updatedAt']
+      }
+    )
+
+    return answer.dataValues
+  })
+
 export const updateWorkloadAnswer = async ({
   answerId,
   doesNotApply,
@@ -103,8 +148,7 @@ export const updateWorkloadAnswer = async ({
   doesNotApplyReason: string
 }) =>
   await sequelize.transaction(async transaction => {
-    WorkloadLensesAnswer.upsert
-
+    // WorkloadLensesAnswer.upsert
     // const answer = await WorkloadLensPillarAnswer.findOne({
     //   where: { id: answerId },
     //   transaction

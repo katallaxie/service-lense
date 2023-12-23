@@ -12,7 +12,6 @@ export const WorkloadGetLensAnswer = z.object({
 })
 
 export const WorkloadLensAnswerAddSchema = z.object({
-  answerId: z.string(),
   workloadId: z.string().uuid(),
   lensPillarQuestionId: z.string(),
   selectedChoices: z.array(z.string()).default([]),

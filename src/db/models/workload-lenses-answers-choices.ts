@@ -7,14 +7,15 @@ import {
   Column,
   PrimaryKey,
   ForeignKey,
-  AutoIncrement
+  AutoIncrement,
+  Unique
 } from 'sequelize-typescript'
 import { LensPillarChoice, WorkloadLensesAnswer } from '..'
 
 export interface WorkloadLensesAnswerChoiceAttributes {
-  id: bigint
-  answerId: bigint
-  choiceId: bigint
+  id: string
+  answerId: string
+  choiceId: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -22,28 +23,30 @@ export interface WorkloadLensesAnswerChoiceAttributes {
 
 export type WorkloadLensesAnswerChoiceCreationAttributes = Omit<
   WorkloadLensesAnswerChoiceAttributes,
-  'createdAt' | 'updatedAt' | 'deletedAt'
+  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
-  tableName: 'workload-lenses-answers-choices'
+  tableName: 'workloads-lenses-answers-choices'
 })
 export class WorkloadLensesAnswerChoice extends Model<
   WorkloadLensesAnswerChoiceAttributes,
-  WorkloadLensesAnswerChoiceAttributes
+  WorkloadLensesAnswerChoiceCreationAttributes
 > {
   @PrimaryKey
   @AutoIncrement
   @Column
-  id!: bigint
+  id!: string
 
   @ForeignKey(() => WorkloadLensesAnswer)
+  @Unique('workload-lens-pillar-answer')
   @Column
-  answerId?: bigint
+  answerId?: string
 
   @ForeignKey(() => LensPillarChoice)
+  @Unique('workload-lens-pillar-answer')
   @Column
-  choiceId?: bigint
+  choiceId?: string
 
   @CreatedAt
   @Column

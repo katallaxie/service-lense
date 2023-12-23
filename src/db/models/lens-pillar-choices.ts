@@ -54,11 +54,6 @@ export class LensPillarChoice extends Model<
   @Column
   ref!: string
 
-  @AllowNull
-  @Default(false)
-  @Column
-  noneOfThese?: boolean
-
   @NotEmpty
   @Min(3)
   @Max(256)
