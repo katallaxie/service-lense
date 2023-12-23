@@ -23,7 +23,7 @@ export interface LensPillarQuestionAttributes {
   ref: string
   name: string
   pillarId: bigint
-  description: string
+  description?: string
   risks?: LensPillarQuestionRisk[]
   questionAnswers?: LensPillarChoice[]
   createdAt: Date
@@ -74,7 +74,7 @@ export class LensPillarQuestion extends Model<
   @Min(12)
   @Max(2048)
   @Column
-  description!: string
+  description?: string
 
   @CreatedAt
   @Column

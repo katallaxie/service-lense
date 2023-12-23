@@ -3,7 +3,7 @@
 import { DotsHorizontalIcon } from '@radix-ui/react-icons'
 import { Row } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
-import { api } from '@/trpc/client'
+import { useState, useTransition } from 'react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -41,6 +41,14 @@ export function DataTableRowActions<TData>({
   const deleteAction = useAction(rhfActionDeleteTemplate)
   const makeCopyAction = useAction(rhfActionMakeCopyTemplate)
 
+  const [isTransitionStarted, startTransition] = useTransition()
+
+  const onMakeCopy = (id: string) => {
+    startTransition(() => {
+      makeCopyAction.mutateAsync(id)
+    })
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -54,7 +62,7 @@ export function DataTableRowActions<TData>({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
         <DropdownMenuItem>View</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => makeCopyAction.mutateAsync(id)}>
+        <DropdownMenuItem onClick={() => onMakeCopy(id)}>
           Make a copy
         </DropdownMenuItem>
         <DropdownMenuItem>Favorite</DropdownMenuItem>
