@@ -1,5 +1,7 @@
 'use strict'
 
+const { allowErrorProps } = require('superjson')
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -104,6 +106,11 @@ module.exports = {
       ref: {
         type: Sequelize.STRING,
         allowNull: false
+      },
+      noneOfThese: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
       },
       name: {
         type: Sequelize.STRING

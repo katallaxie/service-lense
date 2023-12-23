@@ -11,7 +11,9 @@ import {
   AutoIncrement,
   NotEmpty,
   Min,
-  Max
+  Max,
+  AllowNull,
+  Default
 } from 'sequelize-typescript'
 import { LensPillarQuestion } from './lens-pillar-questions'
 
@@ -19,6 +21,7 @@ export interface LensPillarChoicesAttributes {
   id: string
   ref: string
   name: string
+  noneOfThese?: boolean
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -50,6 +53,11 @@ export class LensPillarChoice extends Model<
   @Max(256)
   @Column
   ref!: string
+
+  @AllowNull
+  @Default(false)
+  @Column
+  noneOfThese?: boolean
 
   @NotEmpty
   @Min(3)
