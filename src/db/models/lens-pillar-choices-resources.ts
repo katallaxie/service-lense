@@ -10,53 +10,48 @@ import {
   ForeignKey,
   AutoIncrement,
   NotEmpty,
-  Min,
-  Max
+  AllowNull
 } from 'sequelize-typescript'
-import { LensPillarQuestion } from './lens-pillar-questions'
+import { LensPillarChoice } from '..'
 
-export interface LensPillarChoiceAttributes {
+export interface LensPillarChoiceResourceAttributes {
   id: string
-  ref: string
-  name: string
-  noneOfThese?: boolean
+  questionId: string
+  description: string
+  url?: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
 }
 
-export type LensPillarChoiceCreationAttributes = Omit<
-  LensPillarChoiceAttributes,
+export type LensPillarChoiceResourceCreationAttributes = Omit<
+  LensPillarChoiceResourceAttributes,
   'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
-  tableName: 'lenses-pillars-choices'
+  tableName: 'lenses-pillars-choices-resources'
 })
-export class LensPillarChoice extends Model<
-  LensPillarChoiceAttributes,
-  LensPillarChoiceCreationAttributes
+export class LensPillarChoiceResource extends Model<
+  LensPillarChoiceResourceAttributes,
+  LensPillarChoiceResourceCreationAttributes
 > {
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
   id!: string
 
-  @ForeignKey(() => LensPillarQuestion)
+  @ForeignKey(() => LensPillarChoice)
   @Column
-  questionId?: bigint
+  choiceId?: bigint
 
   @NotEmpty
-  @Min(3)
-  @Max(256)
   @Column
-  ref!: string
+  description!: string
 
-  @NotEmpty
-  @Min(3)
-  @Max(256)
+  @AllowNull
   @Column
-  name?: string
+  url?: string
 
   @CreatedAt
   @Column

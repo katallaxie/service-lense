@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const Resource = z.object({
-  description: z.string().min(10).min(2048),
+  description: z.string().min(10).max(2048),
   url: z.string().url()
 })
 

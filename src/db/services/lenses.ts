@@ -9,6 +9,7 @@ import {
 } from '../schemas/lenses'
 import { sequelize } from '..'
 import { z } from 'zod'
+import { LensPillarResource } from '../models/lens-pillar-resources'
 
 export type Pagination = {
   offset?: number
@@ -64,10 +65,21 @@ export async function createLens({
           name: pillar.name,
           ref: pillar.id,
           description: pillar.description,
+          resources:
+            pillar.resources?.map(
+              res =>
+                new LensPillarResource({
+                  url: res.url,
+                  description: res.description
+                })
+            ) ?? [],
           questions: []
         }))
       ],
-      { transaction }
+      {
+        transaction,
+        include: [{ model: LensPillarResource, as: 'resources' }]
+      }
     )
 
     const questions = await LensPillarQuestion.bulkCreate(

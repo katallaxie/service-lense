@@ -12,6 +12,12 @@
             "id": "question_1",
             "title": "Question 1",
             "description": "Question 1 asks about operational exelence",
+            "resources": [
+              {
+                "url": "https://de.wikipedia.org/wiki/Operational_Excellence",
+                "description": "Operational excellence is a mindset that embraces certain principles and tools to create a culture of excellence within an organization. Operational excellence means every employee can see, deliver, and improve the flow of value to a customer."
+              }
+            ],
             "choices": [
               {
                 "id": "choice_1",
@@ -35,6 +41,12 @@
                 "condition": "default"
               }
             ]
+          }
+        ],
+        "resources": [
+          {
+            "url": "https://de.wikipedia.org/wiki/Operational_Excellence",
+            "description": "Operational excellence is a mindset that embraces certain principles and tools to create a culture of excellence within an organization. Operational excellence means every employee can see, deliver, and improve the flow of value to a customer."
           }
         ]
       }

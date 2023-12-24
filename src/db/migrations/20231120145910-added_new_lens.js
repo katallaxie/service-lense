@@ -65,6 +65,39 @@ module.exports = {
       }
     })
 
+    await queryInterface.createTable('lenses-pillars-questions-resources', {
+      id: {
+        type: Sequelize.BIGINT,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+      },
+      questionId: {
+        type: Sequelize.BIGINT,
+        references: {
+          model: 'lenses-pillars-questions',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+      },
+      url: {
+        type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.TEXT
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      },
+      deletedAt: {
+        type: Sequelize.DATE
+      }
+    })
+
     await queryInterface.createTable('lenses-pillars-risks', {
       id: {
         type: Sequelize.BIGINT,
@@ -139,6 +172,72 @@ module.exports = {
         allowNull: false
       },
       name: {
+        type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.TEXT
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      },
+      deletedAt: {
+        type: Sequelize.DATE
+      }
+    })
+
+    await queryInterface.createTable('lenses-pillars-resources', {
+      id: {
+        type: Sequelize.BIGINT,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+      },
+      pillarId: {
+        type: Sequelize.BIGINT,
+        references: {
+          model: 'lenses-pillars',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+      },
+      url: {
+        type: Sequelize.STRING
+      },
+      description: {
+        type: Sequelize.TEXT
+      },
+      createdAt: {
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        type: Sequelize.DATE
+      },
+      deletedAt: {
+        type: Sequelize.DATE
+      }
+    })
+
+    await queryInterface.createTable('lenses-pillars-choices-resources', {
+      id: {
+        type: Sequelize.BIGINT,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+      },
+      choiceId: {
+        type: Sequelize.BIGINT,
+        references: {
+          model: 'lenses-pillars-choices',
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+      },
+      url: {
         type: Sequelize.STRING
       },
       description: {

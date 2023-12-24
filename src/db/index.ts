@@ -19,6 +19,9 @@ import { LensPillarChoice } from './models/lens-pillar-choices'
 import { LensPillarQuestion } from './models/lens-pillar-questions'
 import { LensPillarQuestionRisk } from './models/lens-pillar-risks'
 import { User } from './models/users'
+import { LensPillarChoiceResource } from './models/lens-pillar-choices-resources'
+import { LensPillarResource } from './models/lens-pillar-resources'
+import { LensPillarQuestionResource } from './models/lens-pillar-questions-resources'
 import config from './config/config'
 
 const env = process.env.NODE_ENV || 'development'
@@ -48,6 +51,9 @@ sequelize.addModels([
   WorkloadLensesAnswerChoice,
   SolutionComment,
   SolutionTemplate,
+  LensPillarResource,
+  LensPillarChoiceResource,
+  LensPillarQuestionResource,
   User
 ])
 
@@ -71,6 +77,9 @@ export {
   WorkloadLensesAnswerChoice,
   SolutionComment,
   SolutionTemplate,
+  LensPillarResource,
+  LensPillarChoiceResource,
+  LensPillarQuestionResource,
   User
 }
 

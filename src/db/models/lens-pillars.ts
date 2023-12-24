@@ -16,6 +16,7 @@ import {
 } from 'sequelize-typescript'
 import { Lens } from './lens'
 import { LensPillarQuestion } from './lens-pillar-questions'
+import { LensPillarResource } from './lens-pillar-resources'
 
 export interface LensPillarAttributes {
   id: bigint
@@ -23,6 +24,7 @@ export interface LensPillarAttributes {
   ref: string
   description: string
   questions: LensPillarQuestion[]
+  resources: LensPillarResource[]
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -69,6 +71,9 @@ export class LensPillar extends Model<
 
   @HasMany(() => LensPillarQuestion, 'pillarId')
   questions?: LensPillarQuestion[]
+
+  @HasMany(() => LensPillarResource, 'pillarId')
+  resources?: LensPillarResource[]
 
   @CreatedAt
   @Column
