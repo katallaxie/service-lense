@@ -1,5 +1,11 @@
 import { v4 as uuidv4 } from 'uuid'
-import { Lens, LensPillar, LensPillarChoice, LensPillarQuestion } from '..'
+import {
+  Lens,
+  LensPillar,
+  LensPillarChoice,
+  LensPillarQuestion,
+  LensPillarQuestionResource
+} from '..'
 import { Spec } from '@/db/schemas/spec'
 import {
   LensesGetSchema,
@@ -65,21 +71,26 @@ export async function createLens({
           name: pillar.name,
           ref: pillar.id,
           description: pillar.description,
-          resources:
-            pillar.resources?.map(
-              res =>
-                new LensPillarResource({
-                  url: res.url,
-                  description: res.description
-                })
-            ) ?? [],
+          resources: [],
           questions: []
         }))
       ],
       {
-        transaction,
-        include: [{ model: LensPillarResource, as: 'resources' }]
+        transaction
       }
+    )
+
+    const pillarsResources = await LensPillarResource.bulkCreate(
+      pillars.flatMap((pillar, idx) => [
+        ...(s.pillars[idx].resources?.map(resource => {
+          return {
+            pillarId: pillar.id,
+            url: resource.url,
+            description: resource.description
+          }
+        }) ?? [])
+      ]),
+      { transaction }
     )
 
     const questions = await LensPillarQuestion.bulkCreate(
@@ -96,28 +107,22 @@ export async function createLens({
       { transaction }
     )
 
-    const choices = await LensPillarChoice.bulkCreate(
+    const questionResources = await LensPillarQuestionResource.bulkCreate(
       pillars.flatMap((pillar, a) => [
         ...questions.flatMap((question, b) => [
-          ...s.pillars[a].questions[b].choices.map(choice => {
+          ...(s.pillars[a].questions[b]?.resources?.map(resource => {
             return {
               questionId: question.id,
-              ref: choice.id,
-              name: choice.title
+              url: resource.url,
+              description: resource.description
             }
-          })
+          }) ?? [])
         ])
       ]),
       { transaction }
     )
 
-    // const questions = await LensPillarQuestion.bulkCreate(
-    //   pillars.forEach(pillar => pillar.questions?.map(question => ({
-    //     name: question.
-    //   })))
-    // )
-
-    return { ...lens.dataValues }
+    return lens.dataValues
   })
 }
 

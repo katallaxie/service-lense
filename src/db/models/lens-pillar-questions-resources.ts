@@ -19,7 +19,7 @@ import { LensPillar } from '..'
 
 export interface LensPillarQuestionResourceAttributes {
   id: string
-  questionId: string
+  questionId: bigint
   description: string
   url?: string
   createdAt: Date

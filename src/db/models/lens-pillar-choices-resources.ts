@@ -16,7 +16,7 @@ import { LensPillarChoice } from '..'
 
 export interface LensPillarChoiceResourceAttributes {
   id: string
-  questionId: string
+  questionId: bigint
   description: string
   url?: string
   createdAt: Date

@@ -12,6 +12,7 @@ import {
   NotEmpty,
   Min,
   Max,
+  BelongsTo,
   AllowNull,
   Default
 } from 'sequelize-typescript'
@@ -47,7 +48,7 @@ export class LensPillarResource extends Model<
 
   @ForeignKey(() => LensPillar)
   @Column
-  lensPillarId?: bigint
+  pillarId?: string
 
   @NotEmpty
   @Column

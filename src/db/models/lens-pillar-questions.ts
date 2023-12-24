@@ -50,7 +50,7 @@ export class LensPillarQuestion extends Model<
 
   @ForeignKey(() => LensPillar)
   @Column
-  pillarId!: bigint
+  pillarId!: string
 
   @NotEmpty
   @Min(3)
