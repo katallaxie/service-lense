@@ -122,7 +122,22 @@ export async function createLens({
       { transaction }
     )
 
-    return lens.dataValues
+    const choices = await LensPillarChoice.bulkCreate(
+      pillars.flatMap((pillar, a) => [
+        ...questions.flatMap((question, b) => [
+          ...s.pillars[a].questions[b].choices.map(choice => {
+            return {
+              questionId: question.id,
+              ref: choice.id,
+              name: choice.title
+            }
+          })
+        ])
+      ]),
+      { transaction }
+    )
+
+    return { ...lens.dataValues }
   })
 }
 
@@ -130,7 +145,10 @@ export const findOneLensPillarQuestion = async (
   opts: z.infer<typeof LensesGetQuestionSchema>
 ) =>
   await LensPillarQuestion.findOne({
-    include: [{ model: LensPillarChoice }],
+    include: [
+      { model: LensPillarChoice },
+      { model: LensPillarQuestionResource }
+    ],
     where: { id: opts }
   })
 

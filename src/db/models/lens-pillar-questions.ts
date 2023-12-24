@@ -17,6 +17,7 @@ import {
 import { LensPillar } from './lens-pillars'
 import { LensPillarChoice } from './lens-pillar-choices'
 import { LensPillarQuestionRisk } from './lens-pillar-risks'
+import { LensPillarQuestionResource } from '..'
 
 export interface LensPillarQuestionAttributes {
   id: bigint
@@ -26,6 +27,7 @@ export interface LensPillarQuestionAttributes {
   description?: string
   risks?: LensPillarQuestionRisk[]
   questionAnswers?: LensPillarChoice[]
+  resources?: LensPillarQuestionResource[]
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -69,6 +71,9 @@ export class LensPillarQuestion extends Model<
 
   @HasMany(() => LensPillarChoice, 'questionId')
   questionAnswers?: LensPillarChoice[]
+
+  @HasMany(() => LensPillarQuestionResource, 'questionId')
+  resources?: LensPillarQuestionResource[]
 
   @NotEmpty
   @Min(12)
