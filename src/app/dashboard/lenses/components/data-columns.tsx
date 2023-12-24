@@ -67,6 +67,36 @@ export const columns: ColumnDef<Lens>[] = [
     }
   },
   {
+    accessorKey: 'version',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Version" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate font-medium">
+            {row.getValue('version')}
+          </span>
+        </div>
+      )
+    }
+  },
+  {
+    accessorKey: 'status',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <span className="max-w-[500px] truncate font-medium">
+            {row.getValue('isDraft') ? 'Draft' : 'Published'}
+          </span>
+        </div>
+      )
+    }
+  },
+  {
     id: 'actions',
     cell: ({ row }) => <DataTableRowActions row={row} />
   }

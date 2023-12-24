@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { ChevronsUpDown, Plus, X } from 'lucide-react'
+import { useState } from 'react'
 import {
   Form,
   FormControl,
@@ -10,6 +11,8 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import { cn } from '@/lib/utils'
+import { buttonVariants } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import {
   Select,
@@ -26,6 +29,12 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger
+} from '@/components/ui/collapsible'
+import Link from 'next/link'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -36,6 +45,7 @@ import { z } from 'zod'
 import { useAction } from '@/trpc/client'
 import { rhfAction } from './question-form.action'
 import { WorkloadLensesAnswer, LensPillarQuestion } from '@/db'
+import { Separator } from '@/components/ui/separator'
 
 export type QuestionFormFactoryProps = {
   className?: string
@@ -64,10 +74,13 @@ export function QuestionFormFactory({
     }
   })
 
+  const [isOpen, setIsOpen] = useState(false)
   const mutation = useAction(rhfAction)
   async function onSubmit(form: z.infer<typeof rhfActionSchema>) {
     await mutation.mutateAsync({ ...form })
   }
+
+  console.log(question?.resources)
 
   return (
     <>
@@ -134,6 +147,47 @@ export function QuestionFormFactory({
               </FormItem>
             )}
           />
+
+          {question?.resources && question.resources.length > 0 && (
+            <Collapsible
+              open={isOpen}
+              onOpenChange={setIsOpen}
+              className="space-y-2"
+            >
+              <div className="rounded-md border py-4">
+                <div className="flex items-center justify-between space-x-4 px-4 ">
+                  <h4 className="text-sm font-semibold">Helpful resources</h4>
+                  <CollapsibleTrigger asChild>
+                    <Button variant="ghost" size="sm" className="w-9 p-0">
+                      <ChevronsUpDown className="h-4 w-4" />
+                      <span className="sr-only">Toggle</span>
+                    </Button>
+                  </CollapsibleTrigger>
+                </div>
+                <CollapsibleContent className="space-y-2">
+                  {question?.resources?.map((resource, idx) => (
+                    <div key={idx} className="px-4 py-3 text-sm">
+                      {resource.description}
+                      {resource.url && (
+                        <Link
+                          href={resource.url}
+                          passHref
+                          className={cn(
+                            buttonVariants({ variant: 'ghost' }),
+                            'hover:bg-transparent hover:underline',
+                            'px-2',
+                            'justify-start'
+                          )}
+                        >
+                          Read more
+                        </Link>
+                      )}
+                    </div>
+                  ))}
+                </CollapsibleContent>
+              </div>
+            </Collapsible>
+          )}
 
           <FormField
             control={form.control}
