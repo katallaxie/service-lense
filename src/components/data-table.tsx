@@ -14,7 +14,6 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-  TableOptions,
   OnChangeFn,
   PaginationState
 } from '@tanstack/react-table'
@@ -81,7 +80,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} isFetching={isFetching} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

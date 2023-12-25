@@ -2,20 +2,24 @@
 
 import { Cross2Icon } from '@radix-ui/react-icons'
 import { Table } from '@tanstack/react-table'
+import { CgSpinner } from 'react-icons/cg'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { DataTableViewOptions } from '@/components/data-table-view-options'
 
-import { priorities, statuses } from './data/data'
+import { statuses } from './data/data'
 import { DataTableFacetedFilter } from './data-table-faceted-filter'
+import { DataTableLoading } from './data-table-loading'
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
+  isFetching: boolean
 }
 
 export function DataTableToolbar<TData>({
-  table
+  table,
+  isFetching
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
@@ -55,6 +59,8 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
+      {isFetching && <DataTableLoading />}
+
       <DataTableViewOptions table={table} />
     </div>
   )
