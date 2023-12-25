@@ -1,7 +1,6 @@
 'use client'
 
 import { useMemo } from 'react'
-import { useDataTableContext } from '@/components/data-table-context'
 import { columns } from './data-columns'
 import { DataTable } from '@/components/data-table'
 import useSWR from 'swr'
@@ -9,11 +8,8 @@ import useSWR from 'swr'
 const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 export default function ProfilesDataTable() {
-  const dataTableContext = useDataTableContext()
-  const { data, mutate, isLoading } = useSWR(
-    `/api/profiles?page=${dataTableContext.pagination.pageIndex}&limit=${dataTableContext.pagination.pageSize}`,
-    fetcher
-  )
+  // const dataTableContext = useDataTableContext()
+  const { data, mutate, isLoading } = useSWR(`/api/profiles`, fetcher)
 
   return useMemo(() => {
     return (

@@ -1,12 +1,11 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, use, Suspense } from 'react'
 import {
   ColumnDef,
   ColumnFiltersState,
   SortingState,
   VisibilityState,
-  PaginationState,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -14,7 +13,10 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable
+  useReactTable,
+  TableOptions,
+  OnChangeFn,
+  PaginationState
 } from '@tanstack/react-table'
 
 import {
@@ -25,21 +27,27 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { useDataTableContext } from '@/components/data-table-context'
+import { Skeleton } from '@/components/ui/skeleton'
 
 import { DataTablePagination } from '../components/data-table-pagination'
 import { DataTableToolbar } from '../components/data-table-toolbar'
+import { Checkbox } from '../components/ui/checkbox'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  rows: TData[]
+  onPaginationChange: OnChangeFn<PaginationState>
+  isFetching: boolean
+  pagination: PaginationState
 }
 
 export function DataTable<TData, TValue>({
   columns,
-  data
+  rows,
+  onPaginationChange,
+  isFetching,
+  pagination
 }: DataTableProps<TData, TValue>) {
-  const dataTableContext = useDataTableContext()
   const cols = useMemo(() => columns, [columns])
 
   const [rowSelection, setRowSelection] = useState({})
@@ -48,7 +56,7 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([])
 
   const table = useReactTable({
-    data,
+    data: rows,
     columns: cols,
     state: {
       sorting,
@@ -59,7 +67,7 @@ export function DataTable<TData, TValue>({
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
-    onPaginationChange: dataTableContext.setPagination,
+    onPaginationChange,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
@@ -95,7 +103,24 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            <Suspense fallback={<p>waiting for message...</p>}></Suspense>
+
+            {isFetching ? (
+              <TableRow>
+                <TableCell>
+                  <Checkbox
+                    disabled={true}
+                    aria-label="Select all"
+                    className="translate-y-[2px]"
+                  />
+                </TableCell>
+                {columns.map((col, idx) => (
+                  <TableCell key={idx}>
+                    <Skeleton className="h-[20px] rounded-full" />
+                  </TableCell>
+                ))}
+              </TableRow>
+            ) : table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map(row => (
                 <TableRow
                   key={row.id}
@@ -124,7 +149,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      <DataTablePagination table={table} pagination={pagination} />
     </div>
   )
 }

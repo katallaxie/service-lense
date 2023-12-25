@@ -80,8 +80,6 @@ export function QuestionFormFactory({
     await mutation.mutateAsync({ ...form })
   }
 
-  console.log(question?.resources)
-
   return (
     <>
       <Form {...form}>
