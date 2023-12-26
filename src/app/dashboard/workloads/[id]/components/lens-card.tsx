@@ -32,9 +32,7 @@ export function LensCard({ workloadId, lens, ...props }: LensCardProps) {
             <h2 className="text-l font-semibold tracking-tight text-muted-foreground">
               Last updated
             </h2>
-            <p>
-              <DateFormat date={lens?.dataValues?.updatedAt} />
-            </p>
+            <DateFormat date={lens?.dataValues?.updatedAt} />
           </div>
         </div>
         <Separator />

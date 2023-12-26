@@ -42,17 +42,13 @@ export function PropertiesCard({ workload }: PropertiesCard) {
               <h2 className="text-l font-semibold tracking-tight text-muted-foreground">
                 Created
               </h2>
-              <p>
-                <DateFormat date={workload?.dataValues?.createdAt} />
-              </p>
+              <DateFormat date={workload?.dataValues?.createdAt} />
             </div>
             <div className="space-y-1 py-2">
               <h2 className="text-l font-semibold tracking-tight text-muted-foreground">
                 Last updated
               </h2>
-              <p>
-                <DateFormat date={workload?.dataValues?.updatedAt} />
-              </p>
+              <DateFormat date={workload?.dataValues?.updatedAt} />
             </div>
           </div>
           <div className="w-2/4">

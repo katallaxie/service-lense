@@ -31,9 +31,7 @@ export function OverviewCard({ workload, ...props }: OverviewCardProps) {
             <h2 className="text-l font-semibold tracking-tight text-muted-foreground">
               Last updated
             </h2>
-            <p>
-              <DateFormat date={workload?.dataValues?.updatedAt} />
-            </p>
+            <DateFormat date={workload?.dataValues?.updatedAt} />
           </div>
         </div>
         <Separator />
