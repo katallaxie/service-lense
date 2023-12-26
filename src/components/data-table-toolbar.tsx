@@ -17,6 +17,11 @@ interface DataTableToolbarProps<TData> {
   isFetching: boolean
 }
 
+export type DataTableToolsbarOptions = {
+  filterColumnName: string
+  filterColumnPlaceholder: string
+}
+
 export function DataTableToolbar<TData>({
   table,
   isFetching

@@ -9,11 +9,10 @@ import { ProfileCard } from './components/profile-card'
 import { Section } from '@/components/section'
 import { api } from '@/trpc/server-http'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Button } from '@/components/ui/button'
-import { PlusCircledIcon } from '@radix-ui/react-icons'
 import { PropertiesCard } from './components/properties-card'
 import { LensCard } from './components/lens-card'
 import { MoreButton } from './components/more-button'
+import { LensesCard } from './components/lenses-card'
 
 export type PageProps = {
   params: { id: string }
@@ -58,16 +57,13 @@ export default async function Page({ params }: PageProps) {
                   className="col-span-3"
                 />
               )}
-              {workload?.lenses &&
-                workload?.lenses.length > 0 &&
-                workload?.lenses?.map(lens => (
-                  <LensCard
-                    key={lens.id}
-                    workloadId={workload.id}
-                    lens={lens}
-                    className="col-span-2"
-                  />
-                ))}
+              {workload?.lenses && (
+                <LensesCard
+                  workloadId={workload.id}
+                  lenses={workload?.lenses}
+                  className="col-span-7"
+                />
+              )}
             </div>
           </TabsContent>
           <TabsContent

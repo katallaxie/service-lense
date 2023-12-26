@@ -13,12 +13,10 @@ import {
   CardTitle
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { CalendarDateRangePicker } from '@/components/date-range-picker'
 import { Overview } from '@/components/overview'
 import { RecentSales } from '@/components/recent-sales'
 import { ActionButton } from '@/app/dashboard/components/add-button'
 import TotalWorkloadsCard from './components/total-workloads-card'
-import { MixIcon } from '@radix-ui/react-icons'
 import TotalSolutionsCard from './components/total-solutions-card'
 
 export const metadata: Metadata = {

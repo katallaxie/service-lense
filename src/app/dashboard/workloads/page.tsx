@@ -1,4 +1,3 @@
-import { Table } from './components/table'
 import { AddWorkloadButton } from './components/add-button'
 import {
   SubNav,
@@ -6,12 +5,11 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
+import DataTable from './components/data-table-context'
 
 export type PageProps = {
   children?: React.ReactNode
 }
-
-import { DataTableProvider } from '@/components/data-table-context'
 
 export default function Page({ children }: PageProps) {
   return (
@@ -26,9 +24,7 @@ export default function Page({ children }: PageProps) {
         </SubNavActions>
       </SubNav>
       <section>
-        <DataTableProvider>
-          <Table />
-        </DataTableProvider>
+        <DataTable />
       </section>
     </>
   )
