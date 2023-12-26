@@ -6,8 +6,7 @@ import {
 } from '@/components/sub-nav'
 
 import { AddProfileButton } from './components/add-button'
-import { DataTableProvider } from '@/components/data-table-context'
-import DataTable from './components/data-table'
+import DataTable from './components/data-table-context'
 
 type PageProps = {
   children: React.ReactNode
@@ -28,9 +27,7 @@ export default function Page({ children }: PageProps) {
         </SubNavActions>
       </SubNav>
       <section>
-        <DataTableProvider>
-          <DataTable></DataTable>
-        </DataTableProvider>
+        <DataTable />
       </section>
     </>
   )

@@ -1,21 +1,21 @@
 'use client'
 
-import { useMemo } from 'react'
 import { columns } from './data-columns'
 import { DataTable } from '@/components/data-table'
-import useSWR from 'swr'
+import { useDataTableContext } from './data-table-context'
 
-const fetcher = (url: string) => fetch(url).then(res => res.json())
+export function ProfileDataTable() {
+  const dataTableContext = useDataTableContext()
 
-export default function ProfilesDataTable() {
-  // const dataTableContext = useDataTableContext()
-  const { data, mutate, isLoading } = useSWR(`/api/profiles`, fetcher)
-
-  return useMemo(() => {
-    return (
-      <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-        <DataTable data={data?.rows ?? []} columns={columns} />
-      </div>
-    )
-  }, [data?.rows])
+  return (
+    <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
+      <DataTable
+        rows={dataTableContext.data ?? []}
+        columns={columns}
+        onPaginationChange={dataTableContext.setPagination}
+        isFetching={dataTableContext.isFetching}
+        pagination={dataTableContext.pagination}
+      />
+    </div>
+  )
 }
