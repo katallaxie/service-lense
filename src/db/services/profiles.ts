@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { Profile, ProfileQuestion, ProfileQuestionAnswer, sequelize } from '..'
+import { Profile, ProfileQuestionChoice, sequelize } from '..'
 import {
   FindAndCountProfilesSchema,
   FindOneProfileSchema,
@@ -32,9 +32,6 @@ export const findAndCountProfiles = async (
 ) =>
   await Profile.findAndCountAll({
     order: [['name', 'DESC']],
-    include: {
-      model: ProfileQuestion,
-      include: [ProfileQuestionAnswer]
-    },
+    include: [ProfileQuestionChoice],
     ...opts
   })

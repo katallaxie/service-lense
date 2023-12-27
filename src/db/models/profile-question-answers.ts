@@ -10,7 +10,7 @@ import {
   UpdatedAt,
   ForeignKey
 } from 'sequelize-typescript'
-import { Profile, ProfileQuestion } from '..'
+import { Profile, ProfileQuestionChoice } from '..'
 
 export interface ProfileQuestionAnswerAttributes {
   id: number
@@ -41,7 +41,7 @@ export class ProfileQuestionAnswer extends Model<
   @Column(DataType.UUID)
   profileId?: string
 
-  @ForeignKey(() => ProfileQuestion)
+  @ForeignKey(() => ProfileQuestionChoice)
   @Column
   choiceId?: bigint
 

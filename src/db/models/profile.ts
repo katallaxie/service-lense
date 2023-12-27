@@ -14,7 +14,7 @@ import {
   HasMany
 } from 'sequelize-typescript'
 import { ProfileQuestion } from './profile-question'
-import { ProfileQuestionAnswer } from '..'
+import { ProfileQuestionAnswer, ProfileQuestionChoice } from '..'
 
 export interface ProfileAttributes {
   id: string
@@ -53,8 +53,12 @@ export class Profile extends Model<
   @Column
   description?: string
 
-  @BelongsToMany(() => ProfileQuestion, () => ProfileQuestionAnswer)
-  answers?: ProfileQuestion[]
+  @BelongsToMany(
+    () => ProfileQuestionChoice,
+    () => ProfileQuestionAnswer,
+    'profileId'
+  )
+  answers?: ProfileQuestionChoice[]
 
   @CreatedAt
   @Column
