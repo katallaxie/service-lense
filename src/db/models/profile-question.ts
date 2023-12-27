@@ -50,6 +50,12 @@ export class ProfileQuestion extends Model<
   @Column
   description!: string
 
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  ref?: string
+
   @AllowNull
   @Default(false)
   @Column

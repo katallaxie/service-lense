@@ -9,6 +9,13 @@ import {
   FormMessage,
   FormField
 } from '@/components/ui/form'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 import { useEffect } from 'react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -21,13 +28,15 @@ import * as z from 'zod'
 import { useAction } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
 import { SolutionTemplate } from '@/db/models/solution-templates'
+import { ProfileQuestion } from '@/db'
 
 export type NewProfileFormProps = {
   className?: string
   template?: SolutionTemplate
+  questions?: ProfileQuestion[]
 }
 
-export function NewProfileForm({ ...props }: NewProfileFormProps) {
+export function NewProfileForm({ questions, ...props }: NewProfileFormProps) {
   const form = useForm<z.infer<typeof rhfActionSchema>>({
     resolver: zodResolver(rhfActionSchema)
   })
@@ -87,6 +96,46 @@ export function NewProfileForm({ ...props }: NewProfileFormProps) {
               </div>
             )}
           />
+
+          {questions?.map((question, idx) =>
+            question.isMultiple ? (
+              <div key={idx}></div>
+            ) : (
+              <FormField
+                key={idx}
+                control={form.control}
+                name="doesNotApplyReason"
+                render={({ field }) => (
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      disabled={!form.watch('doesNotApply')}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a reason" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="OUT_OF_SCOPE">
+                          Out of Scope
+                        </SelectItem>
+                        <SelectItem value="PRIORITIES">
+                          Business Priorities
+                        </SelectItem>
+                        <SelectItem value="CONSTRAINTS">
+                          Architecture Constraints
+                        </SelectItem>
+                        <SelectItem value="OTHER">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                )}
+              />
+            )
+          )}
+
           <Button
             type="submit"
             disabled={form.formState.isSubmitting || !form.formState.isValid}

@@ -13,6 +13,10 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      ref: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
       description: {
         type: Sequelize.TEXT
       },
@@ -40,6 +44,10 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING
+      },
+      ref: {
+        type: Sequelize.TEXT,
+        allowNull: false
       },
       description: {
         type: Sequelize.TEXT

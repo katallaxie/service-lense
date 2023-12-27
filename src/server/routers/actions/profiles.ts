@@ -1,7 +1,11 @@
 import { protectedProcedure } from '../../trpc'
 import { ProfileListSchema, ProfileGetSchema } from '../schemas/profile'
 
-import { findAndCountProfiles, findOneProfile } from '@/db/services/profiles'
+import {
+  findAndCountProfiles,
+  findOneProfile,
+  findAllProfilesQuestions
+} from '@/db/services/profiles'
 
 export const listProfiles = protectedProcedure
   .input(ProfileListSchema)
@@ -9,3 +13,6 @@ export const listProfiles = protectedProcedure
 export const getProfile = protectedProcedure
   .input(ProfileGetSchema)
   .query(async opts => await findOneProfile(opts.input))
+export const listProfilesQuestions = protectedProcedure.query(
+  async opts => await findAllProfilesQuestions(opts)
+)

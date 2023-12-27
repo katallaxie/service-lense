@@ -5,6 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Profile } from '@/db'
 import { DataTableColumnHeader } from '@/components/data-table-column-header'
 import { DataTableRowActions } from '@/components/data-table-row-actions'
+import Link from 'next/link'
 
 export const columns: ColumnDef<Profile>[] = [
   {
@@ -49,7 +50,9 @@ export const columns: ColumnDef<Profile>[] = [
         <div className="flex space-x-2">
           {/* {label && <Badge variant="outline">{label.label}</Badge>} */}
           <span className="max-w-[500px] truncate font-medium">
-            {row.getValue('name')}
+            <Link href={`/dashboard/profiles/${row.getValue('id')}`}>
+              {row.getValue('name')}
+            </Link>
           </span>
         </div>
       )

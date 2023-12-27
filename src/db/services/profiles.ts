@@ -1,9 +1,10 @@
 import { v4 as uuidv4 } from 'uuid'
-import { Profile, ProfileQuestionChoice, sequelize } from '..'
+import { Profile, ProfileQuestion, ProfileQuestionChoice, sequelize } from '..'
 import {
   FindAndCountProfilesSchema,
   FindOneProfileSchema,
-  CreateProfileSchema
+  CreateProfileSchema,
+  FindAllProfilesQuestionsSchema
 } from '../schemas/profiles'
 import { z } from 'zod'
 
@@ -31,6 +32,15 @@ export const findAndCountProfiles = async (
   opts: z.infer<typeof FindAndCountProfilesSchema>
 ) =>
   await Profile.findAndCountAll({
+    order: [['name', 'DESC']],
+    include: [ProfileQuestionChoice],
+    ...opts
+  })
+
+export const findAllProfilesQuestions = async (
+  opts: z.infer<typeof FindAllProfilesQuestionsSchema>
+) =>
+  await ProfileQuestion.findAll({
     order: [['name', 'DESC']],
     include: [ProfileQuestionChoice],
     ...opts

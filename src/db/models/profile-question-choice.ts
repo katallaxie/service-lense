@@ -18,6 +18,7 @@ import { ProfileQuestion } from '..'
 export interface ProfileQuestionChoiceAttributes {
   id: number
   name: string
+  ref: string
   description: string
   createdAt: Date
   updatedAt: Date
@@ -44,6 +45,12 @@ export class ProfileQuestionChoice extends Model<
   @ForeignKey(() => ProfileQuestion)
   @Column(DataType.INTEGER)
   questionId?: string
+
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  ref?: string
 
   @NotEmpty
   @Min(3)
