@@ -11,15 +11,18 @@ import {
   Min,
   Max,
   AllowNull,
-  BelongsToMany
+  BelongsToMany,
+  HasMany,
+  Default
 } from 'sequelize-typescript'
-import { ProfileQuestionAnswer } from './profile-question-answer'
-import { ProfileQuestionAnswers } from './profile-question-answers'
+import { ProfileQuestionChoice } from '..'
 
 export interface ProfileQuestionAttributes {
   id: string
   name: string // is this really needed, have to double check this.
   description: string
+  isMultiple: boolean
+  choices: ProfileQuestion[]
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
@@ -31,7 +34,7 @@ export type ProfileQuestionCreationAttributes = Omit<
 >
 
 @Table({
-  tableName: 'profile-question'
+  tableName: 'profiles-questions'
 })
 export class ProfileQuestion extends Model<
   ProfileQuestionAttributes,
@@ -48,11 +51,12 @@ export class ProfileQuestion extends Model<
   description!: string
 
   @AllowNull
+  @Default(false)
   @Column
   isMultiple!: boolean
 
-  @BelongsToMany(() => ProfileQuestionAnswer, () => ProfileQuestionAnswers)
-  answers?: ProfileQuestionAnswer[]
+  @HasMany(() => ProfileQuestionChoice, 'questionId')
+  choices?: ProfileQuestion[]
 
   @CreatedAt
   @Column

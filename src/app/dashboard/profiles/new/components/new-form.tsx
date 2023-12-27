@@ -91,7 +91,7 @@ export function NewProfileForm({ ...props }: NewProfileFormProps) {
             type="submit"
             disabled={form.formState.isSubmitting || !form.formState.isValid}
           >
-            Add Workload
+            Add Profile
           </Button>
         </form>
       </Form>

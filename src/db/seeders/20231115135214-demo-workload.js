@@ -14,37 +14,31 @@ module.exports = {
       }
     ])
 
-    const answerId = crypto.randomUUID()
-    await queryInterface.bulkInsert('profile-question-answer', [
+    const profileQuestion = await queryInterface.insert('profiles-question', [
       {
-        id: answerId,
-        name: 'demo',
-        description: 'This is an initial demo answer'
+        name: 'What is the current cloud adoption phase for the organization architecting or operating the workloads in this profile?',
+        description: 'This is asking about the phase this application is in.'
       }
     ])
 
-    const questionId = crypto.randomUUID()
-    await queryInterface.bulkInsert('profile-question', [
+    await queryInterface.bulkInsert('profiles-question-choice', [
       {
-        id: questionId,
-        name: 'demo',
-        description: 'This is an initial demo question'
-      }
-    ])
-
-    await queryInterface.bulkInsert('profile-question-answers', [
+        questionId: profileQuestion.id,
+        name: 'Envision Adoption Phase',
+        description:
+          'The Envision phase focuses on demonstrating how the cloud will help accelerate your business outcomes. It does so by identifying and prioritizing transformation opportunities across each of the four transformation domains in line with your strategic business objectives. Associating your transformation initiatives with key stakeholders (senior individuals capable of influencing and driving change) and measurable business outcomes will help you demonstrate value as you progress through your transformation journey.'
+      },
       {
-        id: crypto.randomUUID(),
-        questionId,
-        answerId
-      }
-    ])
-
-    await queryInterface.bulkInsert('profile-questions', [
+        questionId: profileQuestion.id,
+        name: 'Align Adoption Phase',
+        description:
+          'The Align phase focuses on identifying capability gaps across the key perspectives of business, people, governance, platform, security, and operations. In this phase, the goal is to identify cross-organizational dependencies, and surface stakeholder concerns and challenges. Doing so will help you create strategies for improving your cloud readiness, ensure stakeholder alignment, and facilitate relevant organizational change management activities.'
+      },
       {
-        id: crypto.randomUUID(),
-        questionId: questionId,
-        profileId: profileId
+        questionId: profileQuestion.id,
+        name: 'Launch Adoption Phase',
+        description:
+          'The Launch phase focuses on delivering pilot initiatives in production and on demonstrating incremental business value. Pilots should be highly impactful and can help influence your future direction. Learning from pilots helps you to adjust your approach before scaling to full production.'
       }
     ])
 

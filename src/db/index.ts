@@ -6,10 +6,8 @@ import { Solution } from './models/solution'
 import { SolutionComment } from './models/solution-comments'
 import { Workload } from './models/workload'
 import { WorkloadLens } from './models/workload-lens'
+import { ProfileQuestionChoice } from './models/profile-question-choice'
 import { ProfileQuestion } from './models/profile-question'
-import { ProfileQuestionAnswer } from './models/profile-question-answer'
-import { ProfileQuestionAnswers } from './models/profile-question-answers'
-import { ProfileQuestions } from './models/profile-questions'
 import { WorkloadEnvironment } from './models/workload-environment'
 import { SolutionTemplate } from './models/solution-templates'
 import { WorkloadLensesAnswer } from './models/workload-lenses-answers'
@@ -22,6 +20,7 @@ import { User } from './models/users'
 import { LensPillarChoiceResource } from './models/lens-pillar-choices-resources'
 import { LensPillarResource } from './models/lens-pillar-resources'
 import { LensPillarQuestionResource } from './models/lens-pillar-questions-resources'
+import { ProfileQuestionAnswer } from './models/profile-question-answers'
 import config from './config/config'
 
 const env = process.env.NODE_ENV || 'development'
@@ -40,9 +39,7 @@ sequelize.addModels([
   LensPillarQuestionRisk,
   Profile,
   ProfileQuestion,
-  ProfileQuestionAnswer,
-  ProfileQuestionAnswers,
-  ProfileQuestions,
+  ProfileQuestionChoice,
   Solution,
   Workload,
   WorkloadEnvironment,
@@ -54,6 +51,7 @@ sequelize.addModels([
   LensPillarResource,
   LensPillarChoiceResource,
   LensPillarQuestionResource,
+  ProfileQuestionAnswer,
   User
 ])
 
@@ -66,9 +64,7 @@ export {
   LensPillarQuestion,
   Profile,
   ProfileQuestion,
-  ProfileQuestionAnswer,
-  ProfileQuestionAnswers,
-  ProfileQuestions,
+  ProfileQuestionChoice,
   Solution,
   Workload,
   WorkloadEnvironment,
@@ -80,6 +76,7 @@ export {
   LensPillarResource,
   LensPillarChoiceResource,
   LensPillarQuestionResource,
+  ProfileQuestionAnswer,
   User
 }
 

@@ -1,50 +1,57 @@
 import {
-  Table,
-  Model,
-  CreatedAt,
-  UpdatedAt,
-  DeletedAt,
   Column,
-  PrimaryKey,
+  CreatedAt,
   DataType,
-  ForeignKey
+  DeletedAt,
+  Model,
+  PrimaryKey,
+  Table,
+  AutoIncrement,
+  UpdatedAt,
+  Min,
+  Max,
+  NotEmpty,
+  ForeignKey,
+  BelongsTo,
+  Unique,
+  BelongsToMany
 } from 'sequelize-typescript'
-import { ProfileQuestion } from './profile-question'
-import { ProfileQuestionAnswer } from './profile-question-answer'
+import { Profile, ProfileQuestion } from '..'
 
-export interface ProfileQuestionAnswersAttributes {
-  id: string
-  questionId?: string
-  answerId?: string
+export interface ProfileQuestionAnswerAttributes {
+  id: number
+
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
 }
 
-export type ProfileQuestionAnswersCreationAttributes = Omit<
-  ProfileQuestionAnswersAttributes,
-  'createdAt' | 'updatedAt' | 'deletedAt'
+export type ProfileQuestionAnswerCreationAttributes = Omit<
+  ProfileQuestionAnswerAttributes,
+  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
-// This links together questions to answery
 @Table({
-  tableName: 'profile-question-answers'
+  tableName: 'profiles-questions-answers'
 })
-export class ProfileQuestionAnswers extends Model<
-  ProfileQuestionAnswersAttributes,
-  ProfileQuestionAnswersCreationAttributes
+export class ProfileQuestionAnswer extends Model<
+  ProfileQuestionAnswerAttributes,
+  ProfileQuestionAnswerCreationAttributes
 > {
   @PrimaryKey
-  @Column(DataType.UUIDV4)
+  @AutoIncrement
+  @Column(DataType.BIGINT)
   id!: string
 
-  @ForeignKey(() => ProfileQuestion)
-  @Column(DataType.UUIDV4)
-  questionId?: string
+  @ForeignKey(() => Profile)
+  @Unique('profiles-questions')
+  @Column(DataType.UUID)
+  profileId?: string
 
-  @ForeignKey(() => ProfileQuestionAnswer)
-  @Column(DataType.UUIDV4)
-  answerId?: string
+  @ForeignKey(() => ProfileQuestion)
+  @Unique('profiles-questions-choices')
+  @Column
+  choiceId?: bigint
 
   @CreatedAt
   @Column

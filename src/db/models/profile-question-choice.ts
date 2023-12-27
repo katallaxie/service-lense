@@ -1,0 +1,71 @@
+import {
+  Column,
+  CreatedAt,
+  DataType,
+  DeletedAt,
+  Model,
+  PrimaryKey,
+  Table,
+  AutoIncrement,
+  UpdatedAt,
+  Min,
+  Max,
+  NotEmpty,
+  ForeignKey
+} from 'sequelize-typescript'
+import { ProfileQuestion } from '..'
+
+export interface ProfileQuestionChoiceAttributes {
+  id: number
+  name: string
+  description: string
+  createdAt: Date
+  updatedAt: Date
+  deletedAt: Date
+}
+
+export type ProfileQuestionChoiceCreationAttributes = Omit<
+  ProfileQuestionChoiceAttributes,
+  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
+>
+
+@Table({
+  tableName: 'profiles-questions-choices'
+})
+export class ProfileQuestionChoice extends Model<
+  ProfileQuestionChoiceAttributes,
+  ProfileQuestionChoiceCreationAttributes
+> {
+  @PrimaryKey
+  @AutoIncrement
+  @Column(DataType.BIGINT)
+  id!: string
+
+  @ForeignKey(() => ProfileQuestion)
+  @Column(DataType.INTEGER)
+  questionId?: string
+
+  @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  name?: string
+
+  @NotEmpty
+  @Min(12)
+  @Max(2048)
+  @Column
+  description?: string
+
+  @CreatedAt
+  @Column
+  createdAt?: Date
+
+  @UpdatedAt
+  @Column
+  updatedAt?: Date
+
+  @DeletedAt
+  @Column
+  deletedAt?: Date
+}

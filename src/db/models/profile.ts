@@ -10,10 +10,11 @@ import {
   NotEmpty,
   Min,
   Max,
-  BelongsToMany
+  BelongsToMany,
+  HasMany
 } from 'sequelize-typescript'
-import { ProfileQuestions } from './profile-questions'
 import { ProfileQuestion } from './profile-question'
+import { ProfileQuestionAnswer } from '..'
 
 export interface ProfileAttributes {
   id: string
@@ -52,8 +53,8 @@ export class Profile extends Model<
   @Column
   description?: string
 
-  @BelongsToMany(() => ProfileQuestion, () => ProfileQuestions)
-  questions?: ProfileQuestion[]
+  @BelongsToMany(() => ProfileQuestion, () => ProfileQuestionAnswer)
+  answers?: ProfileQuestion[]
 
   @CreatedAt
   @Column
