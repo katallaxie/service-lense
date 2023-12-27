@@ -8,13 +8,7 @@ import {
   Table,
   AutoIncrement,
   UpdatedAt,
-  Min,
-  Max,
-  NotEmpty,
-  ForeignKey,
-  BelongsTo,
-  Unique,
-  BelongsToMany
+  ForeignKey
 } from 'sequelize-typescript'
 import { Profile, ProfileQuestion } from '..'
 
@@ -44,12 +38,10 @@ export class ProfileQuestionAnswer extends Model<
   id!: string
 
   @ForeignKey(() => Profile)
-  @Unique('profiles-questions')
   @Column(DataType.UUID)
   profileId?: string
 
   @ForeignKey(() => ProfileQuestion)
-  @Unique('profiles-questions-choices')
   @Column
   choiceId?: bigint
 
