@@ -43,7 +43,10 @@ export function NewProfileForm({ questions, ...props }: NewProfileFormProps) {
     defaultValues: {
       name: '',
       description: '',
-      selectedChoices: []
+      selectedChoices: questions?.reduce(
+        (prev, curr) => ({ ...prev, [curr.ref]: [] }),
+        {}
+      )
     }
   })
   const router = useRouter()
@@ -123,21 +126,12 @@ export function NewProfileForm({ questions, ...props }: NewProfileFormProps) {
                     <FormControl>
                       <Select
                         onValueChange={value => {
-                          field.onChange([
-                            ...(field.value?.filter(
-                              value =>
-                                !question.choices
-                                  ?.map(c => c.id)
-                                  .includes(value)
-                            ) ?? []),
-                            value
-                          ])
+                          console.log(value, field.value)
+                          field.onChange({
+                            ...field.value,
+                            [question.ref]: [value]
+                          })
                         }}
-                        defaultValue={
-                          question?.choices?.find(
-                            c => field.value?.includes(c.id)
-                          )?.id
-                        }
                       >
                         <FormControl>
                           <SelectTrigger>

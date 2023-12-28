@@ -60,7 +60,7 @@ export class ProfileQuestion extends Model<
   @Min(3)
   @Max(256)
   @Column
-  ref?: string
+  ref!: string
 
   @AllowNull
   @Default(false)
