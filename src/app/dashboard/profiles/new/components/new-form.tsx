@@ -16,6 +16,13 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle
+} from '@/components/ui/card'
 import { useEffect, useMemo } from 'react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -72,88 +79,102 @@ export function NewProfileForm({ questions, ...props }: NewProfileFormProps) {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8"
         >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <H4>Name</H4>
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormDescription>Give it a great name.</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <div className="grid w-full">
-                <FormControl>
-                  <Textarea
-                    {...field}
-                    className="w-full"
-                    placeholder="Add a description ..."
-                  />
-                </FormControl>
-                <FormDescription>
-                  Provide a description for this profile.
-                </FormDescription>
-                <FormMessage />
-              </div>
-            )}
-          />
-
-          <Separator />
-
-          {q?.map((question, idx) =>
-            question.isMultiple ? (
-              <div key={idx}></div>
-            ) : (
+          <Card>
+            <CardHeader>
+              <CardTitle>Overview</CardTitle>
+            </CardHeader>
+            <CardContent>
               <FormField
-                key={idx}
                 control={form.control}
-                name="selectedChoices"
+                name="name"
                 render={({ field }) => (
-                  <div className="grid w-full">
+                  <FormItem>
                     <FormLabel>
-                      <H4>{question.name}</H4>
+                      <h1>Name</h1>
                     </FormLabel>
                     <FormControl>
-                      <Select
-                        onValueChange={value => {
-                          console.log(value, field.value)
-                          field.onChange({
-                            ...field.value,
-                            [question.ref]: [value]
-                          })
-                        }}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Not selected" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {question.choices?.map((choice, c) => (
-                            <SelectItem key={c} value={choice.id}>
-                              {choice.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Input {...field} />
                     </FormControl>
-                    <FormDescription>{question.description}</FormDescription>
+                    <FormDescription>Give it a great name.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <div className="grid w-full">
+                    <FormControl>
+                      <Textarea
+                        {...field}
+                        className="w-full"
+                        placeholder="Add a description ..."
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Provide a description for this profile.
+                    </FormDescription>
                     <FormMessage />
                   </div>
                 )}
               />
-            )
-          )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Profile Questions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {q?.map((question, idx) =>
+                question.isMultiple ? (
+                  <div key={idx}></div>
+                ) : (
+                  <FormField
+                    key={idx}
+                    control={form.control}
+                    name="selectedChoices"
+                    render={({ field }) => (
+                      <div className="grid w-full">
+                        <FormLabel>
+                          <H4>{question.name}</H4>
+                        </FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={value => {
+                              console.log(value, field.value)
+                              field.onChange({
+                                ...field.value,
+                                [question.ref]: [value]
+                              })
+                            }}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Not selected" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {question.choices?.map((choice, c) => (
+                                <SelectItem key={c} value={choice.id}>
+                                  {choice.name}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormDescription>
+                          {question.description}
+                        </FormDescription>
+                        <FormMessage />
+                      </div>
+                    )}
+                  />
+                )
+              )}
+            </CardContent>
+          </Card>
 
           <Button
             type="submit"
