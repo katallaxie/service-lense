@@ -14,7 +14,8 @@ import { Profile, ProfileQuestionChoice } from '..'
 
 export interface ProfileQuestionAnswerAttributes {
   id: number
-
+  choiceId: bigint
+  profileId: string
   createdAt: Date
   updatedAt: Date
   deletedAt: Date
