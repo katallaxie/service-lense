@@ -6,6 +6,7 @@ export const FindAndCountProfilesSchema = z.object({
 })
 export const FindAllProfilesQuestionsSchema = z.object({})
 export const FindOneProfileSchema = z.string().uuid()
+export const DestroyProfileSchema = z.string().uuid()
 export const CreateProfileSchema = z.object({
   name: z.string().min(3).max(255),
   description: z.string().min(3).max(255),

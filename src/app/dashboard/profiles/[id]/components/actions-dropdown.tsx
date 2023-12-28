@@ -10,31 +10,28 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { useRouter } from 'next/navigation'
-import { Lens } from '@/db/models/lens'
+import type { Profile } from '@/db/models/profile'
 import { useAction } from '@/trpc/client'
-import { rhfActionDeleteLens } from '@/app/dashboard/lenses/actions/lens.action'
+import { rhfActionDeleteProfile } from '@/app/dashboard/profiles/actions/profile.action'
 
 interface ActionsDropdownProps {
-  lens?: Lens | null
+  profile?: Profile | null
 }
 
-export function ActionsDropdown({ lens }: ActionsDropdownProps) {
-  const mutation = useAction(rhfActionDeleteLens)
+export function ActionsDropdown({ profile }: ActionsDropdownProps) {
+  const mutation = useAction(rhfActionDeleteProfile)
   const router = useRouter()
   const handleOnClickDelete = async () => {
-    await mutation.mutate(lens?.id ?? '')
-    router.replace('/dashboard/lenses')
+    await mutation.mutate(profile?.id ?? '')
+    router.replace('/dashboard/profiles')
   }
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-        >
+        <Button variant={'outline'}>
           <DotsHorizontalIcon className="h-4 w-4" />
-          <span className="sr-only">Create new solution</span>
+          <span className="sr-only">Modify a profile</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">

@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import DateFormat from '@/components/date-format'
+import { ActionsDropdown } from './components/actions-dropdown'
 
 export type PageProps = {
   params: { id: string }
@@ -25,6 +26,9 @@ export default async function Page({ params }: PageProps) {
           {profile?.name}
           <SubNavSubtitle>{profile?.description}</SubNavSubtitle>
         </SubNavTitle>
+        <SubNavActions>
+          <ActionsDropdown profile={profile} />
+        </SubNavActions>
       </SubNav>
       <Section>
         <Tabs defaultValue="overview" className="h-full space-y-6">

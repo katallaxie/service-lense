@@ -10,7 +10,8 @@ import {
   FindAndCountProfilesSchema,
   FindOneProfileSchema,
   CreateProfileSchema,
-  FindAllProfilesQuestionsSchema
+  FindAllProfilesQuestionsSchema,
+  DestroyProfileSchema
 } from '../schemas/profiles'
 import { z } from 'zod'
 
@@ -41,9 +42,17 @@ export const createProfile = async (
     return profile
   })
 
-export async function deleteProfile(id: string) {
-  return await Profile.destroy({ where: { id } })
-}
+export const destroyProfile = async (
+  opts: z.infer<typeof DestroyProfileSchema>
+) =>
+  sequelize.transaction(
+    async transaction =>
+      await Profile.destroy({ where: { id: opts }, transaction })
+  )
+
+// export async function deleteProfile(id: string) {
+//   return await Profile.destroy({ where: { id } })
+// }
 
 export const findOneProfile = async (
   opts: z.infer<typeof FindOneProfileSchema>
