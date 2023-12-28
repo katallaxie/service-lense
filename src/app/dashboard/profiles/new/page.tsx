@@ -1,10 +1,5 @@
 import { Suspense } from 'react'
-import {
-  SubNav,
-  SubNavTitle,
-  SubNavSubtitle,
-  SubNavActions
-} from '@/components/sub-nav'
+import { SubNav, SubNavTitle, SubNavSubtitle } from '@/components/sub-nav'
 import { Section } from '@/components/section'
 import { NewProfileForm } from './components/new-form'
 import { api } from '@/trpc/server-http'

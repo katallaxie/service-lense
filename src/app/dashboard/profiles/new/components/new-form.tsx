@@ -24,7 +24,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { rhfActionSchema } from './new-form.schema'
 import { rhfAction } from './new-form.action'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import { z } from 'zod'
+import { H4 } from '@/components/h4'
 import { useAction } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
 import { SolutionTemplate } from '@/db/models/solution-templates'
@@ -77,7 +78,7 @@ export function NewProfileForm({ questions, ...props }: NewProfileFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  <h1>Name</h1>
+                  <H4>Name</H4>
                 </FormLabel>
                 <FormControl>
                   <Input {...field} />
@@ -120,7 +121,7 @@ export function NewProfileForm({ questions, ...props }: NewProfileFormProps) {
                 render={({ field }) => (
                   <div className="grid w-full">
                     <FormLabel>
-                      <h1>{question.name}</h1>
+                      <H4>{question.name}</H4>
                     </FormLabel>
                     <FormControl>
                       <Select
