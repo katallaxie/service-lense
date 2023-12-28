@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
@@ -29,6 +29,7 @@ import { useAction } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
 import { SolutionTemplate } from '@/db/models/solution-templates'
 import { ProfileQuestion } from '@/db'
+import { Separator } from '@/components/ui/separator'
 
 export type NewProfileFormProps = {
   className?: string
@@ -38,13 +39,20 @@ export type NewProfileFormProps = {
 
 export function NewProfileForm({ questions, ...props }: NewProfileFormProps) {
   const form = useForm<z.infer<typeof rhfActionSchema>>({
-    resolver: zodResolver(rhfActionSchema)
+    resolver: zodResolver(rhfActionSchema),
+    defaultValues: {
+      name: '',
+      description: '',
+      selectedChoices: []
+    }
   })
   const router = useRouter()
+  const q = useMemo(() => questions, [questions])
 
   const mutation = useAction(rhfAction)
   async function onSubmit(data: z.infer<typeof rhfActionSchema>) {
-    await mutation.mutateAsync({ ...data })
+    console.log(data)
+    // await mutation.mutateAsync({ ...data })
   }
 
   useEffect(() => {
@@ -97,40 +105,57 @@ export function NewProfileForm({ questions, ...props }: NewProfileFormProps) {
             )}
           />
 
-          {questions?.map((question, idx) =>
+          <Separator />
+
+          {q?.map((question, idx) =>
             question.isMultiple ? (
               <div key={idx}></div>
             ) : (
               <FormField
                 key={idx}
                 control={form.control}
-                name="doesNotApplyReason"
+                name="selectedChoices"
                 render={({ field }) => (
-                  <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                      disabled={!form.watch('doesNotApply')}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a reason" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="OUT_OF_SCOPE">
-                          Out of Scope
-                        </SelectItem>
-                        <SelectItem value="PRIORITIES">
-                          Business Priorities
-                        </SelectItem>
-                        <SelectItem value="CONSTRAINTS">
-                          Architecture Constraints
-                        </SelectItem>
-                        <SelectItem value="OTHER">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
+                  <div className="grid w-full">
+                    <FormLabel>
+                      <h1>{question.name}</h1>
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={value => {
+                          field.onChange([
+                            ...(field.value?.filter(
+                              value =>
+                                !question.choices
+                                  ?.map(c => c.id)
+                                  .includes(value)
+                            ) ?? []),
+                            value
+                          ])
+                        }}
+                        defaultValue={
+                          question?.choices?.find(
+                            c => field.value?.includes(c.id)
+                          )?.id
+                        }
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Not selected" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {question.choices?.map((choice, c) => (
+                            <SelectItem key={c} value={choice.id}>
+                              {choice.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormDescription>{question.description}</FormDescription>
+                    <FormMessage />
+                  </div>
                 )}
               />
             )

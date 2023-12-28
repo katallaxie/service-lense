@@ -45,6 +45,12 @@ export class ProfileQuestion extends Model<
   id!: string
 
   @NotEmpty
+  @Min(3)
+  @Max(256)
+  @Column
+  name?: string
+
+  @NotEmpty
   @Min(12)
   @Max(2048)
   @Column
@@ -62,7 +68,7 @@ export class ProfileQuestion extends Model<
   isMultiple!: boolean
 
   @HasMany(() => ProfileQuestionChoice, 'questionId')
-  choices?: ProfileQuestion[]
+  choices?: ProfileQuestionChoice[]
 
   @CreatedAt
   @Column
