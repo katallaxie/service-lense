@@ -37,7 +37,9 @@ import { useAction } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
 import { SolutionTemplate } from '@/db/models/solution-templates'
 import { ProfileQuestion } from '@/db'
-import { Separator } from '@/components/ui/separator'
+import { Lead } from '@/components/lead'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Value } from '@radix-ui/react-select'
 
 export type NewProfileFormProps = {
   className?: string
@@ -129,7 +131,52 @@ export function NewProfileForm({ questions, ...props }: NewProfileFormProps) {
             <CardContent>
               {q?.map((question, idx) =>
                 question.isMultiple ? (
-                  <div key={idx}></div>
+                  <div key={idx}>
+                    <Lead>{question.name}</Lead>
+                    {question?.choices?.map(choice => (
+                      <FormField
+                        key={choice.id}
+                        control={form.control}
+                        name="selectedChoices"
+                        render={({ field, ...rest }) => {
+                          return (
+                            <FormItem
+                              key={choice.id}
+                              className="flex flex-row items-start space-y-0 my-4"
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  className="mr-2"
+                                  checked={field.value[question.ref].includes(
+                                    choice.id
+                                  )}
+                                  onCheckedChange={checked => {
+                                    return checked
+                                      ? field.onChange({
+                                          ...field,
+                                          [question.ref]: [
+                                            ...field.value[question.ref],
+                                            choice.id
+                                          ]
+                                        })
+                                      : field.onChange({
+                                          ...field,
+                                          [question.ref]: field.value[
+                                            question.ref
+                                          ].filter(value => value !== choice.id)
+                                        })
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="font-normal">
+                                {choice.name}
+                              </FormLabel>
+                            </FormItem>
+                          )
+                        }}
+                      />
+                    ))}
+                  </div>
                 ) : (
                   <FormField
                     key={idx}
@@ -138,12 +185,11 @@ export function NewProfileForm({ questions, ...props }: NewProfileFormProps) {
                     render={({ field }) => (
                       <div className="grid w-full">
                         <FormLabel>
-                          <H4>{question.name}</H4>
+                          <Lead>{question.name}</Lead>
                         </FormLabel>
                         <FormControl>
                           <Select
                             onValueChange={value => {
-                              console.log(value, field.value)
                               field.onChange({
                                 ...field.value,
                                 [question.ref]: [value]

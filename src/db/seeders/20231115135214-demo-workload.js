@@ -21,6 +21,12 @@ module.exports = {
           ref: 'cloud_adoption_phase',
           name: 'What is the current cloud adoption phase for the organization architecting or operating the workloads in this profile?',
           description: 'This is asking about the phase this application is in.'
+        },
+        {
+          ref: 'improvment_priorities',
+          name: 'What are improvment categories for this workload in the Well-Architected Review',
+          description: 'What needs to be prioritized when evaluating?',
+          isMultiple: true
         }
       ]
     )
@@ -48,6 +54,24 @@ module.exports = {
           name: 'Launch Adoption Phase',
           description:
             'The Launch phase focuses on delivering pilot initiatives in production and on demonstrating incremental business value. Pilots should be highly impactful and can help influence your future direction. Learning from pilots helps you to adjust your approach before scaling to full production.'
+        },
+        {
+          questionId: 2,
+          ref: 'eval_org_cloud_strategy',
+          name: 'Evaluate organization cloud strategy and priorities',
+          description: ''
+        },
+        {
+          questionId: 2,
+          ref: 'improv_op_readiness',
+          name: 'Improve operational readiness',
+          description: ''
+        },
+        {
+          questionId: 2,
+          ref: 'improv_op_eff',
+          name: 'Improve operational efficiency',
+          description: ''
         }
       ]
     )
@@ -142,25 +166,25 @@ module.exports = {
 
 This is the template in [Documenting architecture decisions - Michael Nygard](http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions).
 You can use [adr-tools](https://github.com/npryce/adr-tools) for managing the ADR files.
- 
+
 In each ADR file, write these sections:
-        
+
 # Title
-        
+
 ## Status
-        
+
 What is the status, such as proposed, accepted, rejected, deprecated, superseded, etc.?
-        
+
 ## Context
-        
+
 What is the issue that we're seeing that is motivating this decision or change?
-        
+
 ## Decision
-        
+
 What is the change that we're proposing and/or doing?
-        
+
 ## Consequences
-        
+
 What becomes easier or more difficult to do because of this change?`
       }
     ])
