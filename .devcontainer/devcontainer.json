@@ -18,6 +18,7 @@
     "ghcr.io/devcontainers/features/java:1": {},
     "ghcr.io/warrenbuckley/codespace-features/sqlite:1": {}
   },
+  "forwardPorts": [3000, 5432],
   "customizations": {
     "vscode": {
         "extensions": [
@@ -25,7 +26,9 @@
             "GitHub.vscode-github-actions",
             "golang.go",
             "ms-vscode.cpptools",
-            "ms-vscode.makefile-tools"
+            "ms-vscode.makefile-tools",
+            "mtxr.sqltools",
+            "mtxr.sqltools-driver-pg"
         ]
     }
   }
