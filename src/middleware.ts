@@ -3,11 +3,11 @@ import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import type { NextRequest } from 'next/server'
 
-// This function can be marked `async` if using `await` inside
 export const middleware = async (request: NextRequest) => {
-  const { origin } = request.nextUrl
+  const { origin, protocol, host } = request.nextUrl
+  const baseUrl = request.headers.get('x-original-proto') === 'http' && protocol === 'https:' ? `http://${host}`: origin 
 
-  const res = await fetch(`${origin}/api/auth/session`, {
+  const res = await fetch(`${baseUrl}/api/auth/session`, {
     headers: {
       cookie: headers().get('cookie') ?? ''
     },
