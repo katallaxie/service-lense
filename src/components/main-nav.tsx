@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { headers } from 'next/headers'
 
 import { cn } from '@/lib/utils'
+import { buttonVariants } from '@/components/ui/button'
 
 const nav = [
   {
@@ -23,10 +24,6 @@ const nav = [
   {
     name: 'Profiles',
     link: '/dashboard/profiles'
-  },
-  {
-    name: 'Settings',
-    link: '/dashboard/settings'
   }
 ]
 
@@ -34,8 +31,8 @@ export function MainNav({
   className,
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
-  // const heads = headers()
-  // const pathname = heads.get('next-url') ?? ''
+  const headerList = headers()
+  const pathname = headerList.get('x-pathname')
 
   return (
     <nav
@@ -47,7 +44,9 @@ export function MainNav({
           key={idx}
           href={item.link}
           className={cn(
-            'text-sm font-medium transition-colors hover:text-primary'
+            buttonVariants({ variant: 'ghost' }),
+            'hover:bg-transparent hover:bg-muted hover:rounded',
+            'justify-start'
           )}
         >
           {item.name}

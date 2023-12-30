@@ -15,23 +15,15 @@ type PageProps = {
 const sidebarNavItems = [
   {
     title: 'Profile',
-    href: '/examples/forms'
-  },
-  {
-    title: 'Account',
-    href: '/examples/forms/account'
+    href: '/account'
   },
   {
     title: 'Appearance',
-    href: '/examples/forms/appearance'
+    href: '/account/appearance'
   },
   {
     title: 'Notifications',
-    href: '/examples/forms/notifications'
-  },
-  {
-    title: 'Display',
-    href: '/examples/forms/display'
+    href: '/account/notifications'
   }
 ]
 

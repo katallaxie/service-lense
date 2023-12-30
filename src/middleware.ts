@@ -5,7 +5,13 @@ import type { NextRequest } from 'next/server'
 
 export const middleware = async (request: NextRequest) => {
   const { origin, protocol, host } = request.nextUrl
-  const baseUrl = request.headers.get('x-original-proto') === 'http' && protocol === 'https:' ? `http://${host}`: origin 
+  const baseUrl =
+    request.headers.get('x-original-proto') === 'http' && protocol === 'https:'
+      ? `http://${host}`
+      : origin
+
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-pathname', request.nextUrl.pathname)
 
   const res = await fetch(`${baseUrl}/api/auth/session`, {
     headers: {
@@ -21,6 +27,12 @@ export const middleware = async (request: NextRequest) => {
   if (pathname != '/login' && !isLoggedIn) {
     return NextResponse.redirect(new URL('/login', origin))
   }
+
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders
+    }
+  })
 }
 
 export const config = {

@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '@/components/ui/button'
+import { headers } from 'next/headers'
 
 export type SidebarItem = {
   href: string
@@ -13,6 +14,9 @@ export interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
+  const headerList = headers()
+  const pathname = headerList.get('x-pathname')
+
   return (
     <aside
       className={cn(
@@ -27,7 +31,9 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
           href={item.href}
           className={cn(
             buttonVariants({ variant: 'ghost' }),
-            'hover:bg-transparent hover:bg-muted hover:rounded',
+            pathname === item.href
+              ? 'bg-muted hover:bg-muted'
+              : 'hover:bg-transparent hover:bg-muted hover:rounded',
             'justify-start'
           )}
         >

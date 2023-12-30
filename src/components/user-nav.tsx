@@ -49,7 +49,7 @@ export function UserNav() {
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>{' '}
           <DropdownMenuItem>
-            <Link href={'/account'} scroll={true}>
+            <Link href={'/dashboard/settings'} scroll={true}>
               Settings
             </Link>
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
