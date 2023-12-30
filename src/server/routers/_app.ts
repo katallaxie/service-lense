@@ -43,9 +43,7 @@ export const appRouter = router({
     return "Cool, you're authenticated!"
   }),
 
-  me: publicProcedure.query(opts => {
-    return opts.ctx.session
-  }),
+  me: publicProcedure.query(opts => opts.ctx.session),
 
   addSolution,
   deleteLens,

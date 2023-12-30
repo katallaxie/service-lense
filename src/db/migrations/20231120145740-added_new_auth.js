@@ -62,7 +62,7 @@ module.exports = {
       token_type: {
         type: Sequelize.TEXT
       }
-    })    
+    })
 
     await queryInterface.createTable('sessions', {
       id: {

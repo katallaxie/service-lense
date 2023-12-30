@@ -1,22 +1,11 @@
-import {
-  SubNav,
-  SubNavTitle,
-  SubNavActions,
-  SubNavSubtitle
-} from '@/components/sub-nav'
-import { SidebarNav } from '@/components/sidebar-nav'
-import { Separator } from '@/components/ui/separator'
+import { PropsWithChildren } from 'react'
 import { ProfileForm } from './components/profile-form'
-import { Main } from '@/components/main'
+import { api } from '@/trpc/server-invoker'
 
-type PageProps = {
-  children: React.ReactNode
-}
+type PageProps = {}
 
-export default function Page({ children }: PageProps) {
-  return (
-    <>
-      <ProfileForm />
-    </>
-  )
+export default async function Page({ children }: PropsWithChildren<PageProps>) {
+  const me = await api.me.query()
+
+  return <>{me && <ProfileForm session={me} />}</>
 }
