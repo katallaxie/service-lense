@@ -5,6 +5,7 @@ import {
   SubNavSubtitle
 } from '@/components/sub-nav'
 import { SidebarNav } from '@/components/sidebar-nav'
+import { Main } from '@/components/main'
 import DefaultLayout from '@/components/default-layout'
 
 type PageProps = {
@@ -47,16 +48,14 @@ export default function Layout({ children }: PageProps) {
           </SubNavTitle>
           <SubNavActions></SubNavActions>
         </SubNav>
-        <main className="p-8">
+        <Main className="p-8">
           <div className="flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0">
-            <aside className="-mx-4 lg:w-1/5">
-              <SidebarNav items={sidebarNavItems} />
-            </aside>
+            <SidebarNav items={sidebarNavItems} />
             <div className="flex-1 lg:max-w-2xl">
               <div className="space-y-6">{children}</div>
             </div>
           </div>
-        </main>
+        </Main>
       </DefaultLayout>
     </>
   )

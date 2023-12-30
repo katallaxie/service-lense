@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react'
 
-export type MainProps = {}
+export interface MainProps extends React.HTMLAttributes<HTMLElement> {}
 
-export function Main({ children }: PropsWithChildren<MainProps>) {
-  return <main>{children}</main>
+export function Main({ children, ...props }: PropsWithChildren<MainProps>) {
+  return <main {...props}>{children}</main>
 }
