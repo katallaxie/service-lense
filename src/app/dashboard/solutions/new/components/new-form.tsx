@@ -17,14 +17,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { rhfActionSchema } from './new-form.schema'
 import { rhfAction } from './new-form.action'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
+import { z } from 'zod'
 import { useAction } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
 import { SolutionTemplate } from '@/db/models/solution-templates'
 import Markdown from 'react-markdown'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
 
 export type NewSolutionFormProps = {
   className?: string

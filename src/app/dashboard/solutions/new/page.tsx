@@ -8,14 +8,19 @@ import { Section } from '@/components/section'
 import { NewSolutionForm } from './components/new-form'
 import { api } from '@/trpc/server-invoker'
 import { SolutionTemplate } from '@/db/models/solution-templates'
+import { PropsWithChildren } from 'react'
 
 export type PageProps = {
-  children?: React.ReactNode
   searchParams: { template: string }
 }
 
-export default async function Page({ searchParams, children }: PageProps) {
-  const template = await api.getSolutionTemplate.query(searchParams.template)
+export default async function Page({
+  searchParams
+}: PropsWithChildren<PageProps>) {
+  const template =
+    searchParams.template === '_blank'
+      ? new SolutionTemplate()
+      : await api.getSolutionTemplate.query(searchParams.template)
 
   return (
     <>
