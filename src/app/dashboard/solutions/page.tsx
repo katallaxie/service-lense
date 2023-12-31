@@ -1,4 +1,3 @@
-import { Table } from './components/table'
 import { AddSolution } from './components/add-solution'
 import {
   SubNav,
@@ -6,31 +5,27 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
-import { DataTableProvider } from '@/components/data-table-context'
-import { api } from '@/trpc/server-http'
+import DataTable from './components/data-context'
+import { PropsWithChildren } from 'react'
 
-export type PageProps = {
-  children?: React.ReactNode
-}
+export interface PageProps {}
 
-export default async function Page({ children }: PageProps) {
-  const templates = await api.findSolutionTemplates.query({})
-
+export default function Page({ ...props }: PropsWithChildren<PageProps>) {
   return (
     <>
       <SubNav>
         <SubNavTitle>
           Solutions
-          <SubNavSubtitle>Design, discuss, review, and build.</SubNavSubtitle>
+          <SubNavSubtitle>
+            Design, review, and execute solutions.
+          </SubNavSubtitle>
         </SubNavTitle>
         <SubNavActions>
-          <AddSolution templates={templates.rows} />
+          <AddSolution />
         </SubNavActions>
       </SubNav>
       <section>
-        <DataTableProvider>
-          <Table />
-        </DataTableProvider>
+        <DataTable />
       </section>
     </>
   )

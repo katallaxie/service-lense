@@ -6,7 +6,7 @@ import { buttonVariants } from '@/components/ui/button'
 
 const nav = [
   {
-    name: 'Dasbboard',
+    name: 'Dashboard',
     link: '/dashboard'
   },
   {
