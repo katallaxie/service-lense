@@ -16,7 +16,7 @@ import { User } from './users'
 import { Solution } from '..'
 
 export interface SolutionCommentAttributes {
-  id: number
+  id: bigint
   body: string
   userId: string
   solutionId: string

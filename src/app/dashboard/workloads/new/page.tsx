@@ -3,12 +3,7 @@ import { Section } from '@/components/section'
 import { NewProfilesForm } from './components/new-form'
 import { Suspense } from 'react'
 
-export type PageProps = {
-  children?: React.ReactNode
-  searchParams: { template: string }
-}
-
-export default function Page({ searchParams, children }: PageProps) {
+export default function Page() {
   return (
     <>
       <SubNav>

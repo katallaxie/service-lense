@@ -1,6 +1,4 @@
-import { DataTableProvider } from '@/components/data-table-context'
 import { Separator } from '@/components/ui/separator'
-import EnvironmentsDataTable from './components/data-table'
 
 export default function Page() {
   return (
@@ -12,11 +10,6 @@ export default function Page() {
         </p>
       </div>
       <Separator />
-      <DataTableProvider>
-        <EnvironmentsDataTable />
-        {/* <Separator />
-        <EnvironmentsForm /> */}
-      </DataTableProvider>
     </div>
   )
 }

@@ -6,11 +6,8 @@ import {
   SubNavSubtitle
 } from '@/components/sub-nav'
 import DataTable from './components/data-context'
-import { PropsWithChildren } from 'react'
 
-export interface PageProps {}
-
-export default function Page({ ...props }: PropsWithChildren<PageProps>) {
+export default function Page() {
   return (
     <>
       <SubNav>

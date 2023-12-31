@@ -9,11 +9,7 @@ export const metadata: Metadata = {
   description: 'Root'
 }
 
-type RootProps = {
-  children: React.ReactNode
-}
-
-export default async function Root({ children }: RootProps) {
+export default async function Root() {
   const session = await auth()
 
   if (session !== null) {

@@ -37,13 +37,13 @@ export type RowBuilder<TData> = (row: Row<TData>) => React.ReactNode
 export function DataTableRowActions<TData>({
   row
 }: DataTableRowActionsProps<TData>) {
-  const id = row.getValue('id') as string
+  const id = row.getValue('id') as bigint
   const deleteAction = useAction(rhfActionDeleteTemplate)
   const makeCopyAction = useAction(rhfActionMakeCopyTemplate)
 
   const [isTransitionStarted, startTransition] = useTransition()
 
-  const onMakeCopy = (id: string) => {
+  const onMakeCopy = (id: bigint) => {
     startTransition(() => {
       makeCopyAction.mutateAsync(id)
     })

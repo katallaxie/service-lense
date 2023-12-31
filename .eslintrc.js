@@ -1,6 +1,7 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   extends: ['next', 'next/core-web-vitals', 'plugin:prettier/recommended'],
+  ignorePatterns: ['src/components/ui/**/*.ts', 'src/components/ui/**/*.tsx'],
   overrides: [
     {
       files: ['**/*.tsx'],

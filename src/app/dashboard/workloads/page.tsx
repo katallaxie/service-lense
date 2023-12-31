@@ -7,11 +7,7 @@ import {
 } from '@/components/sub-nav'
 import DataTable from './components/data-table-context'
 
-export type PageProps = {
-  children?: React.ReactNode
-}
-
-export default function Page({ children }: PageProps) {
+export default function Page() {
   return (
     <>
       <SubNav>

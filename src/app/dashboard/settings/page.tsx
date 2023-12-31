@@ -1,11 +1,7 @@
 import { Separator } from '@/components/ui/separator'
 import { GeneralForm } from './components/general-form'
 
-type PageProps = {
-  children: React.ReactNode
-}
-
-export default function Page({ children }: PageProps) {
+export default function Page() {
   return (
     <>
       <div>

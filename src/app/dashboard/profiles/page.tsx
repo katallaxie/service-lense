@@ -8,11 +8,7 @@ import {
 import { AddProfileButton } from './components/add-button'
 import DataTable from './components/data-table-context'
 
-type PageProps = {
-  children: React.ReactNode
-}
-
-export default function Page({ children }: PageProps) {
+export default function Page() {
   return (
     <>
       <SubNav>

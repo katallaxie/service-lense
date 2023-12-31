@@ -14,7 +14,7 @@ import {
 } from 'sequelize-typescript'
 
 export interface SolutionTemplateAttributes {
-  id: number
+  id: bigint
   title: string
   body?: string
   description?: string

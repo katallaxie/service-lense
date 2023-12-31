@@ -10,14 +10,9 @@ import {
   ForeignKey,
   AutoIncrement,
   NotEmpty,
-  Min,
-  Max,
-  BelongsTo,
-  AllowNull,
-  Default
+  AllowNull
 } from 'sequelize-typescript'
 import { LensPillar } from '..'
-import { columns } from '@/app/dashboard/solutions/components/data'
 
 export interface LensPillarResourceAttributes {
   id: string

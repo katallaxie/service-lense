@@ -16,7 +16,9 @@ import {
   SolutionGetSchema,
   SolutionCommentDeleteSchema,
   SolutionTemplateListSchema,
-  SolutionTemplateGetSchema
+  SolutionTemplateGetSchema,
+  SolutionDeleteSchema,
+  SolutionTemplateDeleteSchema
 } from '../schemas/solution'
 
 export const listSolutions = protectedProcedure
@@ -53,5 +55,5 @@ export const totalSolutions = protectedProcedure.query(
 )
 
 export const deleteSolutionTemplate = protectedProcedure
-  .input(SolutionCommentDeleteSchema)
+  .input(SolutionTemplateDeleteSchema)
   .query(async opts => await destroySolutionTemplate(opts.input))

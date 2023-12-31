@@ -24,11 +24,7 @@ export const metadata: Metadata = {
   description: 'Dashboard'
 }
 
-type PageProps = {
-  children: React.ReactNode
-}
-
-export default async function Page({ children }: PageProps) {
+export default async function Page() {
   return (
     <>
       <SubNav>

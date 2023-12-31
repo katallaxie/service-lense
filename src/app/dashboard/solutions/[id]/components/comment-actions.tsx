@@ -8,11 +8,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { SolutionComment } from '@/db/models/solution-comments'
@@ -25,6 +21,7 @@ interface CommentActionsProps {
 
 export function CommentActions<TData>({ comment }: CommentActionsProps) {
   const mutation = useAction(rhfDeleteCommentAction)
+
   const handleDelete = async (
     data: z.infer<typeof rhfDeleteCommentActionSchema>
   ) => await mutation.mutateAsync(data)

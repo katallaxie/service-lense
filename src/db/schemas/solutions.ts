@@ -12,9 +12,9 @@ export const SolutionCommentAddSchema = z.object({
   userId: z.string(),
   body: z.string().min(1)
 })
-export const SolutionCommentDeleteSchema = z.string()
+export const SolutionCommentDeleteSchema = z.bigint()
 export const FindAndCountSolutionTemplates = PaginationSchema
 export const FindOneSolutionTemplate = z.string()
 export const DestroySolutionSchema = z.string()
-export const DestroySolutionTemplateSchema = z.string()
-export const MakeCopySolutionTemplateSchema = z.string()
+export const DestroySolutionTemplateSchema = z.bigint()
+export const MakeCopySolutionTemplateSchema = z.bigint()

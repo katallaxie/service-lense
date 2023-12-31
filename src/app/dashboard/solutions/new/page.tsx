@@ -14,9 +14,7 @@ export type PageProps = {
   searchParams: { template: string }
 }
 
-export default async function Page({
-  searchParams
-}: PropsWithChildren<PageProps>) {
+export default async function Page({ searchParams }: PageProps) {
   const template =
     searchParams.template === '_blank'
       ? new SolutionTemplate()
