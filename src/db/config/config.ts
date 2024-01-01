@@ -82,7 +82,7 @@ export const config: Config = {
     dialect: 'postgres',
     dialectModule: require('pg'),
     dialectOptions: {
-      ssl: true
+      ssl: false
     },
     models
   }

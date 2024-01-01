@@ -16,7 +16,9 @@ export const rhfAction = createAction(
       ...opts.input,
       userId: user!.id
     })
-    revalidatePath('/dashboard/workloads')
+
+    revalidatePath('/dashboard/solutions/[id]', 'page')
+
     return comment
   })
 )

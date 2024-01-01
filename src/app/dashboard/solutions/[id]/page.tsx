@@ -34,7 +34,6 @@ export default async function Page({ params }: PageProps) {
   const processedContent = await remark()
     .use(html)
     .process(solution?.body ?? '')
-  const contentHtml = processedContent.toString()
 
   return (
     <>

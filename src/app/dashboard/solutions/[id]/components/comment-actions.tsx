@@ -19,7 +19,7 @@ interface CommentActionsProps {
   comment?: SolutionComment
 }
 
-export function CommentActions<TData>({ comment }: CommentActionsProps) {
+export function CommentActions({ comment }: CommentActionsProps) {
   const mutation = useAction(rhfDeleteCommentAction)
 
   const handleDelete = async (

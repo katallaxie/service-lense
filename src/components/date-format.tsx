@@ -15,14 +15,9 @@ export type DateFormatProps = {
 export default function DateFormat({
   date = new Date(Date.now()),
   placeholder = '-',
-  format = defaultFormat,
-  ...props
+  format = defaultFormat
 }: DateFormatProps) {
   const formattedDate = date.toLocaleDateString('en-US', format)
 
-  return (
-    <>
-      <p {...props}>{formattedDate ?? placeholder}</p>
-    </>
-  )
+  return <>{formattedDate ?? placeholder}</>
 }

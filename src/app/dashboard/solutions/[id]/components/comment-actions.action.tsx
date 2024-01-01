@@ -10,6 +10,6 @@ export const rhfDeleteCommentAction = createAction(
     .input(rhfDeleteCommentActionSchema)
     .mutation(async opts => {
       await deleteSolutionComment(opts.input)
-      revalidatePath('/dashboard/workloads')
+      revalidatePath('/dashboard/solutions/[id]', 'page')
     })
 )

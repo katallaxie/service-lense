@@ -1,3 +1,3 @@
 import { z } from 'zod'
 
-export const rhfDeleteCommentActionSchema = z.bigint()
+export const rhfDeleteCommentActionSchema = z.coerce.bigint()
