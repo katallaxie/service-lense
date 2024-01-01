@@ -13,10 +13,8 @@ import {
   Max,
   Default,
   AllowNull,
-  HasMany,
   BelongsToMany,
-  Unique,
-  NotNull
+  Unique
 } from 'sequelize-typescript'
 import { Workload } from './workload'
 import { LensPillarQuestion, LensPillarChoice, WorkloadLens } from '..'
@@ -75,7 +73,11 @@ export class WorkloadLensesAnswer extends Model<
   @Column
   doesNotApplyReason?: string
 
-  @BelongsToMany(() => LensPillarChoice, () => WorkloadLensesAnswerChoice)
+  @BelongsToMany(
+    () => LensPillarChoice,
+    () => WorkloadLensesAnswerChoice,
+    'answerId'
+  )
   lensChoices?: LensPillarChoice[]
 
   @CreatedAt

@@ -43,8 +43,8 @@ export class ProfileQuestionChoice extends Model<
   id!: string
 
   @ForeignKey(() => ProfileQuestion)
-  @Column(DataType.INTEGER)
-  questionId?: string
+  @Column(DataType.BIGINT)
+  questionId?: bigint
 
   @NotEmpty
   @Min(3)

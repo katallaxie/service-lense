@@ -47,7 +47,7 @@ export function UserNav() {
               Profile
             </Link>
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>{' '}
+          </DropdownMenuItem>
           <DropdownMenuItem>
             <Link href={'/dashboard/settings'} scroll={true}>
               Settings

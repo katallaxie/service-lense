@@ -10,8 +10,7 @@ import {
   NotEmpty,
   Min,
   Max,
-  BelongsToMany,
-  HasMany
+  BelongsToMany
 } from 'sequelize-typescript'
 import { ProfileQuestion } from './profile-question'
 import { ProfileQuestionAnswer, ProfileQuestionChoice } from '..'

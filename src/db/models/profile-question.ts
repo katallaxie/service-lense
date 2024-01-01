@@ -11,7 +11,6 @@ import {
   Min,
   Max,
   AllowNull,
-  BelongsToMany,
   HasMany,
   Default
 } from 'sequelize-typescript'

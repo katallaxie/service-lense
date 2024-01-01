@@ -30,6 +30,8 @@ export const sequelize = new Sequelize({
   ...config[env]
 })
 
+export { Sequelize }
+
 sequelize.addModels([
   Environment,
   Lens,
