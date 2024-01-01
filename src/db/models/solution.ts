@@ -63,7 +63,7 @@ export class Solution extends Model<
   @Column
   userId?: string
 
-  @BelongsTo(() => User, 'userId')
+  @BelongsTo(() => User)
   user?: User
 
   @NotEmpty

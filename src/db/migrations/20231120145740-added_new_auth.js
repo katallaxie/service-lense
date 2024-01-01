@@ -4,30 +4,25 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('verification_token', {
-      identifier: {
-        type: Sequelize.TEXT,
-        allowNull: false,
+      token: {
+        type: Sequelize.STRING,
         primaryKey: true
       },
-      expires: {
-        type: 'TIMESTAMPTZ',
+      identifier: {
+        type: Sequelize.STRING,
         allowNull: false
       },
-      token: {
-        type: Sequelize.TEXT,
-        allowNull: false,
-        primaryKey: true
+      expires: {
+        type: Sequelize.DATE,
+        allowNull: false
       }
     })
 
     await queryInterface.createTable('accounts', {
       id: {
-        type: 'SERIAL',
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true
-      },
-      userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
       },
       type: {
         type: Sequelize.STRING,
@@ -37,68 +32,75 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      providerAccountId: {
+      provider_account_id: {
         type: Sequelize.STRING,
         allowNull: false
       },
       refresh_token: {
-        type: Sequelize.TEXT
+        type: Sequelize.STRING
       },
       access_token: {
-        type: Sequelize.TEXT
+        type: Sequelize.STRING
       },
       expires_at: {
-        type: Sequelize.BIGINT
+        type: Sequelize.INTEGER
+      },
+
+      token_type: {
+        type: Sequelize.STRING
+      },
+      scope: {
+        type: Sequelize.STRING
       },
       id_token: {
         type: Sequelize.TEXT
       },
-      scope: {
-        type: Sequelize.TEXT
-      },
       session_state: {
-        type: Sequelize.TEXT
+        type: Sequelize.STRING
       },
-      token_type: {
-        type: Sequelize.TEXT
+      user_id: {
+        type: Sequelize.UUID
       }
     })
 
     await queryInterface.createTable('sessions', {
       id: {
-        type: 'SERIAL',
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true
       },
-      userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
       expires: {
-        type: 'TIMESTAMPTZ',
+        type: Sequelize.DATE,
         allowNull: false
       },
-      sessionToken: {
+      session_token: {
         type: Sequelize.STRING,
+        unique: 'session_token',
         allowNull: false
+      },
+      user_id: {
+        type: Sequelize.UUID
       }
     })
 
     await queryInterface.createTable('users', {
       id: {
-        type: 'SERIAL',
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         primaryKey: true
       },
       name: {
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: 'email'
       },
-      emailVerified: {
-        type: 'TIMESTAMPTZ'
+      email_verified: {
+        type: Sequelize.DATE
       },
       image: {
-        type: Sequelize.TEXT
+        type: Sequelize.STRING
       }
     })
   },
@@ -107,6 +109,6 @@ module.exports = {
     await queryInterface.dropTable('verification_token')
     await queryInterface.dropTable('accounts')
     await queryInterface.dropTable('sessions')
-    await queryInterface.dropTable('users')
+    await queryInterface.dropTable('users', { cascade: true })
   }
 }

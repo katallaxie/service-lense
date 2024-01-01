@@ -54,7 +54,7 @@ export class SolutionComment extends Model<
   @Column(DataType.INTEGER)
   userId?: string
 
-  @BelongsTo(() => User, 'userId')
+  @BelongsTo(() => User)
   user?: User
 
   @CreatedAt

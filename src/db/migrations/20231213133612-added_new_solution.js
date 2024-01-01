@@ -20,7 +20,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'users',
           key: 'id'
@@ -50,7 +50,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         references: {
           model: 'users',
           key: 'id'

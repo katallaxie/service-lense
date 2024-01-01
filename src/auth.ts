@@ -1,8 +1,13 @@
 import NextAuth from 'next-auth'
 import providers from './providers'
-import PostgresAdapter from '@auth/pg-adapter'
+import SequelizeAdapter from '@auth/sequelize-adapter'
 import type { DefaultSession } from 'next-auth'
-import { Pool } from 'pg'
+import sequelize from '@/db/config/config'
+
+const env = process.env.NODE_ENV || 'development'
+const isProduction = env === 'production'
+
+const adapter = SequelizeAdapter(sequelize)
 
 declare module 'next-auth' {
   interface Session {
@@ -12,22 +17,13 @@ declare module 'next-auth' {
   }
 }
 
-const pool = new Pool({
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000
-})
-
 export const {
   handlers: { GET, POST },
   auth
 } = NextAuth({
   providers,
-  adapter: PostgresAdapter(pool),
+  adapter,
+  debug: !isProduction,
   pages: {
     signIn: '/login'
   },

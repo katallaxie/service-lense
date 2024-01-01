@@ -5,7 +5,8 @@ import {
   PrimaryKey,
   DataType,
   AutoIncrement,
-  Unique
+  Unique,
+  Default
 } from 'sequelize-typescript'
 
 export interface UserAttributes {
@@ -20,12 +21,14 @@ export type UserCreationAttributes = Omit<UserAttributes, 'id'>
 
 @Table({
   tableName: 'users',
-  timestamps: false
+  timestamps: false,
+  underscored: true
 })
 export class User extends Model<UserAttributes, UserCreationAttributes> {
   @PrimaryKey
   @AutoIncrement
-  @Column(DataType.INTEGER)
+  @Default(DataType.UUIDV4)
+  @Column(DataType.UUIDV4)
   id!: string
 
   @Column
