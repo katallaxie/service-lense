@@ -3,7 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
 import Link from 'next/link'
-import { Solution } from '@/db'
+import { Solution } from '@/db/models/solution'
 import { DataTableColumnHeader } from '@/components/data-table-column-header'
 import { DataTableRowActions } from '@/app/dashboard/solutions/components/data-rows-actions'
 import { buttonVariants } from '@/components/ui/button'

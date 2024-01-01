@@ -2,7 +2,7 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Lens } from '@/db'
+import { Lens } from '@/db/models/lens'
 import { DataTableColumnHeader } from '@/components/data-table-column-header'
 import { DataTableRowActions } from '@/app/dashboard/lenses/components/data-rows-actions'
 import { buttonVariants } from '@/components/ui/button'

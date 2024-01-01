@@ -44,8 +44,8 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useAction } from '@/trpc/client'
 import { rhfAction } from './question-form.action'
-import { WorkloadLensesAnswer, LensPillarQuestion } from '@/db'
-import { Separator } from '@/components/ui/separator'
+import { WorkloadLensesAnswer } from '@/db/models/workload-lenses-answers'
+import { LensPillarQuestion } from '@/db/models/lens-pillar-questions'
 
 export type QuestionFormFactoryProps = {
   className?: string

@@ -5,7 +5,7 @@ import { createAction, protectedProcedure } from '@/server/trpc'
 import { rhfActionSchema } from './new-form.schema'
 import { addSolution } from '@/db/services/solutions'
 import { v4 as uuidv4 } from 'uuid'
-import { User } from '@/db'
+import { User } from '@/db/models/users'
 
 export const rhfAction = createAction(
   protectedProcedure.input(rhfActionSchema).mutation(async opts => {

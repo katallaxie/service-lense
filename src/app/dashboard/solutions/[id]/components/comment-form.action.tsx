@@ -2,7 +2,7 @@
 
 import { createAction, protectedProcedure } from '@/server/trpc'
 import { rhfActionSchema } from './comment-form.schema'
-import { User } from '@/db'
+import { User } from '@/db/models/users'
 import { addSolutionComment } from '@/db/services/solutions'
 import { revalidatePath } from 'next/cache'
 
