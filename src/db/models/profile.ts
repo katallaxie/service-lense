@@ -56,7 +56,7 @@ export class Profile extends Model<
     () => ProfileQuestionChoice,
     () => ProfileQuestionAnswer,
     'profileId',
-    'profileQuestionChoiceId'
+    'choiceId'
   )
   answers?: ProfileQuestionChoice[]
 
