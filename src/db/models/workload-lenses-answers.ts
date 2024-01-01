@@ -77,7 +77,8 @@ export class WorkloadLensesAnswer extends Model<
   @BelongsToMany(
     () => LensPillarChoice,
     () => WorkloadLensesAnswerChoice,
-    'answerId'
+    'answerId',
+    'choiceId'
   )
   lensChoices?: LensPillarChoice[]
 

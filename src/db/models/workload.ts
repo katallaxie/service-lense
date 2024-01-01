@@ -69,10 +69,15 @@ export class Workload extends Model<
   @BelongsTo(() => Profile)
   profile?: Profile
 
-  @BelongsToMany(() => Lens, () => WorkloadLens, 'workloadId')
+  @BelongsToMany(() => Lens, () => WorkloadLens, 'workloadId', 'lensId')
   lenses?: Lens[]
 
-  @BelongsToMany(() => Environment, () => WorkloadEnvironment, 'workloadId')
+  @BelongsToMany(
+    () => Environment,
+    () => WorkloadEnvironment,
+    'workloadId',
+    'environmentId'
+  )
   environments?: Environment[]
 
   @HasMany(() => WorkloadLens, 'workloadId')

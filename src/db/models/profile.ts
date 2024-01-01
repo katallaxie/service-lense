@@ -55,7 +55,8 @@ export class Profile extends Model<
   @BelongsToMany(
     () => ProfileQuestionChoice,
     () => ProfileQuestionAnswer,
-    'profileId'
+    'profileId',
+    'profileQuestionChoiceId'
   )
   answers?: ProfileQuestionChoice[]
 
