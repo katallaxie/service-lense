@@ -1,20 +1,18 @@
-import {
-  Profile,
-  Workload,
-  WorkloadEnvironment,
-  Environment,
-  Lens,
-  LensPillar,
-  LensPillarQuestion,
-  LensPillarChoice,
-  WorkloadLens,
-  WorkloadLensesAnswer,
-  WorkloadLensesAnswerChoice
-} from '..'
+import { Profile } from '@/db/models/profile'
+import { WorkloadLensesAnswer } from '@/db/models/workload-lenses-answers'
+import { LensPillarChoice } from '@/db/models/lens-pillar-choices'
+import { Workload } from '@/db/models/workload'
+import { WorkloadEnvironment } from '@/db/models/workload-environment'
+import { Lens } from '@/db/models/lens'
+import { WorkloadLens } from '@/db/models/workload-lens'
+import { Environment } from '@/db/models/environment'
+import { LensPillar } from '@/db/models/lens-pillars'
+import { LensPillarQuestion } from '@/db/models/lens-pillar-questions'
+import { WorkloadLensesAnswerChoice } from '@/db/models/workload-lenses-answers-choices'
 import { v4 as uuidv4 } from 'uuid'
 import { z } from 'zod'
 import type { WorkloadCreationAttributes } from '../models/workload'
-import { sequelize } from '..'
+import sequelize from '../config/config'
 import {
   WorkloadLensQuestionSchema,
   WorkloadGetLensAnswer,

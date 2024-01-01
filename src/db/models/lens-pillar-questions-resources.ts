@@ -15,7 +15,7 @@ import {
   AllowNull,
   Default
 } from 'sequelize-typescript'
-import { LensPillar } from '..'
+import { LensPillar } from '@/db/models/lens-pillars'
 
 export interface LensPillarQuestionResourceAttributes {
   id: string

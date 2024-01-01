@@ -17,7 +17,7 @@ import {
 import { LensPillar } from './lens-pillars'
 import { LensPillarChoice } from './lens-pillar-choices'
 import { LensPillarQuestionRisk } from './lens-pillar-risks'
-import { LensPillarQuestionResource } from '..'
+import { LensPillarQuestionResource } from '@/db/models/lens-pillar-questions-resources'
 
 export interface LensPillarQuestionAttributes {
   id: bigint

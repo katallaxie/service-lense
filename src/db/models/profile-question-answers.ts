@@ -10,7 +10,8 @@ import {
   UpdatedAt,
   ForeignKey
 } from 'sequelize-typescript'
-import { Profile, ProfileQuestionChoice } from '..'
+import { Profile } from '@/db/models/profile'
+import { ProfileQuestionChoice } from '@/db/models/profile-question-choice'
 
 export interface ProfileQuestionAnswerAttributes {
   id: number

@@ -1,4 +1,4 @@
-import { Environment } from '..'
+import { Environment } from '@/db/models/environment'
 import { v4 as uuidv4 } from 'uuid'
 import type { EnvironmentCreationAttributes } from '../models/environment'
 import { FindAndCountEnvironmentsSchema } from '../schemas/environments'

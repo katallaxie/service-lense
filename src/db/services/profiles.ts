@@ -1,11 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'
-import {
-  Profile,
-  ProfileQuestion,
-  ProfileQuestionAnswer,
-  ProfileQuestionChoice,
-  sequelize
-} from '..'
+import { Profile } from '@/db/models/profile'
+import { ProfileQuestion } from '@/db/models/profile-question'
+import { ProfileQuestionAnswer } from '@/db/models/profile-question-answers'
+import { ProfileQuestionChoice } from '@/db/models/profile-question-choice'
 import {
   FindAndCountProfilesSchema,
   FindOneProfileSchema,
@@ -14,6 +11,7 @@ import {
   DestroyProfileSchema
 } from '../schemas/profiles'
 import { z } from 'zod'
+import sequelize from '@/db/config/config'
 
 export type Pagination = {
   offset?: number

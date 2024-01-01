@@ -13,7 +13,7 @@ import {
   NotEmpty,
   ForeignKey
 } from 'sequelize-typescript'
-import { ProfileQuestion } from '..'
+import { ProfileQuestion } from '@/db/models/profile-question'
 
 export interface ProfileQuestionChoiceAttributes {
   id: number

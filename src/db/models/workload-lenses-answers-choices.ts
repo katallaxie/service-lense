@@ -10,7 +10,8 @@ import {
   AutoIncrement,
   Unique
 } from 'sequelize-typescript'
-import { LensPillarChoice, WorkloadLensesAnswer } from '..'
+import { WorkloadLensesAnswer } from '@/db/models/workload-lenses-answers'
+import { LensPillarChoice } from '@/db/models/lens-pillar-choices'
 
 export interface WorkloadLensesAnswerChoiceAttributes {
   id: string

@@ -13,7 +13,7 @@ import {
   BelongsTo
 } from 'sequelize-typescript'
 import { User } from './users'
-import { Solution } from '..'
+import { Solution } from '@/db/models/solution'
 
 export interface SolutionCommentAttributes {
   id: bigint

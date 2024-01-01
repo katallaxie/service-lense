@@ -14,7 +14,7 @@ import {
   HasMany,
   Default
 } from 'sequelize-typescript'
-import { ProfileQuestionChoice } from '..'
+import { ProfileQuestionChoice } from '@/db/models/profile-question-choice'
 
 export interface ProfileQuestionAttributes {
   id: string

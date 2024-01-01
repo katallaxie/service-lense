@@ -1,11 +1,9 @@
 import { v4 as uuidv4 } from 'uuid'
-import {
-  Lens,
-  LensPillar,
-  LensPillarChoice,
-  LensPillarQuestion,
-  LensPillarQuestionResource
-} from '..'
+import { Lens } from '@/db/models/lens'
+import { LensPillar } from '@/db/models/lens-pillars'
+import { LensPillarChoice } from '@/db/models/lens-pillar-choices'
+import { LensPillarQuestion } from '@/db/models/lens-pillar-questions'
+import { LensPillarQuestionResource } from '@/db/models/lens-pillar-questions-resources'
 import { Spec } from '@/db/schemas/spec'
 import {
   LensesGetSchema,
@@ -13,7 +11,7 @@ import {
   LensesPublishSchema,
   LensesGetQuestionSchema
 } from '../schemas/lenses'
-import { sequelize } from '..'
+import sequelize from '@/db/config/config'
 import { z } from 'zod'
 import { LensPillarResource } from '../models/lens-pillar-resources'
 

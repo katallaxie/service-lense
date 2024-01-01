@@ -12,7 +12,7 @@ import {
   NotEmpty,
   AllowNull
 } from 'sequelize-typescript'
-import { LensPillarChoice } from '..'
+import { LensPillarChoice } from '@/db/models/lens-pillar-choices'
 
 export interface LensPillarChoiceResourceAttributes {
   id: string

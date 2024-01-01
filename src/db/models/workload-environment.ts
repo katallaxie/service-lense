@@ -11,7 +11,7 @@ import {
   UpdatedAt
 } from 'sequelize-typescript'
 import { Workload } from './workload'
-import { Environment } from '..'
+import { Environment } from '@/db/models/environment'
 
 export interface WorkloadEnvironmentAttributes {
   id: number

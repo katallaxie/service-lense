@@ -12,8 +12,8 @@ import {
   Max,
   BelongsToMany
 } from 'sequelize-typescript'
-import { ProfileQuestion } from './profile-question'
-import { ProfileQuestionAnswer, ProfileQuestionChoice } from '..'
+import { ProfileQuestionAnswer } from '@/db/models/profile-question-answers'
+import { ProfileQuestionChoice } from '@/db/models/profile-question-choice'
 
 export interface ProfileAttributes {
   id: string
