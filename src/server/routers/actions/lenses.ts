@@ -11,6 +11,7 @@ import {
   findOneLensPillarQuestion,
   findAndCountLenses
 } from '@/db/services/lenses'
+import { router } from '@/server/trpc'
 
 export const deleteLens = protectedProcedure
   .input(LensDeleteSchema)
@@ -27,3 +28,10 @@ export const getLensQuestion = protectedProcedure
 export const listLenses = protectedProcedure
   .input(LensListSchema)
   .query(async opts => await findAndCountLenses({ ...opts.input }))
+
+export const lensRouter = router({
+  delete: deleteLens,
+  get: getLens,
+  getQuestion: getLensQuestion,
+  list: listLenses
+})

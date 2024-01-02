@@ -1,10 +1,12 @@
-import { loggerLink } from '@trpc/client'
-import { experimental_nextCacheLink } from '@trpc/next/app-dir/links/nextCache'
-import { experimental_createTRPCNextAppDirServer } from '@trpc/next/app-dir/server'
-import { auth } from '@/auth'
 import { appRouter } from '@/server/routers/_app'
+import { auth } from '@/auth'
 import { cookies } from 'next/headers'
+import { experimental_createTRPCNextAppDirServer } from '@trpc/next/app-dir/server'
+import { experimental_nextCacheLink } from '@trpc/next/app-dir/links/nextCache'
+import { loggerLink } from '@trpc/client'
+import { type inferRouterInputs, type inferRouterOutputs } from '@trpc/server'
 import SuperJSON from 'superjson'
+import type { AppRouter } from '@/server/routers/_app'
 
 export const api = experimental_createTRPCNextAppDirServer<typeof appRouter>({
   config() {
@@ -12,7 +14,9 @@ export const api = experimental_createTRPCNextAppDirServer<typeof appRouter>({
       transformer: SuperJSON,
       links: [
         loggerLink({
-          enabled: op => true
+          enabled: opts =>
+            process.env.NODE_ENV === 'development' ||
+            (opts.direction === 'down' && opts.result instanceof Error)
         }),
         experimental_nextCacheLink({
           // requests are cached for 5 seconds
@@ -32,3 +36,6 @@ export const api = experimental_createTRPCNextAppDirServer<typeof appRouter>({
     }
   }
 })
+
+export type RouterInputs = inferRouterInputs<AppRouter>
+export type RouterOutputs = inferRouterOutputs<AppRouter>

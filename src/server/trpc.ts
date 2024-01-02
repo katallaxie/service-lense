@@ -8,8 +8,7 @@ import type { Context } from './context'
 
 const t = initTRPC.context<Context>().create({
   transformer: superjson,
-  errorFormatter(opts) {
-    const { shape, error } = opts
+  errorFormatter({ shape, error }) {
     return {
       ...shape,
       data: {
@@ -26,8 +25,8 @@ const t = initTRPC.context<Context>().create({
 export const router = t.router
 export const publicProcedure = t.procedure
 
-export const protectedProcedure = publicProcedure.use(opts => {
-  const { session } = opts.ctx
+const isAuthenticated = t.middleware(async ({ ctx, next }) => {
+  const { session } = ctx
 
   if (!session?.user) {
     throw new TRPCError({
@@ -35,8 +34,10 @@ export const protectedProcedure = publicProcedure.use(opts => {
     })
   }
 
-  return opts.next({ ctx: { session } })
+  return next({ ctx: { session } })
 })
+
+export const protectedProcedure = publicProcedure.use(isAuthenticated)
 
 export const createAction = experimental_createServerActionHandler(t, {
   async createContext() {
