@@ -2,7 +2,6 @@ import { Session } from 'next-auth'
 import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import type { NextRequest } from 'next/server'
-import { auth } from '@/auth'
 
 export const middleware = async (request: NextRequest) => {
   const { origin, protocol, host } = request.nextUrl

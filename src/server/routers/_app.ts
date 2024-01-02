@@ -23,6 +23,7 @@ import {
   deleteSolutionTemplate
 } from './actions/solutions'
 import { lensRouter } from '@/server/routers/actions/lenses'
+import { solutionsRouter } from './actions/solutions'
 
 export const appRouter = router({
   greeting: publicProcedure
@@ -69,7 +70,10 @@ export const appRouter = router({
   listProfilesQuestions,
 
   // lenses
-  lenses: lensRouter
+  lenses: lensRouter,
+
+  // solutions
+  solutions: solutionsRouter
 })
 
 export type AppRouter = typeof appRouter

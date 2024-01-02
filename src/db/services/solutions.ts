@@ -14,7 +14,8 @@ import {
   FindOneSolutionTemplate,
   DestroySolutionSchema,
   DestroySolutionTemplateSchema,
-  MakeCopySolutionTemplateSchema
+  MakeCopySolutionTemplateSchema,
+  MakeCopySolutionSchema
 } from '../schemas/solutions'
 import { z } from 'zod'
 
@@ -45,6 +46,22 @@ export async function deleteSolution(
 ) {
   return await Solution.destroy({ where: { id: opts } })
 }
+
+export const makeCopySolution = async (
+  opts: z.infer<typeof MakeCopySolutionSchema>
+) =>
+  sequelize.transaction(async transaction => {
+    const solution = await Solution.findOne({ where: { id: opts } })
+
+    return SolutionTemplate.create(
+      {
+        title: `${solution?.title} (Copy)`,
+        body: solution?.body,
+        description: solution?.description
+      },
+      { transaction }
+    )
+  })
 
 export const getSolution = async (opts: z.infer<typeof SolutionsGetSchema>) =>
   await Solution.findOne({

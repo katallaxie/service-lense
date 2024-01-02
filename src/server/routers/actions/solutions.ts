@@ -8,7 +8,8 @@ import {
   findAndCountSolutionTemplates,
   findOneSolutionTemplate,
   countSolutions,
-  destroySolutionTemplate
+  destroySolutionTemplate,
+  makeCopySolution
 } from '@/db/services/solutions'
 import {
   SolutionListSchema,
@@ -18,8 +19,10 @@ import {
   SolutionTemplateListSchema,
   SolutionTemplateGetSchema,
   SolutionDeleteSchema,
-  SolutionTemplateDeleteSchema
+  SolutionTemplateDeleteSchema,
+  SolutionMakeCopySchema
 } from '../schemas/solution'
+import { router } from '@/server/trpc'
 
 export const listSolutions = protectedProcedure
   .input(SolutionListSchema)
@@ -57,3 +60,21 @@ export const totalSolutions = protectedProcedure.query(
 export const deleteSolutionTemplate = protectedProcedure
   .input(SolutionTemplateDeleteSchema)
   .query(async opts => await destroySolutionTemplate(opts.input))
+
+export const makeCopySolutionTemplate = protectedProcedure
+  .input(SolutionMakeCopySchema)
+  .query(async opts => await makeCopySolution(opts.input))
+
+export const solutionsRouter = router({
+  add: addSolution,
+  makeCopy: makeCopySolutionTemplate,
+  delete: deleteSolutionComment,
+  deleteSolution: protectedProcedure
+    .input(SolutionDeleteSchema)
+    .query(async opts => await destroySolutionTemplate(opts.input)),
+  get: getSolution,
+  getSolutionTemplate,
+  list: listSolutions,
+  listSolutionTemplates: findSolutionTemplates,
+  total: totalSolutions
+})

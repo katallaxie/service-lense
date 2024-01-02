@@ -15,9 +15,11 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export function UserNav() {
   const { data: session } = useSession()
+  const router = useRouter()
 
   return (
     <DropdownMenu>
@@ -54,7 +56,9 @@ export function UserNav() {
             </Link>
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuItem>New Team</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push('/teams/new')}>
+            New Team
+          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => signOut()}>

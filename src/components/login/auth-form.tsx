@@ -10,7 +10,8 @@ import { Label } from '@/components/ui/label'
 import { signIn } from 'next-auth/react'
 import type { AppProvider } from 'next-auth/providers'
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface UserAuthFormProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   providers?: AppProvider[]
 }
 

@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
+import { Suspense } from 'react'
 import Link from 'next/link'
-import { UserAuthForm } from '@/components/user-auth-form'
+import { UserAuthForm } from '@/components/login/auth-form'
 import type { AppProvider } from 'next-auth/providers'
 
 export const metadata: Metadata = {
@@ -42,7 +43,7 @@ export default async function Login() {
                 className="underline underline-offset-4 hover:text-primary"
               >
                 Terms of Service
-              </Link>
+              </Link>{' '}
               and
               <Link
                 href="/privacy"

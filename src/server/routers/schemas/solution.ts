@@ -13,3 +13,4 @@ export const SolutionCommentDeleteSchema = z.bigint()
 export const SolutionTemplateListSchema = PaginationSchema
 export const SolutionTemplateGetSchema = z.string()
 export const SolutionTemplateDeleteSchema = z.bigint()
+export const SolutionMakeCopySchema = z.string().uuid()

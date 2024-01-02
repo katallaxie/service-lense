@@ -4,7 +4,11 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '2mb'
     },
-    serverComponentsExternalPackages: ['sequelize', 'sequelize-typescript']
+    serverComponentsExternalPackages: [
+      '@trpc/server',
+      'sequelize',
+      'sequelize-typescript'
+    ]
   },
   webpack: config => {
     config.experiments.topLevelAwait = true
