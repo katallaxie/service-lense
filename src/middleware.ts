@@ -2,6 +2,7 @@ import { Session } from 'next-auth'
 import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
 import type { NextRequest } from 'next/server'
+import { auth } from '@/auth'
 
 export const middleware = async (request: NextRequest) => {
   const { origin, protocol, host } = request.nextUrl
@@ -36,5 +37,16 @@ export const middleware = async (request: NextRequest) => {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/account/:path*']
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/dashboard/:path*',
+    '/account/:path*'
+  ]
 }

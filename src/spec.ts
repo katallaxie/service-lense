@@ -7,12 +7,6 @@ interface Spec {
   pillars: [{ id: string }]
 }
 
-interface Pillar {
-  id: string
-  name: string
-  description?: string
-}
-
 export const schema: JSONSchemaType<Spec> = {
   type: 'object',
   properties: {
@@ -38,75 +32,3 @@ export const schema: JSONSchemaType<Spec> = {
   required: ['name', 'pillars'],
   additionalProperties: false
 }
-
-// class Spec {
-//     constructor(
-//       public version: string,
-//       public name: string,
-//       public description: string,
-//       public pillars: Pillars
-//     ) {}
-//   }
-
-//   type Pillars = Pillar[]
-
-//   class Pillar {
-//     constructor(
-//       public id: string,
-//       public name: string,
-//       public description: string,
-//       public questions?: Questions,
-//       public resources?: Resources
-//     ) {}
-//   }
-
-//   type Questions = Question[]
-
-//   class Question {
-//     constructor(
-//       public id: string,
-//       public title: string,
-//       public description: string,
-//       public choices: Choices,
-//       public resources: Resources,
-//       public risks: Risks
-//     ) {}
-//   }
-
-//   type Choices = Choice[]
-
-//   class Choice {
-//     constructor(
-//       public id: string,
-//       public title: string,
-//       public resources: Resources,
-//       public improvements: Improvements
-//     ) {}
-//   }
-
-//   type Resources = Resource[]
-
-//   class Resource {
-//     constructor(
-//       public description: string,
-//       public url: string
-//     ) {}
-//   }
-
-//   type Risks = Risk[]
-
-//   class Risk {
-//     constructor(
-//       public risk: string,
-//       public condition: string
-//     ) {}
-//   }
-
-//   type Improvements = Improvement[]
-
-//   class Improvement {
-//     constructor(
-//       public description: string,
-//       public url: string
-//     ) {}
-//   }

@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth'
 import providers from './providers'
 import SequelizeAdapter from '@auth/sequelize-adapter'
-import type { DefaultSession } from 'next-auth'
+import type { DefaultSession, NextAuthConfig } from 'next-auth'
 import sequelize from '@/db/config/config'
 
 const env = process.env.NODE_ENV || 'development'
@@ -17,10 +17,7 @@ declare module 'next-auth' {
   }
 }
 
-export const {
-  handlers: { GET, POST },
-  auth
-} = NextAuth({
+export const options = {
   providers,
   adapter,
   debug: !isProduction,
@@ -36,4 +33,9 @@ export const {
       return session
     }
   }
-})
+} satisfies NextAuthConfig
+
+export const {
+  handlers: { GET, POST },
+  auth
+} = NextAuth(options)
