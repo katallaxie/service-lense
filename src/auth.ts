@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth'
-import providers from './providers'
+import GithubProvider from 'next-auth/providers/github'
 import SequelizeAdapter from '@auth/sequelize-adapter'
 import type { DefaultSession, NextAuthConfig } from 'next-auth'
 import sequelize from '@/db/config/config'
@@ -18,7 +18,12 @@ declare module 'next-auth' {
 }
 
 export const options = {
-  providers,
+  providers: [
+    GithubProvider({
+      clientId: process.env.GITHUB_ID!,
+      clientSecret: process.env.GITHUB_SECRET!
+    })
+  ],
   adapter,
   debug: !isProduction,
   pages: {

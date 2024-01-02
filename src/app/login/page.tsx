@@ -1,16 +1,26 @@
 import { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
-import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
 import { UserAuthForm } from '@/components/user-auth-form'
+import type { AppProvider } from 'next-auth/providers'
 
 export const metadata: Metadata = {
   title: 'Authentication',
   description: 'Authentication forms built using the components.'
 }
 
-export default function Login() {
+async function getProviders() {
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/auth/providers`)
+
+  if (!res.ok) {
+    throw new Error('failed to fetch providers')
+  }
+
+  return res.json()
+}
+
+export default async function Login() {
+  const providers: AppProvider[] = await getProviders()
+
   return (
     <>
       <div className="container relative h-[800px] flex-col items-center justify-center md:grid lg:max-w-none lg:px-0">
@@ -24,7 +34,7 @@ export default function Login() {
                 Enter your email below to create your account
               </p>
             </div>
-            <UserAuthForm />
+            <UserAuthForm providers={providers} />
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{' '}
               <Link
@@ -32,8 +42,8 @@ export default function Login() {
                 className="underline underline-offset-4 hover:text-primary"
               >
                 Terms of Service
-              </Link>{' '}
-              and{' '}
+              </Link>
+              and
               <Link
                 href="/privacy"
                 className="underline underline-offset-4 hover:text-primary"
