@@ -7,18 +7,16 @@ import { PaginationState } from '@tanstack/react-table'
 import { ProfileDataTable } from './data-table'
 
 const [DataTableProvider, useDataTableContext, DataTableContext] =
-  createContext<Profile[]>({})
+  createContext<Profile>({})
 
 export { useDataTableContext, DataTableContext }
 
 export default function DataTable() {
   const getRows = (pagination: PaginationState) =>
-    api.listProfiles
-      .query({
-        limit: pagination.pageSize,
-        offset: pagination.pageIndex
-      })
-      .then(({ rows }) => rows)
+    api.listProfiles.query({
+      limit: pagination.pageSize,
+      offset: pagination.pageIndex
+    })
 
   return (
     <DataTableProvider getRows={getRows}>

@@ -5,6 +5,7 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
+import { Main } from '@/components/main'
 import DataTable from './components/data-table-context'
 
 export default function Page() {
@@ -19,9 +20,9 @@ export default function Page() {
           <AddWorkloadButton />
         </SubNavActions>
       </SubNav>
-      <section>
+      <Main>
         <DataTable />
-      </section>
+      </Main>
     </>
   )
 }

@@ -10,11 +10,11 @@ export default function LensesDataTable() {
   return (
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
       <DataTable
-        rows={dataTableContext.data ?? []}
+        rows={dataTableContext.state.rows}
         columns={columns}
-        onPaginationChange={dataTableContext.setPagination}
-        isFetching={dataTableContext.isFetching}
-        pagination={dataTableContext.pagination}
+        onPaginationChange={dataTableContext.onPaginationChange}
+        isFetching={dataTableContext.state.cursor.fetching}
+        pagination={dataTableContext.state.cursor}
       />
     </div>
   )

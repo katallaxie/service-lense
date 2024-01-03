@@ -4,7 +4,7 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
-
+import { Main } from '@/components/main'
 import { AddProfileButton } from './components/add-button'
 import DataTable from './components/data-table-context'
 
@@ -22,9 +22,9 @@ export default function Page() {
           <AddProfileButton />
         </SubNavActions>
       </SubNav>
-      <section>
+      <Main>
         <DataTable />
-      </section>
+      </Main>
     </>
   )
 }

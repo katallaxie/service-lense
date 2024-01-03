@@ -7,18 +7,16 @@ import { PaginationState } from '@tanstack/react-table'
 import { WorkloadDataTable } from './data-table'
 
 const [DataTableProvider, useDataTableContext, DataTableContext] =
-  createContext<Workload[]>({})
+  createContext<Workload>({})
 
 export { useDataTableContext, DataTableContext }
 
 export default function DataTable() {
   const getRows = (pagination: PaginationState) =>
-    api.listWorkloads
-      .query({
-        limit: pagination.pageSize,
-        offset: pagination.pageIndex
-      })
-      .then(({ rows }) => rows)
+    api.listWorkloads.query({
+      limit: pagination.pageSize,
+      offset: pagination.pageIndex
+    })
 
   return (
     <DataTableProvider getRows={getRows}>

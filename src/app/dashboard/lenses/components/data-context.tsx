@@ -7,18 +7,16 @@ import { PaginationState } from '@tanstack/react-table'
 import LensesDataTable from './data-table'
 
 const [DataTableProvider, useDataTableContext, DataTableContext] =
-  createContext<Lens[]>({})
+  createContext<Lens>({})
 
 export { useDataTableContext, DataTableContext }
 
 export default function DataTable() {
   const getRows = (pagination: PaginationState) =>
-    api.listLenses
-      .query({
-        limit: pagination.pageSize,
-        offset: pagination.pageIndex
-      })
-      .then(({ rows }) => rows)
+    api.listLenses.query({
+      limit: pagination.pageSize,
+      offset: pagination.pageIndex
+    })
 
   return (
     <DataTableProvider getRows={getRows}>

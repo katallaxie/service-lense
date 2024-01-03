@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState, use, Suspense } from 'react'
+import { useMemo, useState, Suspense } from 'react'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -66,7 +66,7 @@ export function DataTable<TData, TValue>({
     enableRowSelection: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
-    onPaginationChange,
+    onPaginationChange: onPaginationChange,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
@@ -74,8 +74,7 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
-    debugTable: true
+    getFacetedUniqueValues: getFacetedUniqueValues()
   })
 
   return (
