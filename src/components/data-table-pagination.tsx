@@ -4,7 +4,8 @@ import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon
 } from '@radix-ui/react-icons'
-import { PaginationState, Table } from '@tanstack/react-table'
+import { Table } from '@tanstack/react-table'
+import type { CursorPagination } from './data-table-context'
 // import { useDataTableContext } from '@/components/data-table-context'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,12 +18,12 @@ import {
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
-  pagination: PaginationState
+  cursor: CursorPagination
 }
 
 export function DataTablePagination<TData>({
   table,
-  pagination
+  cursor
 }: DataTablePaginationProps<TData>) {
   // const dataTableContext = useDataTableContext()
 
@@ -36,11 +37,11 @@ export function DataTablePagination<TData>({
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows per page</p>
           <Select
-            value={`${pagination?.pageSize}`}
+            value={`${cursor?.pageSize}`}
             onValueChange={value => table.setPageSize(Number(value))}
           >
             <SelectTrigger className="h-8 w-[70px]">
-              <SelectValue placeholder={pagination?.pageSize} />
+              <SelectValue placeholder={cursor?.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
               {[1, 5, 10, 20, 30].map(pageSize => (

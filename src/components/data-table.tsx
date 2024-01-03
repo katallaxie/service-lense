@@ -27,6 +27,7 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { Skeleton } from '@/components/ui/skeleton'
+import type { CursorState } from '@/components/data-table-context'
 
 import { DataTablePagination } from '../components/data-table-pagination'
 import { DataTableToolbar } from '../components/data-table-toolbar'
@@ -34,18 +35,14 @@ import { Checkbox } from '../components/ui/checkbox'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  rows: TData[]
   onPaginationChange: OnChangeFn<PaginationState>
-  isFetching: boolean
-  pagination: PaginationState
+  state: CursorState<TData>
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData, TValue = unknown>({
   columns,
-  rows,
-  onPaginationChange,
-  isFetching,
-  pagination
+  state,
+  onPaginationChange
 }: DataTableProps<TData, TValue>) {
   const cols = useMemo(() => columns, [columns])
 
@@ -55,7 +52,7 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([])
 
   const table = useReactTable({
-    data: rows,
+    data: state.rows,
     columns: cols,
     state: {
       sorting,
@@ -79,7 +76,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} isFetching={isFetching} />
+      <DataTableToolbar table={table} isFetching={state.cursor.fetching} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -103,7 +100,7 @@ export function DataTable<TData, TValue>({
           <TableBody>
             <Suspense fallback={<p>waiting for message...</p>}></Suspense>
 
-            {isFetching ? (
+            {state.cursor.fetching ? (
               <TableRow>
                 <TableCell>
                   <Checkbox
@@ -147,7 +144,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} pagination={pagination} />
+      <DataTablePagination<TData> table={table} cursor={state.cursor} />
     </div>
   )
 }

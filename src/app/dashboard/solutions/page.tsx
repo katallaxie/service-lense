@@ -6,6 +6,7 @@ import {
   SubNavSubtitle
 } from '@/components/sub-nav'
 import DataTable from './components/data-context'
+import { Main } from '@/components/main'
 
 export default function Page() {
   return (
@@ -21,9 +22,9 @@ export default function Page() {
           <AddSolution />
         </SubNavActions>
       </SubNav>
-      <section>
+      <Main>
         <DataTable />
-      </section>
+      </Main>
     </>
   )
 }

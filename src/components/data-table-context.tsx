@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { PaginationState } from '@tanstack/react-table'
 import type { OnChangeFn } from '@tanstack/react-table'
 
-type CursorPagination = {
+export type CursorPagination = {
   /** The current page cursor. If empty, we're in the first page.
    * Whenever we change the page, this changes.
    */
@@ -32,7 +32,7 @@ type CursorPagination = {
   fetching: boolean
 }
 
-type CursorState<T> = {
+export type CursorState<T> = {
   rows: T[]
   cursor: CursorPagination
 }
@@ -42,7 +42,7 @@ export interface GroupedCountResultItem {
   count: number
 }
 
-type ReturnResult<T> = {
+export type ReturnResult<T> = {
   rows: T[]
   count: number
 }
