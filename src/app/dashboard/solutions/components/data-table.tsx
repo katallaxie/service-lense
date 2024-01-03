@@ -12,6 +12,7 @@ export default function LensesDataTable() {
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
       <DataTable<Solution>
         columns={columns}
+        pagination={dataTableContext.pagination}
         onPaginationChange={dataTableContext.onPaginationChange}
         state={dataTableContext.state}
       />

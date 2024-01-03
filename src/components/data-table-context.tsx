@@ -49,6 +49,7 @@ export type ReturnResult<T> = {
 
 export interface DataTableContext<T = unknown> {
   state: CursorState<T>
+  pagination: PaginationState
   onPaginationChange: OnChangeFn<PaginationState>
 }
 
@@ -68,6 +69,8 @@ interface ResetAction {
 
 interface FetchingAction {
   type: TableActionKind.FETCHING
+  pageIndex?: number
+  pageSize?: number
 }
 
 interface NextPageAction {
@@ -120,6 +123,8 @@ function tableReducer<T>(state: CursorState<T>, action: TableAction<T>) {
         ...state,
         cursor: {
           ...state.cursor,
+          pageIndex: action.pageIndex ?? state.cursor.pageIndex,
+          pageSize: action.pageSize ?? state.cursor.pageSize,
           fetching: true
         }
       }
@@ -129,6 +134,7 @@ function tableReducer<T>(state: CursorState<T>, action: TableAction<T>) {
         rows: action.result.rows,
         cursor: {
           ...state.cursor,
+          totalCount: action.result.count,
           fetching: false
         }
       }
@@ -192,7 +198,7 @@ export const createContext = <T,>({}): CreateContextReturn<T> => {
     const fetchResults = React.useCallback(async () => {
       dispatch({ type: TableActionKind.FETCHING })
       const result = await getRows({
-        pageIndex: state.cursor.pageIndex,
+        pageIndex: state.cursor.pageIndex * state.cursor.pageSize,
         pageSize: state.cursor.pageSize
       })
       dispatch({ type: TableActionKind.SUCCESS, result })
@@ -208,14 +214,14 @@ export const createContext = <T,>({}): CreateContextReturn<T> => {
 
     useEffect(() => {
       dispatch({
-        type: TableActionKind.SET_PAGESIZE,
+        type: TableActionKind.FETCHING,
         pageIndex: pagination.pageIndex,
         pageSize: pagination.pageSize
       })
     }, [pagination.pageIndex, pagination.pageSize])
 
     return (
-      <Context.Provider value={{ onPaginationChange, state }}>
+      <Context.Provider value={{ onPaginationChange, state, pagination }}>
         {children}
       </Context.Provider>
     )

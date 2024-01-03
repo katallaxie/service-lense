@@ -14,6 +14,7 @@ export function WorkloadDataTable() {
         columns={columns}
         onPaginationChange={dataTableContext.onPaginationChange}
         state={dataTableContext.state}
+        pagination={dataTableContext.pagination}
       />
     </div>
   )

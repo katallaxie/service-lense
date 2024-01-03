@@ -37,11 +37,13 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   onPaginationChange: OnChangeFn<PaginationState>
   state: CursorState<TData>
+  pagination: PaginationState
 }
 
 export function DataTable<TData, TValue = unknown>({
   columns,
   state,
+  pagination,
   onPaginationChange
 }: DataTableProps<TData, TValue>) {
   const cols = useMemo(() => columns, [columns])
@@ -58,9 +60,12 @@ export function DataTable<TData, TValue = unknown>({
       sorting,
       columnVisibility,
       rowSelection,
-      columnFilters
+      columnFilters,
+      pagination
     },
+    pageCount: Math.ceil(state.cursor.totalCount / state.cursor.pageSize),
     enableRowSelection: true,
+    manualPagination: true,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onPaginationChange: onPaginationChange,

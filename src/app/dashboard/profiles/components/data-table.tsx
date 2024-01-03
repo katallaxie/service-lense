@@ -12,6 +12,7 @@ export function ProfileDataTable() {
     <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
       <DataTable<Profile>
         columns={columns}
+        pagination={dataTableContext.pagination}
         onPaginationChange={dataTableContext.onPaginationChange}
         state={dataTableContext.state}
       />

@@ -6,7 +6,6 @@ import {
 } from '@radix-ui/react-icons'
 import { Table } from '@tanstack/react-table'
 import type { CursorPagination } from './data-table-context'
-// import { useDataTableContext } from '@/components/data-table-context'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -15,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+import { ta } from 'date-fns/locale'
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
@@ -25,8 +25,6 @@ export function DataTablePagination<TData>({
   table,
   cursor
 }: DataTablePaginationProps<TData>) {
-  // const dataTableContext = useDataTableContext()
-
   return (
     <div className="flex items-center justify-between px-2">
       <div className="flex-1 text-sm text-muted-foreground">
