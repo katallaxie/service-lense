@@ -1,13 +1,6 @@
 'use client'
 
-import {
-  useMemo,
-  useState,
-  use,
-  useDeferredValue,
-  useTransition,
-  useCallback
-} from 'react'
+import { useMemo, useState, use, useDeferredValue, useTransition } from 'react'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -36,12 +29,16 @@ import {
 
 import { DataTablePagination } from '../components/data-table-pagination'
 import { DataTableToolbar } from '../components/data-table-toolbar'
-import { api } from '@/trpc/client'
-import { query } from 'winston'
+import type { DataTableToolbarOptions } from '../components/data-table-toolbar'
+
+export type DataTableOptions = {
+  toolbar?: DataTableToolbarOptions
+}
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   query: Query<TData>
+  options?: DataTableOptions
 }
 
 const defaultPagination = {
@@ -55,7 +52,8 @@ export type Query<T> = (
 
 export function DataTable<TData, TValue = unknown>({
   columns,
-  query
+  query,
+  options
 }: DataTableProps<TData, TValue>) {
   const cols = useMemo(() => columns, [columns])
   const [rowSelection, setRowSelection] = useState({})
@@ -104,7 +102,11 @@ export function DataTable<TData, TValue = unknown>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} isFetching={isFetching} />
+      <DataTableToolbar
+        table={table}
+        isFetching={isFetching}
+        options={options?.toolbar}
+      />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -155,7 +157,7 @@ export function DataTable<TData, TValue = unknown>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination<TData> table={table} />
+      <DataTablePagination table={table} isFetching={isFetching} />
     </div>
   )
 }

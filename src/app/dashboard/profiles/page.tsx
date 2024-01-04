@@ -5,8 +5,8 @@ import {
   SubNavSubtitle
 } from '@/components/sub-nav'
 import { Main } from '@/components/main'
-import { AddProfileButton } from './components/add-button'
-import DataTable from './components/data-table-context'
+import { AddProfileButton } from '@/components/dashboard/profiles/add-button'
+import { ProfileDataTable } from '@/components/dashboard/profiles/data-table'
 
 export default function Page() {
   return (
@@ -23,7 +23,7 @@ export default function Page() {
         </SubNavActions>
       </SubNav>
       <Main>
-        <DataTable />
+        <ProfileDataTable />
       </Main>
     </>
   )

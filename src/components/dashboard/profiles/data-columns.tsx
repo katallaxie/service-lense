@@ -34,7 +34,7 @@ export const columns: ColumnDef<Profile>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="ID" />
     ),
-    cell: ({ row }) => <div className="w-[80px]">{row.getValue('id')}</div>,
+    cell: ({ row }) => <div className="w-[120px]">{row.getValue('id')}</div>,
     enableSorting: false,
     enableHiding: false
   },
@@ -44,8 +44,6 @@ export const columns: ColumnDef<Profile>[] = [
       <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
-      //   const label = labels.find(label => label.value === row.original.)
-
       return (
         <div className="flex space-x-2">
           {/* {label && <Badge variant="outline">{label.label}</Badge>} */}

@@ -4,8 +4,7 @@ import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon
 } from '@radix-ui/react-icons'
-import { PaginationState, Table } from '@tanstack/react-table'
-import type { CursorPagination } from './data-table-context'
+import { Table } from '@tanstack/react-table'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -14,14 +13,15 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { ta } from 'date-fns/locale'
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
+  isFetching?: boolean
 }
 
 export function DataTablePagination<TData>({
-  table
+  table,
+  isFetching
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-between px-2">
@@ -33,6 +33,7 @@ export function DataTablePagination<TData>({
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows per page</p>
           <Select
+            disabled={isFetching}
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={value => table.setPageSize(Number(value))}
           >

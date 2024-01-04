@@ -10,21 +10,35 @@ import { DataTableViewOptions } from '@/components/data-table-view-options'
 
 import { statuses } from './data/data'
 import { DataTableFacetedFilter } from './data-table-faceted-filter'
+import type { DataTableFacetedFilterProps } from './data-table-faceted-filter'
 import { DataTableLoading } from './data-table-loading'
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>
   isFetching: boolean
+  options?: DataTableToolbarOptions
 }
 
-export type DataTableToolsbarOptions = {
-  filterColumnName: string
-  filterColumnPlaceholder: string
+export interface DataTableFacetedFilterCreationAttributes {
+  column?: string
+  title?: string
+  options: {
+    label: string
+    value: string
+    icon?: React.ComponentType<{ className?: string }>
+  }[]
+}
+
+export type DataTableToolbarOptions = {
+  filterColumnName?: string
+  filterColumnPlaceholder?: string
+  facetFilters?: DataTableFacetedFilterCreationAttributes[]
 }
 
 export function DataTableToolbar<TData>({
   table,
-  isFetching
+  isFetching,
+  options
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0
 
@@ -39,20 +53,17 @@ export function DataTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn('environment') && (
-          <DataTableFacetedFilter
-            column={table.getColumn('environment')}
-            title="Environment"
-            options={statuses}
-          />
+        {options?.facetFilters?.map(
+          (filter, idx) =>
+            table.getColumn(filter.column ?? '') && (
+              <DataTableFacetedFilter
+                key={idx}
+                column={table.getColumn(filter.column ?? '')}
+                title={filter.title ?? ''}
+                options={filter.options}
+              />
+            )
         )}
-        {/* {table.getColumn('priority') && (
-          <DataTableFacetedFilter
-            column={table.getColumn('priority')}
-            title="Priority"
-            options={priorities}
-          />
-        )} */}
         {isFiltered && (
           <Button
             variant="ghost"

@@ -24,6 +24,7 @@ import {
 } from './actions/solutions'
 import { lensRouter } from '@/server/routers/actions/lenses'
 import { solutionsRouter } from './actions/solutions'
+import { profilesRouter } from './actions/profiles'
 
 export const appRouter = router({
   greeting: publicProcedure
@@ -73,7 +74,10 @@ export const appRouter = router({
   lenses: lensRouter,
 
   // solutions
-  solutions: solutionsRouter
+  solutions: solutionsRouter,
+
+  // profiles
+  profiles: profilesRouter
 })
 
 export type AppRouter = typeof appRouter

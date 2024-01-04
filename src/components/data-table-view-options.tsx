@@ -15,6 +15,7 @@ import {
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>
+  isFetching?: boolean
 }
 
 export function DataTableViewOptions<TData>({

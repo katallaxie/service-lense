@@ -1,5 +1,6 @@
 import { protectedProcedure } from '../../trpc'
 import { ProfileListSchema, ProfileGetSchema } from '../schemas/profile'
+import { router } from '@/server/trpc'
 
 import {
   findAndCountProfiles,
@@ -16,3 +17,8 @@ export const getProfile = protectedProcedure
 export const listProfilesQuestions = protectedProcedure.query(
   async opts => await findAllProfilesQuestions(opts)
 )
+
+export const profilesRouter = router({
+  list: listProfiles,
+  get: getProfile
+})

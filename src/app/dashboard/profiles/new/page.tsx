@@ -1,12 +1,10 @@
 import { Suspense } from 'react'
 import { SubNav, SubNavTitle, SubNavSubtitle } from '@/components/sub-nav'
 import { Section } from '@/components/section'
-import { NewProfileForm } from './components/new-form'
-import { api } from '@/trpc/server-http'
+import { NewProfileForm } from '@/components/dashboard/profiles/new-form'
+import { LoadingSpinner } from '@/components/loading-spinner'
 
 export default async function Page() {
-  const questions = await api.listProfilesQuestions.query()
-
   return (
     <>
       <SubNav>
@@ -18,8 +16,8 @@ export default async function Page() {
         </SubNavTitle>
       </SubNav>
       <Section>
-        <Suspense>
-          <NewProfileForm questions={questions} />
+        <Suspense fallback={<LoadingSpinner />}>
+          <NewProfileForm />
         </Suspense>
       </Section>
     </>

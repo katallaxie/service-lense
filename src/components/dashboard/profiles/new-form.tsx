@@ -1,5 +1,6 @@
 'use client'
 
+import { use } from 'react'
 import {
   Form,
   FormControl,
@@ -16,13 +17,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { useEffect, useMemo } from 'react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -32,22 +27,20 @@ import { rhfActionSchema } from './new-form.schema'
 import { rhfAction } from './new-form.action'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { H4 } from '@/components/h4'
-import { useAction } from '@/trpc/client'
+import { useAction, api } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
 import { SolutionTemplate } from '@/db/models/solution-templates'
-import { ProfileQuestion } from '@/db/models/profile-question'
 import { Lead } from '@/components/lead'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Value } from '@radix-ui/react-select'
 
 export type NewProfileFormProps = {
   className?: string
   template?: SolutionTemplate
-  questions?: ProfileQuestion[]
 }
 
-export function NewProfileForm({ questions, ...props }: NewProfileFormProps) {
+export async function NewProfileForm({ ...props }: NewProfileFormProps) {
+  const questions = use(api.listProfilesQuestions.query())
+
   const form = useForm<z.infer<typeof rhfActionSchema>>({
     resolver: zodResolver(rhfActionSchema),
     defaultValues: {

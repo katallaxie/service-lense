@@ -1,5 +1,3 @@
-'use client'
-
 import { CgSpinner } from 'react-icons/cg'
 
 interface DataTableLoadingProps {}
