@@ -35,7 +35,8 @@ export type LensCreationAttributes = Omit<
 >
 
 @Table({
-  tableName: 'lenses'
+  tableName: 'lenses',
+  modelName: 'Lens'
 })
 export class Lens extends Model<LensAttributes, LensCreationAttributes> {
   @PrimaryKey

@@ -30,7 +30,8 @@ export type ProfileCreationAttributes = Omit<
 >
 
 @Table({
-  tableName: 'profiles'
+  tableName: 'profiles',
+  modelName: 'Profile'
 })
 export class Profile extends Model<
   ProfileAttributes,

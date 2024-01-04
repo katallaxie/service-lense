@@ -5,8 +5,8 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
-import DataTable from './components/data-context'
 import { Main } from '@/components/main'
+import SolutionsDataTable from './components/data-table'
 
 export default function Page() {
   return (
@@ -23,7 +23,7 @@ export default function Page() {
         </SubNavActions>
       </SubNav>
       <Main>
-        <DataTable />
+        <SolutionsDataTable />
       </Main>
     </>
   )

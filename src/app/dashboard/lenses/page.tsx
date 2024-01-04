@@ -5,7 +5,8 @@ import {
   SubNavActions,
   SubNavSubtitle
 } from '@/components/sub-nav'
-import DataTable from './components/data-context'
+import { Main } from '@/components/main'
+import { LensesDataTable } from './components/data-table'
 
 export default function Lenses() {
   return (
@@ -19,9 +20,9 @@ export default function Lenses() {
           <AddLensButton />
         </SubNavActions>
       </SubNav>
-      <section>
-        <DataTable />
-      </section>
+      <Main>
+        <LensesDataTable />
+      </Main>
     </>
   )
 }

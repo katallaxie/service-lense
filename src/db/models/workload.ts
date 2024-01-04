@@ -40,7 +40,8 @@ export type WorkloadCreationAttributes = Omit<
 >
 
 @Table({
-  tableName: 'workloads'
+  tableName: 'workloads',
+  modelName: 'Workload'
 })
 export class Workload extends Model<
   WorkloadAttributes,

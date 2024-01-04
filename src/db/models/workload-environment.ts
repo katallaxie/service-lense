@@ -15,7 +15,7 @@ import { Environment } from '@/db/models/environment'
 
 export interface WorkloadEnvironmentAttributes {
   id: number
-  environmentId: number
+  environmentId: bigint
   workloadId: string
   createdAt: Date
   updatedAt: Date
@@ -28,7 +28,8 @@ export type WorkloadEnvironmentCreationAttributes = Omit<
 >
 
 @Table({
-  tableName: 'workloads-environment'
+  tableName: 'workloads-environment',
+  modelName: 'WorkloadEnvironment'
 })
 export class WorkloadEnvironment extends Model<
   WorkloadEnvironmentAttributes,

@@ -1,6 +1,13 @@
 'use client'
 
-import { useMemo, useState, Suspense } from 'react'
+import {
+  useMemo,
+  useState,
+  use,
+  useDeferredValue,
+  useTransition,
+  useCallback
+} from 'react'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -26,35 +33,51 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { Skeleton } from '@/components/ui/skeleton'
-import type { CursorState } from '@/components/data-table-context'
 
 import { DataTablePagination } from '../components/data-table-pagination'
 import { DataTableToolbar } from '../components/data-table-toolbar'
-import { Checkbox } from '../components/ui/checkbox'
+import { api } from '@/trpc/client'
+import { query } from 'winston'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  onPaginationChange: OnChangeFn<PaginationState>
-  state: CursorState<TData>
-  pagination: PaginationState
+  query: Query<TData>
 }
+
+const defaultPagination = {
+  pageSize: 10,
+  pageIndex: 0
+}
+
+export type Query<T> = (
+  pagination: PaginationState
+) => Promise<{ rows: T[]; count: number }>
 
 export function DataTable<TData, TValue = unknown>({
   columns,
-  state,
-  pagination,
-  onPaginationChange
+  query
 }: DataTableProps<TData, TValue>) {
   const cols = useMemo(() => columns, [columns])
-
   const [rowSelection, setRowSelection] = useState({})
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
+  const [pagination, setPagination] =
+    useState<PaginationState>(defaultPagination)
+  const [isFetching, startTransition] = useTransition()
+
+  const onPaginationChange: OnChangeFn<PaginationState> = pagination => {
+    startTransition(() => {
+      setPagination(pagination)
+    })
+  }
+
+  const { rows, count } = use(query(pagination))
+  const deferredRows = useDeferredValue(rows)
+  const deferredCount = useDeferredValue(count)
 
   const table = useReactTable({
-    data: state.rows,
+    data: deferredRows,
     columns: cols,
     state: {
       sorting,
@@ -63,7 +86,7 @@ export function DataTable<TData, TValue = unknown>({
       columnFilters,
       pagination
     },
-    pageCount: Math.ceil(state.cursor.totalCount / state.cursor.pageSize),
+    pageCount: Math.ceil(count / pagination.pageSize),
     enableRowSelection: true,
     manualPagination: true,
     onRowSelectionChange: setRowSelection,
@@ -81,7 +104,7 @@ export function DataTable<TData, TValue = unknown>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} isFetching={state.cursor.fetching} />
+      <DataTableToolbar table={table} isFetching={isFetching} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -132,7 +155,7 @@ export function DataTable<TData, TValue = unknown>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination<TData> table={table} cursor={state.cursor} />
+      <DataTablePagination<TData> table={table} />
     </div>
   )
 }

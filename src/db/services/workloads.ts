@@ -37,7 +37,7 @@ export async function createWorkload({
   environmentsIds,
   lensesIds
 }: WorkloadCreationAttributes & {
-  environmentsIds: number[]
+  environmentsIds: bigint[]
   lensesIds: string[]
 }) {
   return await sequelize.transaction(async transaction => {

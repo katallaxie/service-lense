@@ -13,7 +13,7 @@ import { experimental_createTRPCNextAppDirClient } from './experimental'
 
 export const api = experimental_createTRPCNextAppDirClient<AppRouter>({
   exclude() {
-    return new Set(['listSolution'])
+    return new Set(['listSolutions'])
   },
   config() {
     return {

@@ -29,7 +29,8 @@ export type EnvironmentCreationAttributes = Omit<
 >
 
 @Table({
-  tableName: 'environments'
+  tableName: 'environments',
+  modelName: 'Environment'
 })
 export class Environment extends Model<
   EnvironmentAttributes,

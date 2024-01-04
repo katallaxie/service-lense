@@ -36,7 +36,8 @@ export type SolutionCreationAttributes = Omit<
 >
 
 @Table({
-  tableName: 'solutions'
+  tableName: 'solutions',
+  modelName: 'Solution'
 })
 export class Solution extends Model<
   SolutionAttributes,
