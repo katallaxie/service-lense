@@ -36,7 +36,6 @@ export function DataTablePagination<TData>({
           <p className="text-sm font-medium">Rows per page</p>
           <Select
             value={`${cursor?.pageSize}`}
-            disabled={cursor?.fetching}
             onValueChange={value => table.setPageSize(Number(value))}
           >
             <SelectTrigger className="h-8 w-[70px]">

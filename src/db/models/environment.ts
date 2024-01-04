@@ -9,11 +9,12 @@ import {
   DataType,
   NotEmpty,
   Min,
-  Max
+  Max,
+  AutoIncrement
 } from 'sequelize-typescript'
 
 export interface EnvironmentAttributes {
-  id: string
+  id: bigint
   name: string
   description: string
   label: string
@@ -24,7 +25,7 @@ export interface EnvironmentAttributes {
 
 export type EnvironmentCreationAttributes = Omit<
   EnvironmentAttributes,
-  'createdAt' | 'updatedAt' | 'deletedAt'
+  'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
 >
 
 @Table({
@@ -35,7 +36,8 @@ export class Environment extends Model<
   EnvironmentCreationAttributes
 > {
   @PrimaryKey
-  @Column(DataType.UUIDV4)
+  @AutoIncrement
+  @Column(DataType.BIGINT)
   id!: string
 
   @NotEmpty

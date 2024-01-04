@@ -45,7 +45,7 @@ export class WorkloadEnvironment extends Model<
 
   @ForeignKey(() => Environment)
   @Column
-  environmentId?: number
+  environmentId?: bigint
 
   @CreatedAt
   @Column

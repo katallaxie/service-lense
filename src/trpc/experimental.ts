@@ -33,7 +33,7 @@ export function experimental_createTRPCNextAppDirClient<
     const procedureType = clientCallTypeToProcedureType(pathCopy.pop()!)
     const fullPath = pathCopy.join('.')
 
-    if (procedureType === 'query' && exclude?.has(fullPath)) {
+    if (procedureType === 'query' && !exclude?.has(fullPath)) {
       const queryCacheKey = JSON.stringify([path, args[0]])
       const cached = cache.get(queryCacheKey)
 

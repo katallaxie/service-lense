@@ -176,7 +176,7 @@ module.exports = {
 
     await queryInterface.createTable('workloads-environment', {
       id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
@@ -185,7 +185,7 @@ module.exports = {
         type: Sequelize.UUID
       },
       environmentId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
         references: {
           model: 'environments',
           key: 'id'
