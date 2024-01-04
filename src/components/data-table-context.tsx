@@ -201,6 +201,7 @@ export const createContext = <T,>({}): CreateContextReturn<T> => {
         pageIndex: state.cursor.pageIndex * state.cursor.pageSize,
         pageSize: state.cursor.pageSize
       })
+
       dispatch({ type: TableActionKind.SUCCESS, result })
     }, [getRows, state.cursor.pageIndex, state.cursor.pageSize])
 

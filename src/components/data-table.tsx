@@ -103,24 +103,7 @@ export function DataTable<TData, TValue = unknown>({
             ))}
           </TableHeader>
           <TableBody>
-            <Suspense fallback={<p>waiting for message...</p>}></Suspense>
-
-            {state.cursor.fetching ? (
-              <TableRow>
-                <TableCell>
-                  <Checkbox
-                    disabled={true}
-                    aria-label="Select all"
-                    className="translate-y-[2px]"
-                  />
-                </TableCell>
-                {columns.map((col, idx) => (
-                  <TableCell key={idx}>
-                    <Skeleton className="h-[20px] rounded-full" />
-                  </TableCell>
-                ))}
-              </TableRow>
-            ) : table.getRowModel().rows?.length ? (
+            {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map(row => (
                 <TableRow
                   key={row.id}
