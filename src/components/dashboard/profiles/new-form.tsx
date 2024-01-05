@@ -27,33 +27,34 @@ import { rhfActionSchema } from './new-form.schema'
 import { rhfAction } from './new-form.action'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useAction, api } from '@/trpc/client'
+import { useAction } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
 import { SolutionTemplate } from '@/db/models/solution-templates'
+import { ProfileQuestion } from '@/db/models/profile-question'
 import { Lead } from '@/components/lead'
 import { Checkbox } from '@/components/ui/checkbox'
 
 export type NewProfileFormProps = {
   className?: string
   template?: SolutionTemplate
+  questions?: ProfileQuestion[]
+  selectedChoices?: Record<string, string[]>
 }
 
-export async function NewProfileForm({ ...props }: NewProfileFormProps) {
-  const questions = use(api.listProfilesQuestions.query())
-
+export function NewProfileForm({
+  questions,
+  selectedChoices,
+  ...props
+}: NewProfileFormProps) {
   const form = useForm<z.infer<typeof rhfActionSchema>>({
     resolver: zodResolver(rhfActionSchema),
     defaultValues: {
       name: '',
       description: '',
-      selectedChoices: questions?.reduce(
-        (prev, curr) => ({ ...prev, [curr.ref]: [] }),
-        {}
-      )
+      selectedChoices
     }
   })
   const router = useRouter()
-  const q = useMemo(() => questions, [questions])
 
   const mutation = useAction(rhfAction)
   async function onSubmit(data: z.infer<typeof rhfActionSchema>) {
@@ -122,7 +123,7 @@ export async function NewProfileForm({ ...props }: NewProfileFormProps) {
               <CardTitle>Profile Questions</CardTitle>
             </CardHeader>
             <CardContent>
-              {q?.map((question, idx) =>
+              {questions?.map((question, idx) =>
                 question.isMultiple ? (
                   <div key={idx}>
                     <Lead>{question.name}</Lead>
