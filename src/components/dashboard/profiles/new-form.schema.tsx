@@ -5,3 +5,9 @@ export const rhfActionSchema = z.object({
   description: z.string().min(20).max(2048).default(''),
   selectedChoices: z.record(z.string(), z.array(z.string()).min(1))
 })
+
+export type NewProfileFormValues = z.infer<typeof rhfActionSchema>
+export const defaultValues: Partial<NewProfileFormValues> = {
+  name: '',
+  description: ''
+}

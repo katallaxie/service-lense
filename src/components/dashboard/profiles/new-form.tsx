@@ -1,6 +1,6 @@
 'use client'
 
-import { use } from 'react'
+import { PropsWithChildren } from 'react'
 import {
   Form,
   FormControl,
@@ -18,7 +18,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
@@ -29,36 +29,33 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useAction } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
-import { SolutionTemplate } from '@/db/models/solution-templates'
 import { ProfileQuestion } from '@/db/models/profile-question'
-import { Lead } from '@/components/lead'
 import { Checkbox } from '@/components/ui/checkbox'
+import { defaultValues } from './new-form.schema'
 
 export type NewProfileFormProps = {
-  className?: string
-  template?: SolutionTemplate
   questions?: ProfileQuestion[]
   selectedChoices?: Record<string, string[]>
 }
 
 export function NewProfileForm({
   questions,
-  selectedChoices,
-  ...props
-}: NewProfileFormProps) {
+  selectedChoices
+}: PropsWithChildren<NewProfileFormProps>) {
   const form = useForm<z.infer<typeof rhfActionSchema>>({
     resolver: zodResolver(rhfActionSchema),
     defaultValues: {
-      name: '',
-      description: '',
+      ...defaultValues,
       selectedChoices
-    }
+    },
+    mode: 'onChange'
   })
   const router = useRouter()
 
   const mutation = useAction(rhfAction)
   async function onSubmit(data: z.infer<typeof rhfActionSchema>) {
-    await mutation.mutateAsync({ ...data })
+    console.log(data)
+    // await mutation.mutateAsync({ ...data })
   }
 
   useEffect(() => {
@@ -74,6 +71,7 @@ export function NewProfileForm({
           action={rhfAction}
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8"
+          autoComplete="off"
         >
           <Card>
             <CardHeader>
@@ -84,12 +82,13 @@ export function NewProfileForm({
                 control={form.control}
                 name="name"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      <h1>Name</h1>
-                    </FormLabel>
+                  <FormItem className="pb-6">
                     <FormControl>
-                      <Input {...field} />
+                      <Input
+                        {...field}
+                        autoComplete="off"
+                        placeholder="Add a name ..."
+                      />
                     </FormControl>
                     <FormDescription>Give it a great name.</FormDescription>
                     <FormMessage />
@@ -100,7 +99,7 @@ export function NewProfileForm({
                 control={form.control}
                 name="description"
                 render={({ field }) => (
-                  <div className="grid w-full">
+                  <FormItem>
                     <FormControl>
                       <Textarea
                         {...field}
@@ -112,26 +111,25 @@ export function NewProfileForm({
                       Provide a description for this profile.
                     </FormDescription>
                     <FormMessage />
-                  </div>
+                  </FormItem>
                 )}
               />
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Profile Questions</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {questions?.map((question, idx) =>
-                question.isMultiple ? (
+          {questions?.map((question, idx) => (
+            <Card key={idx}>
+              <CardHeader>
+                <CardTitle>{question?.name}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {question.isMultiple ? (
                   <div key={idx}>
-                    <Lead>{question.name}</Lead>
                     {question?.choices?.map(choice => (
                       <FormField
                         key={choice.id}
                         control={form.control}
-                        name="selectedChoices"
+                        name={`selectedChoices.${question.ref}`}
                         render={({ field, ...rest }) => {
                           return (
                             <FormItem
@@ -141,24 +139,18 @@ export function NewProfileForm({
                               <FormControl>
                                 <Checkbox
                                   className="mr-2"
-                                  checked={field.value[question.ref].includes(
-                                    choice.id
-                                  )}
+                                  checked={field.value.includes(choice.id)}
                                   onCheckedChange={checked => {
                                     return checked
-                                      ? field.onChange({
-                                          ...field,
-                                          [question.ref]: [
-                                            ...field.value[question.ref],
-                                            choice.id
-                                          ]
-                                        })
-                                      : field.onChange({
-                                          ...field,
-                                          [question.ref]: field.value[
-                                            question.ref
-                                          ].filter(value => value !== choice.id)
-                                        })
+                                      ? field.onChange([
+                                          ...field.value,
+                                          choice.id
+                                        ])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            value => value !== choice.id
+                                          )
+                                        )
                                   }}
                                 />
                               </FormControl>
@@ -175,19 +167,13 @@ export function NewProfileForm({
                   <FormField
                     key={idx}
                     control={form.control}
-                    name="selectedChoices"
+                    name={`selectedChoices.${question.ref}`}
                     render={({ field }) => (
                       <div className="grid w-full">
-                        <FormLabel>
-                          <Lead>{question.name}</Lead>
-                        </FormLabel>
                         <FormControl>
                           <Select
                             onValueChange={value => {
-                              field.onChange({
-                                ...field.value,
-                                [question.ref]: [value]
-                              })
+                              field.onChange([value])
                             }}
                           >
                             <FormControl>
@@ -211,10 +197,10 @@ export function NewProfileForm({
                       </div>
                     )}
                   />
-                )
-              )}
-            </CardContent>
-          </Card>
+                )}
+              </CardContent>
+            </Card>
+          ))}
 
           <Button
             type="submit"
@@ -222,6 +208,12 @@ export function NewProfileForm({
           >
             Add Profile
           </Button>
+          <input
+            autoComplete="false"
+            name="hidden"
+            type="text"
+            style={{ display: 'none' }}
+          ></input>
         </form>
       </Form>
     </>
