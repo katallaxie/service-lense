@@ -11,6 +11,7 @@ import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import DateFormat from '@/components/date-format'
 import { ActionsDropdown } from './components/actions-dropdown'
+import { EditProfileForm } from '@/components/dashboard/profiles/edit-form'
 
 export type PageProps = {
   params: { id: string }
@@ -18,6 +19,12 @@ export type PageProps = {
 
 export default async function Page({ params }: PageProps) {
   const profile = await api.getProfile.query(params?.id)
+  const questions = await api.listProfilesQuestions.query()
+
+  const selectedChoices = questions?.reduce<Record<string, string[]>>(
+    (prev, curr) => ({ ...prev, [curr.ref]: [] }),
+    {}
+  )
 
   return (
     <>
@@ -63,6 +70,19 @@ export default async function Page({ params }: PageProps) {
                   </div>
                   <Separator />
                   <p>{profile?.description || 'No description provided.'}</p>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="grid gap-4">
+              <Card>
+                <CardHeader className="space-y-1">
+                  <CardTitle className="text-2xl">Questions</CardTitle>
+                </CardHeader>
+                <CardContent className="grid gap-4">
+                  <EditProfileForm
+                    selectedChoices={selectedChoices}
+                    questions={questions}
+                  />
                 </CardContent>
               </Card>
             </div>
