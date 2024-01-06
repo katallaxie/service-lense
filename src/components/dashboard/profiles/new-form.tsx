@@ -54,8 +54,7 @@ export function NewProfileForm({
 
   const mutation = useAction(rhfAction)
   async function onSubmit(data: z.infer<typeof rhfActionSchema>) {
-    console.log(data)
-    // await mutation.mutateAsync({ ...data })
+    await mutation.mutateAsync({ ...data })
   }
 
   useEffect(() => {
