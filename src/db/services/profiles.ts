@@ -57,7 +57,7 @@ export const findOneProfile = async (
 ) =>
   await Profile.findOne({
     where: { id: opts },
-    include: [ProfileQuestionChoice]
+    include: [{ model: ProfileQuestionChoice, include: [ProfileQuestion] }]
   })
 
 export const findAndCountProfiles = async (

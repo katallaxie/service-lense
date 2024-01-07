@@ -21,11 +21,6 @@ export default async function Page({ params }: PageProps) {
   const profile = await api.getProfile.query(params?.id)
   const questions = await api.listProfilesQuestions.query()
 
-  const selectedChoices = questions?.reduce<Record<string, string[]>>(
-    (prev, curr) => ({ ...prev, [curr.ref]: [] }),
-    {}
-  )
-
   return (
     <>
       <SubNav>
@@ -54,7 +49,7 @@ export default async function Page({ params }: PageProps) {
             value="overview"
             className="border-none p-0 outline-none"
           >
-            <div className="grid gap-4">
+            <div className="grid gap-8">
               <Card>
                 <CardHeader className="space-y-1">
                   <CardTitle className="text-2xl">Overview</CardTitle>
@@ -72,19 +67,9 @@ export default async function Page({ params }: PageProps) {
                   <p>{profile?.description || 'No description provided.'}</p>
                 </CardContent>
               </Card>
-            </div>
-            <div className="grid gap-4">
-              <Card>
-                <CardHeader className="space-y-1">
-                  <CardTitle className="text-2xl">Questions</CardTitle>
-                </CardHeader>
-                <CardContent className="grid gap-4">
-                  <EditProfileForm
-                    selectedChoices={selectedChoices}
-                    questions={questions}
-                  />
-                </CardContent>
-              </Card>
+              {profile && (
+                <EditProfileForm profile={profile} questions={questions} />
+              )}
             </div>
           </TabsContent>
           <TabsContent

@@ -11,7 +11,8 @@ import {
   Min,
   Max,
   NotEmpty,
-  ForeignKey
+  ForeignKey,
+  BelongsTo
 } from 'sequelize-typescript'
 import { ProfileQuestion } from '@/db/models/profile-question'
 
@@ -45,6 +46,9 @@ export class ProfileQuestionChoice extends Model<
   @ForeignKey(() => ProfileQuestion)
   @Column(DataType.BIGINT)
   questionId?: bigint
+
+  @BelongsTo(() => ProfileQuestion)
+  question?: ProfileQuestion
 
   @NotEmpty
   @Min(3)

@@ -1,6 +1,6 @@
 'use client'
 
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, useDeferredValue, useMemo, useState } from 'react'
 import {
   Form,
   FormControl,
@@ -26,16 +26,41 @@ import { z } from 'zod'
 import { ProfileQuestion } from '@/db/models/profile-question'
 import { Checkbox } from '@/components/ui/checkbox'
 import { defaultValues } from './new-form.schema'
+import { Profile } from '@/db/models/profile'
 
 export type EditProfileFormProps = {
+  editable?: boolean
   questions?: ProfileQuestion[]
-  selectedChoices?: Record<string, string[]>
+  profile?: Profile
 }
 
 export function EditProfileForm({
   questions,
-  selectedChoices
+  profile,
+  editable = false
 }: PropsWithChildren<EditProfileFormProps>) {
+  const [isEditable, setIsEditable] = useState(editable)
+  const selectedChoices = useMemo(() => {
+    const selected = profile?.answers?.reduce<Record<string, string[]>>(
+      (prev, curr) => {
+        if (curr?.question?.ref && curr?.question?.ref in prev) {
+          return {
+            ...prev,
+            [curr.question.ref]: [...prev[curr.question.ref], curr.id]
+          }
+        }
+
+        return {
+          ...prev,
+          [curr?.question?.ref ?? '']: [curr.id]
+        }
+      },
+      {}
+    )
+
+    return selected
+  }, [profile])
+
   const form = useForm<z.infer<typeof rhfActionSchema>>({
     resolver: zodResolver(rhfActionSchema),
     defaultValues: {
@@ -60,6 +85,7 @@ export function EditProfileForm({
                     {question?.choices?.map(choice => (
                       <FormField
                         key={choice.id}
+                        disabled={!isEditable}
                         control={form.control}
                         name={`selectedChoices.${question.ref}`}
                         render={({ field, ...rest }) => {
@@ -72,6 +98,7 @@ export function EditProfileForm({
                                 <Checkbox
                                   className="mr-2"
                                   checked={field.value?.includes(choice.id)}
+                                  disabled={!isEditable}
                                   onCheckedChange={checked => {
                                     return checked
                                       ? field.onChange([
@@ -104,6 +131,8 @@ export function EditProfileForm({
                       <div className="grid w-full">
                         <FormControl>
                           <Select
+                            disabled={!isEditable}
+                            value={field.value?.[0]}
                             onValueChange={value => {
                               field.onChange([value])
                             }}
